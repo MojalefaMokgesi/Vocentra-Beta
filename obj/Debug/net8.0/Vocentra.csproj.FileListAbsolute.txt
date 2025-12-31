@@ -1199,6 +1199,7 @@ C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\Vocentra.MvcAppli
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\Vocentra.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\Vocentra.RazorAssemblyInfo.cache
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\Vocentra.RazorAssemblyInfo.cs
+C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\Vocentra.sourcelink.json
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
