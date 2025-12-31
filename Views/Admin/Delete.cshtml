@@ -1,0 +1,184 @@
+﻿@model Vocentra.Models.Job
+
+@{
+    ViewData["Title"] = "Delete Job";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background-color: #fff;
+        color: #000;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .delete-container {
+        max-width: 700px;
+        margin: 3rem auto;
+        padding: 2rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        text-align: center;
+        color: #b91c1c; /* red-700 */
+        margin-bottom: 1.5rem;
+    }
+
+    .welcome-card, .job-details-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 1.5rem 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+    }
+
+        .welcome-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #111;
+        }
+
+        .welcome-card p {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .job-details-card dl dt {
+            font-weight: 600;
+            color: #111;
+        }
+
+        .job-details-card dl dd {
+            margin-bottom: 1rem;
+            color: #444;
+        }
+
+    .confirmation-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #000;
+        border-radius: 12px;
+        font-size: 1rem;
+        outline: none;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .confirmation-input:focus {
+            border-color: #b91c1c;
+            box-shadow: 0 0 5px rgba(185,28,28,0.2);
+        }
+
+    .btn-confirm, .btn-cancel {
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-confirm {
+        background-color: #b91c1c;
+        color: #fff;
+    }
+
+        .btn-confirm:disabled {
+            background-color: #f4a3a3;
+            cursor: not-allowed;
+        }
+
+        .btn-confirm:hover:not(:disabled) {
+            background-color: #991b1b;
+        }
+
+    .btn-cancel {
+        background-color: #e5e7eb;
+        color: #111;
+        margin-left: 0.5rem;
+    }
+
+        .btn-cancel:hover {
+            background-color: #d1d5db;
+        }
+
+    .text-danger {
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="delete-container">
+    <h1>🗑 Delete Job</h1>
+
+    <!-- Guidance / Warning Section -->
+    <div class="welcome-card">
+        <h3>Attention!</h3>
+        <p>
+            Deleting a job is <strong>permanent</strong>. Once deleted, all information associated with this job will be lost
+            and cannot be recovered. Please ensure that you truly intend to remove this job before proceeding.
+        </p>
+    </div>
+
+    <!-- Job Details -->
+    <div class="job-details-card">
+        <dl class="row">
+            <dt class="col-sm-4">Title</dt>
+            <dd class="col-sm-8">@Model.Title</dd>
+
+            <dt class="col-sm-4">Description</dt>
+            <dd class="col-sm-8">@Model.Description</dd>
+
+            <dt class="col-sm-4">Location</dt>
+            <dd class="col-sm-8">@Model.Location</dd>
+
+            <dt class="col-sm-4">Job Type</dt>
+            <dd class="col-sm-8">@Model.JobType</dd>
+
+            <dt class="col-sm-4">Salary</dt>
+            <dd class="col-sm-8">@Model.Salary</dd>
+
+            <dt class="col-sm-4">Posted At</dt>
+            <dd class="col-sm-8">@Model.PostedAt.ToString("yyyy-MM-dd HH:mm")</dd>
+        </dl>
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label for="confirmation" class="form-label text-danger">
+                Type <strong>DELETE</strong> to confirm:
+            </label>
+            <input type="text" id="confirmation" name="confirmation" class="confirmation-input" />
+
+            @if (ViewData.ModelState.ContainsKey("confirmation"))
+            {
+                <span class="text-danger">
+                    @ViewData.ModelState["confirmation"]?.Errors.FirstOrDefault()?.ErrorMessage
+                </span>
+            }
+        </div>
+
+        <button type="submit" class="btn-confirm" id="deleteBtn" disabled>🗑 Confirm Delete</button>
+        <a asp-action="Index" class="btn-cancel">⬅ Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        const input = document.getElementById('confirmation');
+        const deleteBtn = document.getElementById('deleteBtn');
+
+        input.addEventListener('input', () => {
+            deleteBtn.disabled = input.value.trim().toUpperCase() !== 'DELETE';
+        });
+    </script>
+}

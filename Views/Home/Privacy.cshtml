@@ -1,0 +1,269 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<style>
+    body {
+        background-color: #fff;
+        color: #000;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .privacy-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+
+    /* Sidebar Navigation */
+    .privacy-sidebar {
+        flex: 1 1 250px;
+        background-color: #f9f9f9;
+        border: 1px solid #000;
+        border-radius: 12px;
+        padding: 1.5rem;
+        position: sticky;
+        top: 20px;
+        height: fit-content;
+    }
+
+        .privacy-sidebar h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .privacy-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .privacy-sidebar li {
+            margin-bottom: 0.75rem;
+        }
+
+        .privacy-sidebar a {
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+            .privacy-sidebar a:hover {
+                text-decoration: underline;
+                color: #555;
+            }
+
+    /* Main Content */
+    .privacy-main {
+        flex: 3 1 650px;
+    }
+
+        .privacy-main h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #000;
+            padding-bottom: 0.5rem;
+        }
+
+        .privacy-main h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            border-left: 5px solid #000;
+            padding-left: 0.75rem;
+        }
+
+        .privacy-main h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .privacy-main p,
+        .privacy-main li {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+            color: #111;
+        }
+
+        .privacy-main ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+        }
+
+    /* Section cards */
+    .privacy-section {
+        background-color: #f9f9f9;
+        border: 1px solid #000;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .privacy-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+    /* Links */
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
+
+        a:hover {
+            color: #555;
+        }
+</style>
+
+<div class="privacy-container">
+    <!-- Sidebar -->
+    <nav class="privacy-sidebar">
+        <h2>Jump to Section</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#legal-basis">Legal Basis</a></li>
+            <li><a href="#information-collection">Information Collection</a></li>
+            <li><a href="#purpose">Purpose</a></li>
+            <li><a href="#storage-security">Storage & Security</a></li>
+            <li><a href="#sharing">Sharing</a></li>
+            <li><a href="#rights">Your Rights</a></li>
+            <li><a href="#cookies">Cookies & Tracking</a></li>
+            <li><a href="#retention">Data Retention</a></li>
+            <li><a href="#cross-border">Cross-Border</a></li>
+            <li><a href="#third-party">Third-Party Links</a></li>
+            <li><a href="#updates">Policy Updates</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="privacy-main">
+        <h1>@ViewData["Title"]</h1>
+        <p><strong>Effective Date:</strong> July 14, 2025</p>
+
+        <section id="introduction" class="privacy-section">
+            <h2>Introduction</h2>
+            <p>At <strong>Vocentra</strong>, your privacy is a priority. We protect your personal information in line with <strong>POPIA</strong> and other applicable laws. This Privacy Policy explains what data we collect, how we use it, and your rights.</p>
+        </section>
+
+        <section id="legal-basis" class="privacy-section">
+            <h2>1. Legal Basis for Processing</h2>
+            <p>Under <strong>Section 11 of POPIA</strong>, we process personal information only when:</p>
+            <ul>
+                <li>You have provided consent</li>
+                <li>It is necessary to perform or prepare a contract</li>
+                <li>It is required by law or court order</li>
+                <li>It aligns with our legitimate interests</li>
+            </ul>
+        </section>
+
+        <section id="information-collection" class="privacy-section">
+            <h2>2. Information We Collect</h2>
+            <p>We collect personal information you voluntarily provide, including:</p>
+            <ul>
+                <li>Full name, contact information, and email</li>
+                <li>CVs, certificates, portfolios, LinkedIn profiles</li>
+                <li>Other details included in job applications or contact forms</li>
+            </ul>
+        </section>
+
+        <section id="purpose" class="privacy-section">
+            <h2>3. Purpose of Data Collection</h2>
+            <ul>
+                <li>Processing and reviewing job applications</li>
+                <li>Communicating updates about your application</li>
+                <li>Fulfilling legal or contractual obligations</li>
+                <li>Enhancing our recruitment services and platform functionality</li>
+            </ul>
+        </section>
+
+        <section id="storage-security" class="privacy-section">
+            <h2>4. Data Storage & Security</h2>
+            <p>We implement technical and organizational measures to protect your data from unauthorized access, loss, or misuse. Uploaded documents are securely stored in compliance with POPIA.</p>
+        </section>
+
+        <section id="sharing" class="privacy-section">
+            <h2>5. Sharing of Information</h2>
+            <ul>
+                <li>Internal HR and hiring teams</li>
+                <li>Trusted service providers under binding agreements</li>
+                <li>Regulatory or legal authorities as required by law</li>
+            </ul>
+            <p><strong>We do not sell your personal data.</strong></p>
+        </section>
+
+        <section id="rights" class="privacy-section">
+            <h2>6. Your Rights Under POPIA</h2>
+            <ul>
+                <li>Access your personal information</li>
+                <li>Request corrections or deletion</li>
+                <li>Object to processing</li>
+                <li>Submit complaints to the Information Regulator</li>
+            </ul>
+        </section>
+
+        <section id="cookies" class="privacy-section">
+            <h2>7. Cookies & Tracking</h2>
+            <p>Cookies may be used to personalize your experience. They do not collect personal data unless explicitly provided by you. You may disable cookies in your browser.</p>
+        </section>
+
+        <section id="retention" class="privacy-section">
+            <h2>8. Data Retention</h2>
+            <p>Data is retained only as long as necessary for the stated purposes or as legally required. Afterward, it is securely deleted or anonymized.</p>
+        </section>
+
+        <section id="cross-border" class="privacy-section">
+            <h2>9. Cross-Border Transfers</h2>
+            <p>Transfers outside South Africa occur only when the recipient provides adequate protections or contractual safeguards for your data.</p>
+        </section>
+
+        <section id="third-party" class="privacy-section">
+            <h2>10. Third-Party Links</h2>
+            <p>Our site may link to external websites. We are not responsible for their privacy practices. Review their policies independently.</p>
+        </section>
+
+        <section id="updates" class="privacy-section">
+            <h2>11. Updates to This Policy</h2>
+            <p>Policy updates will be posted here with a revised effective date.</p>
+        </section>
+
+        <section id="contact" class="privacy-section">
+            <h2>12. Contact Information</h2>
+            <ul>
+                <li><strong>Email:</strong> support@vocentra.com</li>
+                <li><strong>Phone:</strong> +27 62 388 1570</li>
+            </ul>
+            <p>
+                Information Regulator (South Africa)<br />
+                JD House, 27 Stiemens Street, Braamfontein, Johannesburg, 2001<br />
+                <strong>Email:</strong> complaints.IR@justice.gov.za<br />
+                <strong>Website:</strong> <a href="https://www.justice.gov.za/inforeg/" target="_blank">https://www.justice.gov.za/inforeg/</a>
+            </p>
+        </section>
+
+        <section id="faq" class="privacy-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <h3>What data do you collect?</h3>
+            <p>We collect personal information you provide during applications or contact, including your name, email, contact number, and uploaded documents.</p>
+
+            <h3>Can I opt out of data collection?</h3>
+            <p>You can limit certain data collection by adjusting your browser settings or requesting deletion of your data.</p>
+
+            <h3>Who controls my data?</h3>
+            <p><strong>Vocentra</strong> is the data controller for all information collected on this website.</p>
+        </section>
+    </div>
+</div>

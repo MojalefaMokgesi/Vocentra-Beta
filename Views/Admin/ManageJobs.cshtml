@@ -1,0 +1,149 @@
+﻿@model List<Vocentra.Models.Job>
+
+@{
+    ViewData["Title"] = "Manage Jobs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .manage-container {
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 1rem;
+    }
+
+    .welcome-card {
+        background: #fff;
+        border-radius: 1rem;
+        padding: 1.5rem 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+        .welcome-card h5 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #111827;
+        }
+
+        .welcome-card p {
+            font-size: 1rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+    .job-card {
+        background: #fff;
+        border-radius: 1rem;
+        padding: 1.25rem 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .job-details h5 {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: #111827;
+    }
+
+    .job-details p {
+        margin: 0;
+        font-size: 0.95rem;
+        color: #6b7280; /* gray-500 */
+    }
+
+    .job-actions a {
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-edit {
+        border: 1px solid #1f2937;
+        color: #1f2937;
+        background: transparent;
+    }
+
+        .btn-edit:hover {
+            background: #1f2937;
+            color: #fff;
+        }
+
+    .btn-delete {
+        border: 1px solid #dc2626;
+        color: #dc2626;
+        background: transparent;
+    }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            color: #fff;
+        }
+
+    .no-jobs {
+        text-align: center;
+        color: #6b7280;
+        padding: 3rem;
+        border-radius: 1rem;
+        background: #f3f4f6; /* gray-100 */
+    }
+
+    h1.display-5 {
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .d-flex.gap-3 {
+        flex-direction: column;
+        gap: 1rem;
+    }
+</style>
+
+<div class="manage-container">
+    <h1 class="display-5 mb-4">🛠 Manage Jobs</h1>
+
+    <!-- Welcome/Guidance Card -->
+    <div class="welcome-card">
+        <h5>Welcome to Job Management</h5>
+        <p>
+            Here you can view all posted jobs, update details, or remove jobs that are no longer active.
+            Click ✏️ <strong>Edit</strong> to update a job, or 🗑 <strong>Delete</strong> to remove it permanently.
+        </p>
+    </div>
+
+    <!-- Jobs List -->
+    <div class="d-flex gap-3 flex-column">
+        @if (!Model.Any())
+        {
+            <div class="no-jobs">No jobs found.</div>
+        }
+        else
+        {
+            foreach (var job in Model)
+            {
+                <div class="job-card">
+                    <div class="job-details">
+                        <h5>@job.Title</h5>
+                        <p>@job.Location | @job.JobType</p>
+                        <p>@job.Salary.ToString("C")</p>
+                    </div>
+                    <div class="job-actions d-flex gap-2">
+                        <a asp-controller="Admin" asp-action="Edit" asp-route-id="@job.Id" class="btn btn-edit">
+                            ✏️ Edit
+                        </a>
+                        <a asp-controller="Admin" asp-action="Delete" asp-route-id="@job.Id" class="btn btn-delete">
+                            🗑 Delete
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

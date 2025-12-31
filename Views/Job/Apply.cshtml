@@ -1,0 +1,254 @@
+﻿@model Vocentra.Models.Applicant
+@{
+    ViewData["Title"] = "Apply for " + (ViewBag.JobTitle ?? "Job");
+}
+
+<style>
+    body {
+        background-color: #f7f7f7;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #111;
+    }
+
+    .apply-container {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 4rem 1rem;
+    }
+
+    form.apply-form {
+        width: 100%;
+        max-width: 750px;
+        background: #fff;
+        border-radius: 1rem;
+        padding: 3rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+        form.apply-form h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+    /* Progress Dots */
+    .progress-dots {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 2rem;
+    }
+
+        .progress-dots span {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #d1d5db;
+            transition: background 0.3s ease;
+        }
+
+        .progress-dots .active {
+            background: #1f2937;
+        }
+
+    .step {
+        display: none;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+        .step.active {
+            display: flex;
+        }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+        color: #1f2937;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        max-width: 300px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.3s ease, box-shadow 0.2s ease;
+        margin-bottom: 0.5rem;
+    }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #1f2937;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+        .button-group button {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+    .btn-back {
+        background-color: #e5e7eb;
+        color: #111;
+    }
+
+        .btn-back:hover {
+            background-color: #d1d5db;
+        }
+
+    .btn-next {
+        background-color: #1f2937;
+        color: #fff;
+    }
+
+        .btn-next:hover {
+            background-color: #111827;
+        }
+
+    .btn-submit {
+        background-color: #2563eb;
+        color: #fff;
+    }
+
+        .btn-submit:hover {
+            background-color: #1d4ed8;
+        }
+
+    p.step-instructions {
+        text-align: center;
+        color: #4b5563;
+        font-size: 1rem;
+    }
+
+    /* Grid layout for inputs */
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem 2rem;
+    }
+
+    @@media (min-width: 768px) {
+        .grid
+
+    {
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+        gap: 1.5rem 2rem;
+    }
+
+    }
+
+    /* Make full-width for fields that should span both columns */
+    .col-span-2 {
+        grid-column: span 2;
+    }
+</style>
+
+<div class="apply-container">
+    <form asp-action="Apply" asp-controller="Job" method="post" enctype="multipart/form-data" class="apply-form">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="JobId" value="@ViewBag.JobId" />
+
+        <h2>@ViewData["Title"]</h2>
+
+        <!-- Progress Indicator -->
+        <div class="progress-dots">
+            <span id="dot1" class="active"></span>
+            <span id="dot2"></span>
+            <span id="dot3"></span>
+        </div>
+
+        <!-- Step 1: Personal Information -->
+        <div id="step1" class="step active">
+            <p class="step-instructions">👋 Let’s get started! Enter your personal and contact information.</p>
+
+            <div class="grid">
+                <div><label asp-for="Title">Title</label><input asp-for="Title" /></div>
+                <div><label asp-for="Initials">Initials</label><input asp-for="Initials" /></div>
+                <div><label asp-for="FirstName">First Name *</label><input asp-for="FirstName" required /></div>
+                <div><label asp-for="MiddleName">Middle Name</label><input asp-for="MiddleName" /></div>
+                <div><label asp-for="Surname">Surname *</label><input asp-for="Surname" required /></div>
+                <div><label asp-for="KnownAs">Known As</label><input asp-for="KnownAs" /></div>
+                <div><label asp-for="IdNumber">ID / Passport / Visa Number *</label><input asp-for="IdNumber" required /></div>
+                <div><label asp-for="Nationality">Nationality</label><input asp-for="Nationality" /></div>
+                <div><label asp-for="DateOfBirth">Date of Birth</label><input asp-for="DateOfBirth" type="date" /></div>
+                <div><label asp-for="HomeLanguage">Home Language</label><input asp-for="HomeLanguage" /></div>
+                <div><label asp-for="Email">Email *</label><input asp-for="Email" type="email" required /></div>
+                <div><label asp-for="Telephone">Telephone</label><input asp-for="Telephone" /></div>
+                <div><label asp-for="Gender">Gender</label><input asp-for="Gender" /></div>
+                <div><label asp-for="Ethnicity">Ethnicity</label><input asp-for="Ethnicity" /></div>
+                <div><label asp-for="Disability">Disability</label><input asp-for="Disability" /></div>
+                <div><label asp-for="HighestQualification">Highest Qualification Completed</label><input asp-for="HighestQualification" /></div>
+                <div><label asp-for="CurrentCTC">Current Cost To Company</label><input asp-for="CurrentCTC" /></div>
+                <div><label asp-for="ExpectedCTC">Expected Cost To Company</label><input asp-for="ExpectedCTC" /></div>
+                <div class="col-span-2"><label asp-for="CurrentLocation">Current Location - Address</label><input asp-for="CurrentLocation" /></div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn-next" onclick="nextStep(2)">Next</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Professional Links -->
+        <div id="step2" class="step">
+            <p class="step-instructions">💼 Add professional links (optional)</p>
+            <div class="grid">
+                <div><label asp-for="LinkedInProfile">LinkedIn Profile</label><input asp-for="LinkedInProfile" /></div>
+                <div><label asp-for="PortfolioWebsite">Portfolio Website</label><input asp-for="PortfolioWebsite" /></div>
+                <div class="col-span-2"><label asp-for="ResumeLink">Resume Link *</label><input asp-for="ResumeLink" required /></div>
+            </div>
+            <div class="button-group">
+                <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
+                <button type="button" class="btn-next" onclick="nextStep(3)">Next</button>
+            </div>
+        </div>
+
+        <!-- Step 3: File Uploads -->
+        <div id="step3" class="step">
+            <p class="step-instructions">📎 Upload supporting documents (optional)</p>
+            <div class="grid">
+                <div><label>Certificates</label><input type="file" name="Certificates" multiple /></div>
+                <div><label>Additional Documents</label><input type="file" name="AdditionalDocuments" multiple /></div>
+            </div>
+            <div class="button-group">
+                <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
+                <button type="submit" class="btn-submit">Submit Application</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function nextStep(step) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+
+            document.querySelectorAll('.progress-dots span').forEach((dot, i) => {
+                dot.classList.toggle('active', i + 1 === step);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => nextStep(1));
+    </script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

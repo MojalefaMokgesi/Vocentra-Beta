@@ -1,0 +1,80 @@
+﻿@model Vocentra.Models.Job
+@{
+    ViewData["Title"] = "Job Details";
+}
+
+<div class="container mt-5">
+    <div class="card job-card shadow-sm border-0 rounded-4 overflow-hidden">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center p-4">
+            <div>
+                <h3 class="mb-1">@Model.Title</h3>
+                <small class="text-muted">Posted on @Model.PostedAt.ToString("dd MMM yyyy")</small>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.CompanyLogoUrl))
+            {
+                <img src="@Model.CompanyLogoUrl" alt="@Model.CompanyName Logo" class="img-thumbnail border-0" style="max-width:120px; border-radius:10px;" />
+            }
+        </div>
+
+        <div class="card-body p-4">
+            <p><strong>Company:</strong> @Model.CompanyName</p>
+            <p><strong>Location:</strong> @Model.Location</p>
+            <p><strong>Job Type:</strong> @Model.JobType</p>
+            <p><strong>Salary:</strong> @Model.Salary.ToString("C")</p>
+            <p><strong>Category:</strong> @Model.Category</p>
+            <p><strong>Experience Level:</strong> @Model.ExperienceLevel</p>
+            <p><strong>Application Deadline:</strong> @(Model.ApplicationDeadline?.ToString("dd MMM yyyy") ?? "N/A")</p>
+
+            <hr />
+
+            <h5>Description</h5>
+            <p>@Model.Description</p>
+
+            <h5>Benefits</h5>
+            <p>@Model.Benefits</p>
+
+            <h5>Skills Required</h5>
+            <p>@Model.SkillsRequired</p>
+
+            <div class="text-end mt-4">
+                <a asp-action="Apply" asp-route-id="@Model.Id" class="btn btn-apply btn-lg">Apply Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .job-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .job-card p {
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+    .btn-apply {
+        background-color: #000;
+        color: #fff;
+        border: 2px solid #000;
+        border-radius: 50px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+    }
+
+        .btn-apply:hover {
+            background-color: #fff;
+            color: #000;
+            border-color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            text-decoration: none;
+        }
+</style>

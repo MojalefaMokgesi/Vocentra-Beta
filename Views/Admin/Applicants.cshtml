@@ -1,0 +1,291 @@
+﻿@model List<Vocentra.Models.Applicant>
+
+@{
+    ViewData["Title"] = "Applicants";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background-color: #fff;
+        color: #000;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+    /* Search & Filter Bar */
+    .filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        background-color: #f9f9f9;
+        border: 1px solid #000;
+        border-radius: 50px;
+        padding: 0.75rem 1.25rem;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .filter-form:hover {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .filter-form input, .filter-form select {
+            border: none;
+            background: none;
+            padding: 0.6rem;
+            flex: 1;
+            font-size: 0.95rem;
+            min-width: 140px;
+        }
+
+            .filter-form input:focus, .filter-form select:focus {
+                outline: none;
+                border-bottom: 1px solid #000;
+            }
+
+        .filter-form button {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+            .filter-form button:hover {
+                background-color: #222;
+            }
+
+    /* Applicant Card */
+    .applicant-card {
+        border: 1px solid #000;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .applicant-card:hover {
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+    .applicant-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .arrow {
+        transition: transform 0.3s ease;
+        font-size: 1.1rem;
+    }
+
+        .arrow.rotate {
+            transform: rotate(90deg);
+        }
+
+    .applicant-details {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.4s ease;
+        background-color: #f9f9f9;
+        margin-top: 1rem;
+        border-radius: 8px;
+        padding: 0 1rem;
+    }
+
+        .applicant-details.show {
+            max-height: 800px;
+            padding: 1rem;
+        }
+
+        .applicant-details p {
+            margin: 0.25rem 0;
+            font-size: 0.95rem;
+        }
+
+    .document-links a {
+        display: inline-block;
+        margin: 0.25rem 0.5rem 0.25rem 0;
+        padding: 0.3rem 0.6rem;
+        border-radius: 6px;
+        border: 1px solid #000;
+        text-decoration: none;
+        font-size: 0.85rem;
+        color: #000;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+        .document-links a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+</style>
+
+<div class="container">
+    <header class="page-header">
+        <h1>All Applicants</h1>
+    </header>
+
+    <!-- Search & Filters -->
+    <form class="filter-form" onsubmit="return false;">
+        <input id="searchInput" placeholder="🔍 Search by name, email, or ID..." />
+
+        <select id="filterQualification">
+            <option value="">All Qualifications</option>
+            @foreach (var q in Model.Select(m => m.HighestQualification).Distinct())
+            {
+                <option value="@q">@q</option>
+            }
+        </select>
+
+        <select id="filterGender">
+            <option value="">All Genders</option>
+            @foreach (var g in Model.Select(m => m.Gender).Distinct())
+            {
+                <option value="@g">@g</option>
+            }
+        </select>
+    </form>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center" style="font-size:1.2rem; font-weight:600;">No applicants found.</div>
+    }
+    else
+    {
+        @foreach (var applicant in Model)
+        {
+            var fullName = $"{applicant.FirstName} {applicant.MiddleName} {applicant.Surname}".Trim();
+            <div class="applicant-card" data-name="@fullName" data-email="@applicant.Email" data-id="@applicant.IdNumber" data-gender="@applicant.Gender" data-qualification="@applicant.HighestQualification">
+                <div class="applicant-name">
+                    @fullName
+                    <span class="arrow bi bi-chevron-right"></span>
+                </div>
+                <div class="applicant-details">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p><strong>Title:</strong> @applicant.Title</p>
+                            <p><strong>Initials:</strong> @applicant.Initials</p>
+                            <p><strong>Known As:</strong> @applicant.KnownAs</p>
+                            <p><strong>ID / Passport / Visa:</strong> @applicant.IdNumber</p>
+                            <p><strong>Nationality:</strong> @applicant.Nationality</p>
+                            <p><strong>Date of Birth:</strong> @applicant.DateOfBirth?.ToString("yyyy-MM-dd")</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Home Language:</strong> @applicant.HomeLanguage</p>
+                            <p><strong>Gender:</strong> @applicant.Gender</p>
+                            <p><strong>Ethnicity:</strong> @applicant.Ethnicity</p>
+                            <p><strong>Disability:</strong> @applicant.Disability</p>
+                            <p><strong>Highest Qualification:</strong> @applicant.HighestQualification</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Current CTC:</strong> @applicant.CurrentCTC</p>
+                            <p><strong>Expected CTC:</strong> @applicant.ExpectedCTC</p>
+                            <p><strong>Current Location:</strong> @applicant.CurrentLocation</p>
+                            <div class="document-links mt-2">
+                                @if (!string.IsNullOrEmpty(applicant.ResumeLink))
+                                {
+                                    <a href="@applicant.ResumeLink" target="_blank">Resume</a>
+                                }
+                                @if (!string.IsNullOrEmpty(applicant.CertificateUrls))
+                                {
+                                    foreach (var url in applicant.CertificateUrls.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <a href="@url" target="_blank">Certificate</a>
+                                    }
+                                }
+                                @if (!string.IsNullOrEmpty(applicant.DocumentUrls))
+                                {
+                                    foreach (var url in applicant.DocumentUrls.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <a href="@url" target="_blank">Document</a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Toggle applicant details
+        document.querySelectorAll('.applicant-card').forEach(card => {
+            const arrow = card.querySelector('.arrow');
+            const details = card.querySelector('.applicant-details');
+
+            card.addEventListener('click', () => {
+                const isOpen = details.classList.contains('show');
+
+                document.querySelectorAll('.applicant-details').forEach(d => d.classList.remove('show'));
+                document.querySelectorAll('.arrow').forEach(a => a.classList.remove('rotate'));
+
+                if (!isOpen) {
+                    details.classList.add('show');
+                    arrow.classList.add('rotate');
+                }
+            });
+        });
+
+        // Search filter
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            applyFilters();
+        });
+
+        // Dropdown filters
+        document.getElementById('filterQualification').addEventListener('change', applyFilters);
+        document.getElementById('filterGender').addEventListener('change', applyFilters);
+
+        function applyFilters() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const qualification = document.getElementById('filterQualification').value.toLowerCase();
+            const gender = document.getElementById('filterGender').value.toLowerCase();
+
+            document.querySelectorAll('.applicant-card').forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const email = card.dataset.email.toLowerCase();
+                const id = card.dataset.id.toLowerCase();
+                const cardGender = card.dataset.gender.toLowerCase();
+                const cardQualification = card.dataset.qualification.toLowerCase();
+
+                const matchSearch = name.includes(query) || email.includes(query) || id.includes(query);
+                const matchGender = !gender || cardGender === gender;
+                const matchQualification = !qualification || cardQualification === qualification;
+
+                const show = matchSearch && matchGender && matchQualification;
+                card.style.display = show ? 'block' : 'none';
+                if (!show) card.querySelector('.applicant-details').classList.remove('show');
+                card.querySelector('.arrow').classList.remove('rotate');
+            });
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+}

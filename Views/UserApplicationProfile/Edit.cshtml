@@ -1,0 +1,43 @@
+﻿@model Vocentra.Models.UserApplicationProfile
+
+<h2>Edit My Application Profile</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+    <label>Full Name</label>
+    <input asp-for="FullName" class="form-control" />
+
+    <label>Email</label>
+    <input asp-for="Email" class="form-control" />
+
+    <label>Phone</label>
+    <input asp-for="Phone" class="form-control" />
+
+    <label>Experience (JSON format)</label>
+    <textarea asp-for="ExperienceJson" class="form-control"></textarea>
+
+    <label>Education (JSON format)</label>
+    <textarea asp-for="EducationJson" class="form-control"></textarea>
+
+    <label>Skills (JSON format)</label>
+    <textarea asp-for="SkillsJson" class="form-control"></textarea>
+
+    <label>Other Fields (JSON format)</label>
+    <textarea asp-for="OtherFieldsJson" class="form-control"></textarea>
+
+    <label>Upload CV</label>
+    <input type="file" name="cvFile" class="form-control" />
+    @if (!string.IsNullOrEmpty(Model.ProfileCvPath))
+    {
+        <p>Current CV: <a href="@Model.ProfileCvPath" target="_blank">View</a></p>
+    }
+
+    <label>Upload Cover Letter</label>
+    <input type="file" name="coverFile" class="form-control" />
+    @if (!string.IsNullOrEmpty(Model.CoverLetterPath))
+    {
+        <p>Current Cover Letter: <a href="@Model.CoverLetterPath" target="_blank">View</a></p>
+    }
+
+    <button type="submit" class="btn btn-primary mt-3">Save Profile</button>
+</form>

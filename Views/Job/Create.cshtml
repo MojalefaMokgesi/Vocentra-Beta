@@ -1,0 +1,221 @@
+﻿@model Vocentra.Models.Job
+
+@{
+    ViewData["Title"] = "Post a Job";
+}
+
+<style>
+    body {
+        background: #f7f7f7;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #111;
+    }
+
+    .form-container {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 1rem;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #1f2937;
+    }
+
+    .welcome-card {
+        background: #fff;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+        .welcome-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+
+        .welcome-card p {
+            font-size: 1rem;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+    form.job-form {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+        form.job-form .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+
+        form.job-form label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        form.job-form input,
+        form.job-form select,
+        form.job-form textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.2s ease;
+        }
+
+            form.job-form input:focus,
+            form.job-form select:focus,
+            form.job-form textarea:focus {
+                border-color: #1f2937;
+                box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            }
+
+    .btn-publish {
+        background-color: #2563eb;
+        color: #fff;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        transition: background 0.3s ease;
+    }
+
+        .btn-publish:hover {
+            background-color: #1d4ed8;
+        }
+
+    .btn-cancel {
+        background-color: #e5e7eb;
+        color: #111;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        transition: background 0.3s ease;
+        margin-left: 0.5rem;
+    }
+
+        .btn-cancel:hover {
+            background-color: #d1d5db;
+        }
+</style>
+
+<div class="form-container">
+    <h2>Post a Job</h2>
+
+    <!-- Welcome / Guidance Section -->
+    <div class="welcome-card">
+        <h3>Welcome! 🚀</h3>
+        <p>
+            Use this form to post a new job opportunity on your portal.
+            Fill in all required fields and provide as much detail as possible
+            to attract qualified candidates.
+        </p>
+        <p class="mt-2">
+            Tip: Make sure the job description is clear, include required skills,
+            and set a realistic application deadline.
+        </p>
+    </div>
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data" class="job-form">
+        <div class="mb-3">
+            <label asp-for="Title">Job Title *</label>
+            <input asp-for="Title" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description">Description *</label>
+            <textarea asp-for="Description" rows="4" required></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Location">Location</label>
+            <input asp-for="Location" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Salary">Salary</label>
+            <input asp-for="Salary" />
+            <span asp-validation-for="Salary" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="JobType">Job Type</label>
+            <select asp-for="JobType">
+                <option>Full-Time</option>
+                <option>Part-Time</option>
+                <option>Remote</option>
+                <option>Contract</option>
+            </select>
+            <span asp-validation-for="JobType" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Category">Category</label>
+            <input asp-for="Category" />
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ExperienceLevel">Experience Level</label>
+            <select asp-for="ExperienceLevel">
+                <option>Entry</option>
+                <option>Mid</option>
+                <option>Senior</option>
+                <option>Executive</option>
+            </select>
+            <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ApplicationDeadline">Application Deadline</label>
+            <input asp-for="ApplicationDeadline" type="date" />
+            <span asp-validation-for="ApplicationDeadline" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Benefits">Benefits</label>
+            <textarea asp-for="Benefits" rows="3"></textarea>
+            <span asp-validation-for="Benefits" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="SkillsRequired">Skills Required</label>
+            <textarea asp-for="SkillsRequired" rows="3"></textarea>
+            <span asp-validation-for="SkillsRequired" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CompanyName">Company Name</label>
+            <input asp-for="CompanyName" />
+            <span asp-validation-for="CompanyName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CompanyLogoFile">Upload Company Logo</label>
+            <input asp-for="CompanyLogoFile" type="file" accept="image/*" />
+            <span asp-validation-for="CompanyLogoFile" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn-publish">Publish Job</button>
+        <a asp-action="Index" class="btn-cancel">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

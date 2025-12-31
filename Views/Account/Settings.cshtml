@@ -1,0 +1,38 @@
+﻿@model Vocentra.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Account Settings";
+}
+
+<h2>Account Settings</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div style="background-color:#d4edda;color:#155724;padding:10px;border-radius:5px;margin-bottom:20px;">
+        @ViewBag.Message
+    </div>
+}
+
+<form asp-action="Settings" method="post" style="max-width:500px;">
+    <div style="margin-bottom:15px;">
+        <label>Account Type</label>
+        <input class="form-control" value="@Model.AccountType" readonly style="padding:8px;" />
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <label>Email</label>
+        <input class="form-control" value="@Model.Email" readonly style="padding:8px;" />
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <label>Phone Number</label>
+        <input asp-for="PhoneNumber" class="form-control" style="padding:8px;" />
+    </div>
+
+    <button type="submit" style="background-color:#000;color:#fff;border:none;padding:10px 20px;cursor:pointer;">Save Changes</button>
+</form>
+
+<hr style="margin:30px 0;" />
+
+<form asp-action="CloseAccount" method="post">
+    <button type="submit" style="background-color:#dc3545;color:#fff;border:none;padding:10px 20px;cursor:pointer;">Close Account</button>
+</form>

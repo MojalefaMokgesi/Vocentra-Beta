@@ -1,0 +1,49 @@
+/* _content/Vocentra/Views/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-qwpuqub5hn] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-qwpuqub5hn] {
+  color: #0077cc;
+}
+
+.btn-primary[b-qwpuqub5hn] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-qwpuqub5hn], .nav-pills .show > .nav-link[b-qwpuqub5hn] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-qwpuqub5hn] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-qwpuqub5hn] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-qwpuqub5hn] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-qwpuqub5hn] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-qwpuqub5hn] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}

@@ -1,0 +1,90 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        /* Sidebar links */
+        .sidebar-link {
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            display: block;
+            transition: background 0.2s, color 0.2s;
+            text-decoration: none;
+        }
+
+            .sidebar-link:hover {
+                background-color: #212121;
+                color: #f8f9fa;
+            }
+
+            /* Active sidebar item */
+            .sidebar-link.active {
+                background-color: #000;
+                font-weight: 600;
+            }
+
+        /* Card styling for content */
+        .content-card {
+            background-color: #111;
+            color: #fff;
+            border: 1px solid #333;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Scrollable sidebar */
+        .sidebar {
+            min-height: 100vh;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* Main content scroll */
+        .main-content {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar bg-dark p-3" style="width: 240px;">
+            <h4 class="text-white mb-4 fw-bold">Admin Panel</h4>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                    <a class="sidebar-link" asp-controller="Admin" asp-action="Index">📊 Dashboard</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="sidebar-link" asp-controller="Jobs" asp-action="Create">➕ Add Job</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="sidebar-link" asp-controller="Jobs" asp-action="List">🛠 Manage Jobs</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="sidebar-link" asp-controller="Applicants" asp-action="Index">📬 Applicants</a>
+                </li>
+                <li class="nav-item mt-4">
+                    <a class="sidebar-link text-danger" asp-controller="Home" asp-action="Index">← Exit Admin</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main content -->
+        <div class="flex-grow-1 p-4 main-content">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
