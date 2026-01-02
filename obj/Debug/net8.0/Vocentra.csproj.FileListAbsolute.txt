@@ -1210,7 +1210,6 @@ C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\staticwebassets.b
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\Vocentra.csproj.Up2Date
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\Vocentra.dll
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\refint\Vocentra.dll

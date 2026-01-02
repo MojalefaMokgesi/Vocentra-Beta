@@ -35,7 +35,6 @@
             margin-bottom: 2rem;
         }
 
-    /* Progress Dots */
     .progress-dots {
         display: flex;
         justify-content: center;
@@ -139,7 +138,6 @@
         font-size: 1rem;
     }
 
-    /* Grid layout for inputs */
     .grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -147,16 +145,12 @@
     }
 
     @@media (min-width: 768px) {
-        .grid
-
-    {
-        grid-template-columns: repeat(2, minmax(200px, 1fr));
-        gap: 1.5rem 2rem;
+        .grid {
+            grid-template-columns: repeat(2, minmax(200px, 1fr));
+            gap: 1.5rem 2rem;
+        }
     }
 
-    }
-
-    /* Make full-width for fields that should span both columns */
     .col-span-2 {
         grid-column: span 2;
     }
@@ -169,6 +163,9 @@
 
         <h2>@ViewData["Title"]</h2>
 
+        <!-- Validation Summary -->
+        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
         <!-- Progress Indicator -->
         <div class="progress-dots">
             <span id="dot1" class="active"></span>
@@ -179,29 +176,27 @@
         <!-- Step 1: Personal Information -->
         <div id="step1" class="step active">
             <p class="step-instructions">👋 Let’s get started! Enter your personal and contact information.</p>
-
             <div class="grid">
-                <div><label asp-for="Title">Title</label><input asp-for="Title" /></div>
-                <div><label asp-for="Initials">Initials</label><input asp-for="Initials" /></div>
+                <div><label asp-for="Title"></label><input asp-for="Title" /></div>
+                <div><label asp-for="Initials"></label><input asp-for="Initials" /></div>
                 <div><label asp-for="FirstName">First Name *</label><input asp-for="FirstName" required /></div>
-                <div><label asp-for="MiddleName">Middle Name</label><input asp-for="MiddleName" /></div>
+                <div><label asp-for="MiddleName"></label><input asp-for="MiddleName" /></div>
                 <div><label asp-for="Surname">Surname *</label><input asp-for="Surname" required /></div>
-                <div><label asp-for="KnownAs">Known As</label><input asp-for="KnownAs" /></div>
+                <div><label asp-for="KnownAs"></label><input asp-for="KnownAs" /></div>
                 <div><label asp-for="IdNumber">ID / Passport / Visa Number *</label><input asp-for="IdNumber" required /></div>
-                <div><label asp-for="Nationality">Nationality</label><input asp-for="Nationality" /></div>
-                <div><label asp-for="DateOfBirth">Date of Birth</label><input asp-for="DateOfBirth" type="date" /></div>
-                <div><label asp-for="HomeLanguage">Home Language</label><input asp-for="HomeLanguage" /></div>
+                <div><label asp-for="Nationality"></label><input asp-for="Nationality" /></div>
+                <div><label asp-for="DateOfBirth"></label><input asp-for="DateOfBirth" type="date" /></div>
+                <div><label asp-for="HomeLanguage"></label><input asp-for="HomeLanguage" /></div>
                 <div><label asp-for="Email">Email *</label><input asp-for="Email" type="email" required /></div>
-                <div><label asp-for="Telephone">Telephone</label><input asp-for="Telephone" /></div>
-                <div><label asp-for="Gender">Gender</label><input asp-for="Gender" /></div>
-                <div><label asp-for="Ethnicity">Ethnicity</label><input asp-for="Ethnicity" /></div>
-                <div><label asp-for="Disability">Disability</label><input asp-for="Disability" /></div>
-                <div><label asp-for="HighestQualification">Highest Qualification Completed</label><input asp-for="HighestQualification" /></div>
-                <div><label asp-for="CurrentCTC">Current Cost To Company</label><input asp-for="CurrentCTC" /></div>
-                <div><label asp-for="ExpectedCTC">Expected Cost To Company</label><input asp-for="ExpectedCTC" /></div>
-                <div class="col-span-2"><label asp-for="CurrentLocation">Current Location - Address</label><input asp-for="CurrentLocation" /></div>
+                <div><label asp-for="Telephone"></label><input asp-for="Telephone" /></div>
+                <div><label asp-for="Gender"></label><input asp-for="Gender" /></div>
+                <div><label asp-for="Ethnicity"></label><input asp-for="Ethnicity" /></div>
+                <div><label asp-for="Disability"></label><input asp-for="Disability" /></div>
+                <div><label asp-for="HighestQualification"></label><input asp-for="HighestQualification" /></div>
+                <div><label asp-for="CurrentCTC"></label><input asp-for="CurrentCTC" /></div>
+                <div><label asp-for="ExpectedCTC"></label><input asp-for="ExpectedCTC" /></div>
+                <div class="col-span-2"><label asp-for="CurrentLocation"></label><input asp-for="CurrentLocation" /></div>
             </div>
-
             <div class="button-group">
                 <button type="button" class="btn-next" onclick="nextStep(2)">Next</button>
             </div>
@@ -211,8 +206,8 @@
         <div id="step2" class="step">
             <p class="step-instructions">💼 Add professional links (optional)</p>
             <div class="grid">
-                <div><label asp-for="LinkedInProfile">LinkedIn Profile</label><input asp-for="LinkedInProfile" /></div>
-                <div><label asp-for="PortfolioWebsite">Portfolio Website</label><input asp-for="PortfolioWebsite" /></div>
+                <div><label asp-for="LinkedInProfile"></label><input asp-for="LinkedInProfile" /></div>
+                <div><label asp-for="PortfolioWebsite"></label><input asp-for="PortfolioWebsite" /></div>
                 <div class="col-span-2"><label asp-for="ResumeLink">Resume Link *</label><input asp-for="ResumeLink" required /></div>
             </div>
             <div class="button-group">

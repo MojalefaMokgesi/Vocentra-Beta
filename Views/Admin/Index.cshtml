@@ -52,12 +52,9 @@
     }
 
     @@media (min-width: 768px) {
-        .dashboard-grid
-
-    {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
+        .dashboard-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 
     .dashboard-btn {
@@ -118,13 +115,13 @@
 
     <!-- Action Buttons -->
     <div class="dashboard-grid">
-        <a href="/Job/Create" class="dashboard-btn btn-add">
+        <a asp-controller="Admin" asp-action="Create" class="dashboard-btn btn-add">
             ➕ Add Job
         </a>
-        <a href="/Admin/ManageJobs" class="dashboard-btn btn-manage">
+        <a asp-controller="Admin" asp-action="ManageJobs" class="dashboard-btn btn-manage">
             🛠 Manage Jobs
         </a>
-        <a href="/Admin/Applicants" class="dashboard-btn btn-applicants">
+        <a asp-controller="Admin" asp-action="Applicants" class="dashboard-btn btn-applicants">
             📬 Applicants
         </a>
     </div>

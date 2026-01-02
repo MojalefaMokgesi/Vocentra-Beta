@@ -46,5 +46,6 @@ namespace Vocentra.Models
 
         // Status
         public bool IsApplicationComplete { get; set; } = false;
+        public DateTime? AppliedAt { get; set; } // <-- Add this property
     }
 }
