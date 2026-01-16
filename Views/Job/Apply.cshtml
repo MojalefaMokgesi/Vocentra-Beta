@@ -1,6 +1,8 @@
 ﻿@model Vocentra.Models.Applicant
 @{
     ViewData["Title"] = "Apply for " + (ViewBag.JobTitle ?? "Job");
+    // When the POST fails validation and returns the view, the controller can set ViewBag.StartStep
+    var startStep = ViewBag.StartStep ?? 1;
 }
 
 <style>
@@ -159,35 +161,36 @@
 <div class="apply-container">
     <form asp-action="Apply" asp-controller="Job" method="post" enctype="multipart/form-data" class="apply-form">
         @Html.AntiForgeryToken()
-        <input type="hidden" name="JobId" value="@ViewBag.JobId" />
+        <input type="hidden" asp-for="JobId" />
+
+        <!-- remembers the last step so if validation fails we can show the right step -->
+        <input type="hidden" id="CurrentStep" name="CurrentStep" value="@startStep" />
 
         <h2>@ViewData["Title"]</h2>
 
-        <!-- Validation Summary -->
         @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
 
-        <!-- Progress Indicator -->
         <div class="progress-dots">
             <span id="dot1" class="active"></span>
             <span id="dot2"></span>
             <span id="dot3"></span>
         </div>
 
-        <!-- Step 1: Personal Information -->
+        <!-- STEP 1: Personal Info -->
         <div id="step1" class="step active">
             <p class="step-instructions">👋 Let’s get started! Enter your personal and contact information.</p>
             <div class="grid">
                 <div><label asp-for="Title"></label><input asp-for="Title" /></div>
                 <div><label asp-for="Initials"></label><input asp-for="Initials" /></div>
-                <div><label asp-for="FirstName">First Name *</label><input asp-for="FirstName" required /></div>
+                <div><label asp-for="FirstName"></label><input asp-for="FirstName" required /></div>
                 <div><label asp-for="MiddleName"></label><input asp-for="MiddleName" /></div>
-                <div><label asp-for="Surname">Surname *</label><input asp-for="Surname" required /></div>
+                <div><label asp-for="Surname"></label><input asp-for="Surname" required /></div>
                 <div><label asp-for="KnownAs"></label><input asp-for="KnownAs" /></div>
-                <div><label asp-for="IdNumber">ID / Passport / Visa Number *</label><input asp-for="IdNumber" required /></div>
+                <div><label asp-for="IdNumber"></label><input asp-for="IdNumber" required /></div>
                 <div><label asp-for="Nationality"></label><input asp-for="Nationality" /></div>
                 <div><label asp-for="DateOfBirth"></label><input asp-for="DateOfBirth" type="date" /></div>
                 <div><label asp-for="HomeLanguage"></label><input asp-for="HomeLanguage" /></div>
-                <div><label asp-for="Email">Email *</label><input asp-for="Email" type="email" required /></div>
+                <div><label asp-for="Email"></label><input asp-for="Email" type="email" required /></div>
                 <div><label asp-for="Telephone"></label><input asp-for="Telephone" /></div>
                 <div><label asp-for="Gender"></label><input asp-for="Gender" /></div>
                 <div><label asp-for="Ethnicity"></label><input asp-for="Ethnicity" /></div>
@@ -198,33 +201,35 @@
                 <div class="col-span-2"><label asp-for="CurrentLocation"></label><input asp-for="CurrentLocation" /></div>
             </div>
             <div class="button-group">
-                <button type="button" class="btn-next" onclick="nextStep(2)">Next</button>
+                <button type="button" class="btn-next" onclick="goToStep(2)">Next</button>
             </div>
         </div>
 
-        <!-- Step 2: Professional Links -->
+        <!-- STEP 2: Professional Links -->
         <div id="step2" class="step">
             <p class="step-instructions">💼 Add professional links (optional)</p>
             <div class="grid">
                 <div><label asp-for="LinkedInProfile"></label><input asp-for="LinkedInProfile" /></div>
                 <div><label asp-for="PortfolioWebsite"></label><input asp-for="PortfolioWebsite" /></div>
-                <div class="col-span-2"><label asp-for="ResumeLink">Resume Link *</label><input asp-for="ResumeLink" required /></div>
+                <!-- ResumeLink is OPTIONAL in your model, so don't force it required in HTML -->
+                <div class="col-span-2"><label asp-for="ResumeLink"></label><input asp-for="ResumeLink" /></div>
             </div>
             <div class="button-group">
-                <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
-                <button type="button" class="btn-next" onclick="nextStep(3)">Next</button>
+                <button type="button" class="btn-back" onclick="goToStep(1)">Back</button>
+                <button type="button" class="btn-next" onclick="goToStep(3)">Next</button>
             </div>
         </div>
 
-        <!-- Step 3: File Uploads -->
+        <!-- STEP 3: File Uploads -->
         <div id="step3" class="step">
             <p class="step-instructions">📎 Upload supporting documents (optional)</p>
             <div class="grid">
-                <div><label>Certificates</label><input type="file" name="Certificates" multiple /></div>
-                <div><label>Additional Documents</label><input type="file" name="AdditionalDocuments" multiple /></div>
+                <!-- IMPORTANT: names must match Applicant properties -->
+                <div><label>Certificates</label><input type="file" name="CertificatesFiles" multiple /></div>
+                <div><label>Additional Documents</label><input type="file" name="AdditionalDocumentsFiles" multiple /></div>
             </div>
             <div class="button-group">
-                <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
+                <button type="button" class="btn-back" onclick="goToStep(2)">Back</button>
                 <button type="submit" class="btn-submit">Submit Application</button>
             </div>
         </div>
@@ -233,16 +238,24 @@
 
 @section Scripts {
     <script>
-        function nextStep(step) {
+        function goToStep(step) {
             document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
             document.getElementById('step' + step).classList.add('active');
 
             document.querySelectorAll('.progress-dots span').forEach((dot, i) => {
                 dot.classList.toggle('active', i + 1 === step);
             });
+
+            const hidden = document.getElementById('CurrentStep');
+            if (hidden) hidden.value = step;
         }
 
-        document.addEventListener('DOMContentLoaded', () => nextStep(1));
+        // On reload (especially when validation fails), return to the last step
+        document.addEventListener('DOMContentLoaded', () => {
+            const hidden = document.getElementById('CurrentStep');
+            const step = hidden && hidden.value ? parseInt(hidden.value) : 1;
+            goToStep(isNaN(step) ? 1 : step);
+        });
     </script>
 
     @await Html.PartialAsync("_ValidationScriptsPartial")

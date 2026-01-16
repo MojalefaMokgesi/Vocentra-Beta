@@ -26,7 +26,7 @@ namespace Vocentra.Controllers
         public async Task<IActionResult> Edit()
         {
             var userId = _userManager.GetUserId(User);
-            var profile = _db.UserApplicationProfiles.FirstOrDefault(p => p.UserId == userId);
+            var profile = await Task.Run(() => _db.UserApplicationProfiles.FirstOrDefault(p => p.UserId == userId));
             return View(profile ?? new UserApplicationProfile { UserId = userId });
         }
 

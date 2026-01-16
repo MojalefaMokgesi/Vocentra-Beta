@@ -1216,3 +1216,4 @@ C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\refint\Vocentra.d
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\Vocentra.pdb
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\Vocentra.genruntimeconfig.cache
 C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\ref\Vocentra.dll
+C:\Users\Mokge\source\repos\Vocentra\Vocentra\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
