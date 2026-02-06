@@ -141,6 +141,9 @@
                         <a asp-controller="Admin" asp-action="Delete" asp-route-id="@job.Id" class="btn btn-delete">
                             🗑 Delete
                         </a>
+                        <a asp-controller="Admin" asp-action="Applicants" asp-route-jobId="@job.Id" class="btn btn-secondary">
+                            👥 Applicants
+                        </a>
                     </div>
                 </div>
             }

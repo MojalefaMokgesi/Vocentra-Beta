@@ -12,32 +12,51 @@ using Vocentra.Models;
 
 namespace Vocentra.Controllers
 {
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class AdminController : Controller
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
+        private readonly Microsoft.AspNetCore.Identity.UserManager<Vocentra.Models.ApplicationUser> _userManager;
 
-        public AdminController(AppDbContext context, IWebHostEnvironment env)
+        public AdminController(AppDbContext context, IWebHostEnvironment env, Microsoft.AspNetCore.Identity.UserManager<Vocentra.Models.ApplicationUser> userManager)
         {
             _context = context;
             _env = env;
+            _userManager = userManager;
         }
 
         // Dashboard
         [HttpGet("/Admin")]
         public async Task<IActionResult> Index()
         {
+            var isAdmin = User.IsInRole("Admin");
+            if (!isAdmin)
+            {
+                // Non-admin users should manage their own jobs
+                return RedirectToAction(nameof(ManageJobs));
+            }
+
             ViewBag.JobCount = await _context.Jobs.CountAsync();
             ViewBag.ApplicantCount = await _context.Applicants.CountAsync();
             var jobs = await _context.Jobs.OrderByDescending(j => j.PostedAt).ToListAsync();
             return View(jobs);
         }
 
-        // Manage Jobs
+        // Manage Jobs - admins see all jobs, regular authenticated users see only their own jobs
         [HttpGet("/Admin/ManageJobs")]
         public async Task<IActionResult> ManageJobs()
         {
-            var jobs = await _context.Jobs.OrderByDescending(j => j.PostedAt).ToListAsync();
+            var userId = _userManager.GetUserId(User);
+            var isAdmin = User.IsInRole("Admin");
+
+            var jobsQuery = _context.Jobs
+                .Include(j => j.Applicants)
+                .AsQueryable();
+            if (!isAdmin)
+                jobsQuery = jobsQuery.Where(j => j.OwnerUserId == userId);
+
+            var jobs = await jobsQuery.OrderByDescending(j => j.PostedAt).ToListAsync();
             return View(jobs);
         }
 
@@ -67,6 +86,9 @@ namespace Vocentra.Controllers
             }
 
             job.PostedAt = DateTime.Now;
+            // If admin creates a job, set owner to the admin user id
+            job.OwnerUserId = _userManager.GetUserId(User) ?? job.OwnerUserId;
+
             _context.Jobs.Add(job);
             await _context.SaveChangesAsync();
             return RedirectToAction("ManageJobs");
@@ -90,6 +112,10 @@ namespace Vocentra.Controllers
 
             try
             {
+                // Load existing entity to avoid overwriting OwnerUserId or other fields
+                var existing = await _context.Jobs.FindAsync(id);
+                if (existing == null) return NotFound();
+
                 // Handle new file upload
                 if (job.CompanyLogoFile != null && job.CompanyLogoFile.Length > 0)
                 {
@@ -102,10 +128,23 @@ namespace Vocentra.Controllers
                     await using var stream = new FileStream(filePath, FileMode.Create);
                     await job.CompanyLogoFile.CopyToAsync(stream);
 
-                    job.CompanyLogoUrl = $"/uploads/company-logos/{fileName}";
+                    existing.CompanyLogoUrl = $"/uploads/company-logos/{fileName}";
                 }
 
-                _context.Update(job);
+                // Map editable fields (preserve OwnerUserId)
+                existing.Title = job.Title;
+                existing.Description = job.Description;
+                existing.Location = job.Location;
+                existing.Salary = job.Salary;
+                existing.JobType = job.JobType;
+                existing.Category = job.Category;
+                existing.ExperienceLevel = job.ExperienceLevel;
+                existing.ApplicationDeadline = job.ApplicationDeadline;
+                existing.Benefits = job.Benefits;
+                existing.SkillsRequired = job.SkillsRequired;
+                existing.CompanyName = job.CompanyName;
+
+                _context.Update(existing);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("ManageJobs");
             }
@@ -137,13 +176,40 @@ namespace Vocentra.Controllers
         }
 
         // Applicants
-        [HttpGet("/Admin/Applicants")]
-        public async Task<IActionResult> Applicants()
+        [HttpGet("/Admin/Applicants/{jobId?}")]
+        public async Task<IActionResult> Applicants(int? jobId)
         {
-            var applicants = await _context.Applicants
+            var userId = _userManager.GetUserId(User);
+            var isAdmin = User.IsInRole("Admin");
+
+            var applicantsQuery = _context.Applicants
                 .Include(a => a.Job)
-                .OrderByDescending(a => a.Id)
-                .ToListAsync();
+                .AsQueryable();
+
+            if (jobId.HasValue)
+            {
+                applicantsQuery = applicantsQuery.Where(a => a.JobId == jobId.Value);
+            }
+
+            if (!isAdmin)
+            {
+                // Non-admins can only see applicants for their own jobs
+                applicantsQuery = applicantsQuery.Where(a => a.Job != null && a.Job.OwnerUserId == userId);
+            }
+
+            var applicants = await applicantsQuery.OrderByDescending(a => a.Id).ToListAsync();
+
+            // If a specific job was requested, provide its title to the view
+            if (jobId.HasValue)
+            {
+                var job = await _context.Jobs.FindAsync(jobId.Value);
+                ViewBag.JobTitle = job?.Title ?? "Applicants";
+                ViewBag.JobId = jobId.Value;
+            }
+            else
+            {
+                ViewBag.JobTitle = "All Applicants";
+            }
 
             return View(applicants);
         }

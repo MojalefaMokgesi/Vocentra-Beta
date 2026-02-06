@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 
 namespace Vocentra.Models
 {
+    [Index(nameof(OwnerUserId))]
     public class Job
     {
         public int Id { get; set; }
@@ -46,6 +48,10 @@ namespace Vocentra.Models
 
         [NotMapped] // EF ignores this property
         public IFormFile? CompanyLogoFile { get; set; }
+
+        // Ownership: the Identity user (AspNetUsers.Id) who created/owns this job
+        // Make nullable for smooth migration and existing data
+        public string? OwnerUserId { get; set; }
 
         public ICollection<Applicant>? Applicants { get; set; }
     }

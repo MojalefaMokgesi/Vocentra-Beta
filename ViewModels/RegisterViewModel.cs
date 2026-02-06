@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Vocentra.Models
+namespace Vocentra.ViewModels
 {
     public class RegisterViewModel
     {
@@ -28,6 +28,6 @@ namespace Vocentra.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
-        public string ConfirmPassword { get; set; }
+        public string? ConfirmPassword { get; set; }
     }
 }

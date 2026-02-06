@@ -9,26 +9,23 @@ using Vocentra.ViewModels;
 
 namespace Vocentra.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly AppDbContext _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager,
-                                 SignInManager<ApplicationUser> signInManager,
-                                 AppDbContext context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
         }
 
-        // GET: /Account/Register
         [HttpGet]
         public IActionResult Register() => View();
 
-        // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -46,30 +43,18 @@ namespace Vocentra.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError(string.Empty, error.Description);
 
-                // Create a blank Applicant record
-                _context.Applicants.Add(new Applicant
-                {
-                    UserId = user.Id,
-                    IsApplicationComplete = false
-                });
-                await _context.SaveChangesAsync();
-
-                // Redirect to Apply page
-                return RedirectToAction("Apply", "Job");
+                return View(model);
             }
 
-            foreach (var error in result.Errors)
-                ModelState.AddModelError("", error.Description);
-
-            return View(model);
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return RedirectToAction("Apply", "Job");
         }
 
-        // GET: /Account/Login
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
@@ -77,49 +62,126 @@ namespace Vocentra.Controllers
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-
             if (!ModelState.IsValid) return View(model);
 
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
-
-            if (result.Succeeded)
-            {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                var applicant = await _context.Applicants.FirstOrDefaultAsync(a => a.UserId == user.Id);
-
-                if (applicant != null && !applicant.IsApplicationComplete)
-                    return RedirectToAction("Apply", "Job"); // force application
-
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    return Redirect(returnUrl);
-
-                return RedirectToAction("Index", "Home");
-            }
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
 
             if (result.IsLockedOut)
             {
-                ModelState.AddModelError("", "Account locked out. Try again later.");
+                ModelState.AddModelError(string.Empty, "Account locked out. Try again later.");
                 return View(model);
             }
 
-            ModelState.AddModelError("", "Invalid login attempt.");
-            return View(model);
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                await _signInManager.SignOutAsync();
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
+            }
+
+            var applicant = await _context.Applicants.AsNoTracking().FirstOrDefaultAsync(a => a.UserId == user.Id);
+            if (applicant == null || !applicant.IsApplicationComplete)
+                return RedirectToAction("Apply", "Job");
+
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
+
+            return RedirectToAction("Index", "Home");
         }
 
-        // POST: /Account/Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet("/Account/Settings")]
+        [Authorize]
+        public async Task<IActionResult> Settings()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction(nameof(Login));
+
+            var vm = new AccountSettingsViewModel
+            {
+                Email = user.Email ?? string.Empty,
+                FirstName = user.FirstName ?? string.Empty,
+                LastName = user.LastName ?? string.Empty,
+                CompanyName = user.CompanyName,
+                PhoneNumber = user.PhoneNumber,
+                AccountType = user.AccountType
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost("/Account/Settings")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Settings(AccountSettingsViewModel vm)
+        {
+            if (!ModelState.IsValid) return View(vm);
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction(nameof(Login));
+
+            user.FirstName = vm.FirstName;
+            user.LastName = vm.LastName;
+            user.CompanyName = vm.CompanyName;
+            user.PhoneNumber = vm.PhoneNumber;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError(string.Empty, error.Description);
+
+                return View(vm);
+            }
+            // Ensure a UserProfile exists and update some fields
+            var profile = await _context.UserProfiles.FirstOrDefaultAsync(p => p.UserId == user.Id);
+            if (profile == null)
+            {
+                profile = new UserProfile
+                {
+                    UserId = user.Id,
+                    FullName = $"{user.FirstName} {user.LastName}".Trim(),
+                    Phone = user.PhoneNumber
+                };
+                _context.UserProfiles.Add(profile);
+            }
+            else
+            {
+                profile.FullName = $"{user.FirstName} {user.LastName}".Trim();
+                profile.Phone = user.PhoneNumber;
+                _context.UserProfiles.Update(profile);
+            }
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Account settings updated.";
+            return RedirectToAction(nameof(Settings));
+        }
+
+        [HttpGet("/Account/SecuritySettings")]
+        [Authorize]
+        public IActionResult SecuritySettings() => View();
+
+        [HttpGet]
+        public IActionResult AccessDenied() => View();
     }
 }

@@ -72,8 +72,11 @@ wwwroot\uploads\2\cert_ME.png
 wwwroot\uploads\2\doc_nsc.png
 wwwroot\uploads\3\cert_timmyturner.iv.jpeg
 wwwroot\uploads\4\cert_ID Validator 1.png
+wwwroot\uploads\applicants\69bf19e9-6b94-4fff-9de9-3b4ce77045ae_STEAM GUARD CODE.pdf
+wwwroot\uploads\applicants\f5bb2e10-8547-4dfd-905b-30b70f0e7dea_Mojalefa Mokgesi Resume.pdf
 wwwroot\uploads\company-logos\169461548.jpg
 wwwroot\uploads\company-logos\7ddc545046b212d9ecc8eef83569222b.jpg
+wwwroot\uploads\company-logos\icon-192.png
 wwwroot\uploads\company-logos\Lmao.png
 wwwroot\uploads\company-logos\lol.png
 wwwroot\uploads\company-logos\unnamed.png

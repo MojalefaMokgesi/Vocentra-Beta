@@ -110,7 +110,19 @@
         <nav class="d-flex align-items-center">
             <a asp-controller="Home" asp-action="Index">Home</a>
             <a asp-controller="Home" asp-action="Privacy">Privacy</a>
-            <a asp-controller="Admin" asp-action="Index">Admin Panel</a>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <a asp-controller="Job" asp-action="Create">Post Job</a>
+
+                if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                }
+                else
+                {
+                    <a asp-controller="Admin" asp-action="ManageJobs">Manage Jobs</a>
+                }
+            }
 
             @if (SignInManager.IsSignedIn(User))
             {

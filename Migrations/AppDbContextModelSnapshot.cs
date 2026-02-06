@@ -15,7 +15,7 @@ namespace Vocentra.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -361,6 +361,54 @@ namespace Vocentra.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Vocentra.Models.CompanyProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("About")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CompanySize")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContactEmail")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HiringManagerName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Industry")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LogoPath")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompanyProfiles");
+                });
+
             modelBuilder.Entity("Vocentra.Models.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -406,6 +454,9 @@ namespace Vocentra.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("OwnerUserId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("PostedAt")
                         .HasColumnType("TEXT");
 
@@ -423,7 +474,62 @@ namespace Vocentra.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OwnerUserId");
+
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.SecuritySetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ForceReauthAfterPasswordChange")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastPasswordChangeAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("LoginAlertsEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SecuritySettings");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.Setting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("Vocentra.Models.UserApplicationProfile", b =>
@@ -481,6 +587,95 @@ namespace Vocentra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserApplicationProfiles");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.UserProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CvFilePath")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExperienceSummary")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HighestQualification")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Skills")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserProfiles");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.UserSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AlertCategories")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AlertFrequency")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AlertLocations")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("AllowCvDownload")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("AppearInSearch")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("EmailNotifications")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("JobAlerts")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PreferredContactMethod")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProfileVisibility")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("ShowEmail")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ShowPhone")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -549,6 +744,17 @@ namespace Vocentra.Migrations
                         .IsRequired();
 
                     b.Navigation("Job");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.UserProfile", b =>
+                {
+                    b.HasOne("Vocentra.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

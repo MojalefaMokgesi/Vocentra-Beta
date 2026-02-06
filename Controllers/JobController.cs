@@ -30,7 +30,7 @@ namespace Vocentra.Controllers
 
         // ===================== DETAILS =====================
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id) 
         {
             var job = await _context.Jobs
                 .Include(j => j.Applicants)
@@ -40,6 +40,43 @@ namespace Vocentra.Controllers
                 return NotFound();
 
             return View(job);
+        }
+
+        // ===================== CREATE (GET) =====================
+        [Authorize]
+        [HttpGet]
+        public IActionResult Create() => View();
+
+        // ===================== CREATE (POST) =====================
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Job job)
+        {
+            if (!ModelState.IsValid) return View(job);
+
+            // Handle file upload
+            if (job.CompanyLogoFile != null && job.CompanyLogoFile.Length > 0)
+            {
+                var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "company-logos");
+                if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
+
+                var fileName = Path.GetFileName(job.CompanyLogoFile.FileName);
+                var filePath = Path.Combine(uploadDir, fileName);
+
+                await using var stream = new FileStream(filePath, FileMode.Create);
+                await job.CompanyLogoFile.CopyToAsync(stream);
+
+                job.CompanyLogoUrl = $"/uploads/company-logos/{fileName}";
+            }
+
+            job.PostedAt = DateTime.UtcNow;
+            job.OwnerUserId = _userManager.GetUserId(User) ?? string.Empty;
+
+            _context.Jobs.Add(job);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // ===================== APPLY (GET) =====================
@@ -71,7 +108,7 @@ namespace Vocentra.Controllers
         // ===================== APPLY (POST) =====================
         [Authorize]
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> Apply(Applicant model, int CurrentStep = 1)
         {
             var userId = _userManager.GetUserId(User);
@@ -189,6 +226,125 @@ namespace Vocentra.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details), new { id = model.JobId });
+        }
+
+        // ===================== MY JOBS =====================
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> My()
+        {
+            var userId = _userManager.GetUserId(User);
+            var isAdmin = User.IsInRole("Admin");
+
+            var jobsQuery = _context.Jobs.AsQueryable();
+            if (!isAdmin)
+                jobsQuery = jobsQuery.Where(j => j.OwnerUserId == userId);
+
+            var jobs = await jobsQuery.OrderByDescending(j => j.PostedAt).ToListAsync();
+            return View(jobs);
+        }
+
+        // ===================== EDIT =====================
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var job = await _context.Jobs.FindAsync(id);
+            if (job == null) return NotFound();
+
+            var userId = _userManager.GetUserId(User);
+            if (!User.IsInRole("Admin") && job.OwnerUserId != userId)
+                return Forbid();
+
+            return View(job);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Job job)
+        {
+            if (id != job.Id) return NotFound();
+            if (!ModelState.IsValid) return View(job);
+
+            var existing = await _context.Jobs.FindAsync(id);
+            if (existing == null) return NotFound();
+
+            var userId = _userManager.GetUserId(User);
+            if (!User.IsInRole("Admin") && existing.OwnerUserId != userId)
+                return Forbid();
+
+            try
+            {
+                // Handle new file upload
+                if (job.CompanyLogoFile != null && job.CompanyLogoFile.Length > 0)
+                {
+                    var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "company-logos");
+                    if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
+
+                    var fileName = Path.GetFileName(job.CompanyLogoFile.FileName);
+                    var filePath = Path.Combine(uploadDir, fileName);
+
+                    await using var stream = new FileStream(filePath, FileMode.Create);
+                    await job.CompanyLogoFile.CopyToAsync(stream);
+
+                    existing.CompanyLogoUrl = $"/uploads/company-logos/{fileName}";
+                }
+
+                // Map editable fields
+                existing.Title = job.Title;
+                existing.Description = job.Description;
+                existing.Location = job.Location;
+                existing.Salary = job.Salary;
+                existing.JobType = job.JobType;
+                existing.Category = job.Category;
+                existing.ExperienceLevel = job.ExperienceLevel;
+                existing.ApplicationDeadline = job.ApplicationDeadline;
+                existing.Benefits = job.Benefits;
+                existing.SkillsRequired = job.SkillsRequired;
+                existing.CompanyName = job.CompanyName;
+
+                _context.Update(existing);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(My));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Jobs.Any(j => j.Id == job.Id)) return NotFound();
+                throw;
+            }
+        }
+
+        // ===================== DELETE =====================
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var job = await _context.Jobs.FindAsync(id);
+            if (job == null) return NotFound();
+
+            var userId = _userManager.GetUserId(User);
+            if (!User.IsInRole("Admin") && job.OwnerUserId != userId)
+                return Forbid();
+
+            return View(job);
+        }
+
+        [Authorize]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var job = await _context.Jobs.FindAsync(id);
+            if (job == null) return NotFound();
+
+            var userId = _userManager.GetUserId(User);
+            if (!User.IsInRole("Admin") && job.OwnerUserId != userId)
+                return Forbid();
+
+            _context.Jobs.Remove(job);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(My));
         }
     }
 }
