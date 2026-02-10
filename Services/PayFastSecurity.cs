@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -9,44 +8,74 @@ namespace Vocentra.Services
 {
     public static class PayFastSecurity
     {
+        // Encode to match PayFast:
+        // - Spaces become '+'
+        // - Percent-encoding must be UPPERCASE (e.g. %3A not %3a)
+        private static string PayFastEncode(string value)
+        {
+            if (value == null) return string.Empty;
+
+            // EscapeDataString uses %20 for spaces; PayFast expects '+'
+            var encoded = Uri.EscapeDataString(value);
+
+            // Uppercase any %xx sequences
+            // (Uri.EscapeDataString is usually uppercase already, but we force it)
+            var sb = new StringBuilder(encoded.Length);
+            for (int i = 0; i < encoded.Length; i++)
+            {
+                char c = encoded[i];
+                if (c == '%' && i + 2 < encoded.Length)
+                {
+                    sb.Append('%');
+                    sb.Append(char.ToUpperInvariant(encoded[i + 1]));
+                    sb.Append(char.ToUpperInvariant(encoded[i + 2]));
+                    i += 2;
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString().Replace("%20", "+");
+        }
+
         /// <summary>
-        /// PayFast signature:
-        /// - Exclude "signature"
-        /// - Exclude empty/null values
-        /// - Sort by key (ascending, ordinal)
-        /// - Build key=value&key2=value2... with application/x-www-form-urlencoded encoding on VALUES
-        /// - If passphrase is set, append &passphrase=...
-        /// - MD5 over ASCII
+        /// IMPORTANT:
+        /// For /eng/process signature, PayFast expects parameters in the "attribute description order",
+        /// NOT alphabetical order. So we DO NOT sort.
         /// </summary>
-        public static string BuildSignature(IDictionary<string, string> data, string? passPhrase)
+        public static string BuildSignature(IEnumerable<KeyValuePair<string, string>> data, string? passPhrase)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
 
-            // application/x-www-form-urlencoded encoding (matches HTML form posts / PHP urlencode)
-            static string Encode(string value)
+            var parts = new List<string>();
+
+            foreach (var kv in data)
             {
-                // WebUtility.UrlEncode produces + for spaces (important)
-                // Ensure null-safe
-                return WebUtility.UrlEncode(value ?? string.Empty) ?? string.Empty;
+                if (kv.Key.Equals("signature", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                if (string.IsNullOrEmpty(kv.Value))
+                    continue;
+
+                parts.Add($"{kv.Key}={PayFastEncode(kv.Value)}");
             }
 
-            var filtered = data
-                .Where(kv => !kv.Key.Equals("signature", StringComparison.OrdinalIgnoreCase))
-                .Where(kv => !string.IsNullOrEmpty(kv.Value))
-                .OrderBy(kv => kv.Key, StringComparer.Ordinal);
-
-            var param = string.Join("&", filtered.Select(kv => $"{kv.Key}={Encode(kv.Value)}"));
+            var param = string.Join("&", parts);
 
             if (!string.IsNullOrWhiteSpace(passPhrase))
             {
-                param += $"&passphrase={Encode(passPhrase)}";
+                param += $"&passphrase={PayFastEncode(passPhrase)}";
             }
 
             using var md5 = MD5.Create();
-
-            // PayFast examples align best with ASCII
             var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(param));
             return Convert.ToHexString(hash).ToLowerInvariant();
         }
+
+        // Backwards compatible overload
+        public static string BuildSignature(IDictionary<string, string> data, string? passPhrase)
+            => BuildSignature(data.AsEnumerable(), passPhrase);
     }
 }

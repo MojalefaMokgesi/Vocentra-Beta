@@ -12,8 +12,12 @@
     <title>Redirecting to PayFast...</title>
 </head>
 <body>
+    <!-- IMPORTANT:
+         - Do NOT use asp-* tag helpers
+         - Do NOT add AntiForgeryToken
+         - Only include the PayFast fields you signed
+    -->
     <form id="pfForm" action="@processUrl" method="post">
-        @* IMPORTANT: Only PayFast fields, no asp-* tag helpers, no AntiForgeryToken *@
         @foreach (var kv in Model)
         {
             <input type="hidden" name="@kv.Key" value="@kv.Value" />
