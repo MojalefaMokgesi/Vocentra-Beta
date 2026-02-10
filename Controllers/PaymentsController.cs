@@ -43,11 +43,10 @@ namespace Vocentra.Controllers
             if (job.IsPaid && string.Equals(job.Status, "Active", StringComparison.OrdinalIgnoreCase))
                 return BadRequest("Job is already active/paid.");
 
-            var startDate = DateTime.UtcNow.Date;
-
             if (!job.ApplicationDeadline.HasValue)
                 return BadRequest("Application deadline is required.");
 
+            var startDate = DateTime.UtcNow.Date;
             var endDate = job.ApplicationDeadline.Value.Date;
 
             var days = Pricing.DaysInclusive(startDate, endDate);
@@ -57,6 +56,7 @@ namespace Vocentra.Controllers
 
             var merchantRef = $"JOB-{job.Id}-{Guid.NewGuid():N}";
 
+            // Create transaction record BEFORE redirect
             var tx = new PaymentTransaction
             {
                 JobId = job.Id,
@@ -71,6 +71,7 @@ namespace Vocentra.Controllers
             };
             _db.PaymentTransactions.Add(tx);
 
+            // Force draft state until ITN confirms
             job.IsPaid = false;
             job.Status = "Draft";
             job.PaymentStatus = "Pending";
@@ -81,27 +82,17 @@ namespace Vocentra.Controllers
                 ? "https://sandbox.payfast.co.za/eng/process"
                 : "https://www.payfast.co.za/eng/process";
 
-            // IMPORTANT: Trim all values (PayFast signature is brittle)
-            var fields = new Dictionary<string, string>(StringComparer.Ordinal)
-            {
-                ["merchant_id"] = (_opts.MerchantId ?? "").Trim(),
-                ["merchant_key"] = (_opts.MerchantKey ?? "").Trim(),
-                ["return_url"] = (_opts.ReturnUrl ?? "").Trim(),
-                ["cancel_url"] = (_opts.CancelUrl ?? "").Trim(),
-                ["notify_url"] = (_opts.NotifyUrl ?? "").Trim(),
-                ["m_payment_id"] = merchantRef.Trim(),
-                ["amount"] = amount.ToString("0.00", CultureInfo.InvariantCulture),
-                ["item_name"] = $"Job {job.Title}".Trim()
-            };
+            // Build the exact fields to POST (trim + remove empties)
+            var fields = BuildPayFastFields(job, merchantRef, amount);
 
-            // Remove any blanks (PayFast expects blanks excluded from signature string)
-            fields = fields
-                .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
-                .ToDictionary(kv => kv.Key, kv => kv.Value, StringComparer.Ordinal);
-
-            // Sign request (DO NOT include "signature" when calculating)
-            var signature = BuildSignature(fields, _opts.PassPhrase);
+            // Generate signature from the same fields (canonical string)
+            var signatureBase = BuildSignatureBaseString(fields, _opts.PassPhrase);
+            var signature = Md5Hex(signatureBase);
             fields["signature"] = signature;
+
+            // Optional: quick diagnostic (enable temporarily)
+            // Console.WriteLine("PF signature base: " + signatureBase);
+            // Console.WriteLine("PF signature md5:  " + signature);
 
             var html = BuildAutoPostHtml(payFastUrl, fields);
             return Content(html, "text/html");
@@ -110,7 +101,6 @@ namespace Vocentra.Controllers
         [HttpGet("return")]
         public IActionResult Return()
         {
-            // NEVER activate here.
             return Content("Payment received by PayFast. Waiting for confirmation (ITN). Check your dashboard shortly.");
         }
 
@@ -131,7 +121,7 @@ namespace Vocentra.Controllers
 
             var itn = Request.Form.ToDictionary(k => k.Key, v => v.Value.ToString());
 
-            // 1) Signature verification
+            // 1) Signature verification (PayFast style)
             if (!VerifySignature(itn, _opts.PassPhrase))
                 return Ok();
 
@@ -155,7 +145,7 @@ namespace Vocentra.Controllers
                 return Ok();
             }
 
-            // 4) Amount match (locked amount)
+            // 4) Amount match against LOCKED transaction amount
             itn.TryGetValue("amount_gross", out var amountGrossStr);
             if (!decimal.TryParse(amountGrossStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var amountGross))
                 return Ok();
@@ -169,8 +159,6 @@ namespace Vocentra.Controllers
                 : "https://www.payfast.co.za/eng/query/validate";
 
             var http = _httpClientFactory.CreateClient();
-
-            // PayFast expects the original ITN payload (including signature) posted back
             using var resp = await http.PostAsync(validateUrl, new FormUrlEncodedContent(itn));
             var body = (await resp.Content.ReadAsStringAsync()).Trim();
 
@@ -201,40 +189,67 @@ namespace Vocentra.Controllers
         // -------------------------
         // Helpers
         // -------------------------
+
+        private Dictionary<string, string> BuildPayFastFields(Job job, string merchantRef, decimal amount)
+        {
+            // Sorted by key (ordinal) makes signature reproducible
+            var dict = new SortedDictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["merchant_id"] = (_opts.MerchantId ?? "").Trim(),
+                ["merchant_key"] = (_opts.MerchantKey ?? "").Trim(),
+                ["return_url"] = (_opts.ReturnUrl ?? "").Trim(),
+                ["cancel_url"] = (_opts.CancelUrl ?? "").Trim(),
+                ["notify_url"] = (_opts.NotifyUrl ?? "").Trim(),
+                ["m_payment_id"] = merchantRef.Trim(),
+                ["amount"] = amount.ToString("0.00", CultureInfo.InvariantCulture),
+                ["item_name"] = $"Job {job.Title}".Trim()
+            };
+
+            // Remove empty values (PayFast expects empties excluded from signature string)
+            var cleaned = dict
+                .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
+                .ToDictionary(kv => kv.Key, kv => kv.Value.Trim(), StringComparer.Ordinal);
+
+            return cleaned;
+        }
+
         private static string BuildAutoPostHtml(string actionUrl, IDictionary<string, string> fields)
         {
             var sb = new StringBuilder();
             sb.AppendLine("<html><body onload=\"document.forms[0].submit()\">");
             sb.AppendLine($"<form method=\"post\" action=\"{WebUtility.HtmlEncode(actionUrl)}\">");
 
-            foreach (var kv in fields)
+            // Post fields in stable key order
+            foreach (var kv in fields.OrderBy(k => k.Key, StringComparer.Ordinal))
             {
-                sb.AppendLine($"<input type=\"hidden\" name=\"{WebUtility.HtmlEncode(kv.Key)}\" value=\"{WebUtility.HtmlEncode(kv.Value)}\" />");
+                sb.AppendLine(
+                    $"<input type=\"hidden\" name=\"{WebUtility.HtmlEncode(kv.Key)}\" value=\"{WebUtility.HtmlEncode(kv.Value)}\" />");
             }
 
             sb.AppendLine("</form></body></html>");
             return sb.ToString();
         }
 
-        private static bool VerifySignature(IDictionary<string, string> itnData, string? passPhrase)
+        private static bool VerifySignature(IDictionary<string, string> data, string? passPhrase)
         {
-            if (!itnData.TryGetValue("signature", out var received) || string.IsNullOrWhiteSpace(received))
+            if (!data.TryGetValue("signature", out var received) || string.IsNullOrWhiteSpace(received))
                 return false;
 
-            var calc = BuildSignature(itnData, passPhrase);
+            var signatureBase = BuildSignatureBaseString(data, passPhrase);
+            var calc = Md5Hex(signatureBase);
+
             return string.Equals(received, calc, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
-        /// PayFast signature algorithm:
-        /// - Exclude "signature"
-        /// - Exclude empty values
-        /// - Sort keys (ordinal)
-        /// - Build query string using PHP urlencode style (spaces as '+', '~' left as '~')
-        /// - Append passphrase if provided: &passphrase=...
-        /// - MD5 lower hex
+        /// PayFast expects signature string built like PHP urlencode (application/x-www-form-urlencoded):
+        /// - exclude signature
+        /// - exclude empty values
+        /// - sort by key (ordinal)
+        /// - key=value&key=value...
+        /// - append &passphrase=... only if passphrase is non-empty
         /// </summary>
-        private static string BuildSignature(IDictionary<string, string> data, string? passPhrase)
+        private static string BuildSignatureBaseString(IDictionary<string, string> data, string? passPhrase)
         {
             var filtered = data
                 .Where(kv => !kv.Key.Equals("signature", StringComparison.OrdinalIgnoreCase))
@@ -242,34 +257,54 @@ namespace Vocentra.Controllers
                 .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
                 .OrderBy(kv => kv.Key, StringComparer.Ordinal);
 
-            var param = string.Join("&", filtered.Select(kv => $"{kv.Key}={PhpUrlEncode(kv.Value)}"));
+            var param = string.Join("&", filtered.Select(kv => $"{kv.Key}={FormUrlEncodePhpStyle(kv.Value)}"));
 
             if (!string.IsNullOrWhiteSpace(passPhrase))
-                param += $"&passphrase={PhpUrlEncode(passPhrase.Trim())}";
+                param += $"&passphrase={FormUrlEncodePhpStyle(passPhrase.Trim())}";
 
+            return param;
+        }
+
+        private static string Md5Hex(string input)
+        {
             using var md5 = MD5.Create();
-            var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(param));
+            var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
             return Convert.ToHexString(hash).ToLowerInvariant();
         }
 
         /// <summary>
-        /// Emulates PHP urlencode (application/x-www-form-urlencoded):
-        /// - Percent-encodes, then converts spaces to '+'
-        /// - Leaves '~' unescaped (PHP behavior)
+        /// PHP urlencode equivalent (RFC1738):
+        /// - space => +
+        /// - percent-encoding uses uppercase hex (matches typical PHP urlencode output)
+        /// - ~ remains unescaped
         /// </summary>
-        private static string PhpUrlEncode(string value)
+        private static string FormUrlEncodePhpStyle(string value)
         {
-            // Uri.EscapeDataString is close to RFC3986 (%20 for spaces)
-            // PayFast expects + for spaces and ~ unescaped like PHP.
-            var escaped = Uri.EscapeDataString(value);
+            // WebUtility.UrlEncode uses application/x-www-form-urlencoded (space => +)
+            // but also encodes using lowercase/uppercase depending on framework; normalize percent hex to uppercase.
+            var encoded = WebUtility.UrlEncode(value) ?? "";
 
-            // Keep ~ unescaped
-            escaped = escaped.Replace("%7E", "~");
+            // Keep ~ as ~ (some encoders encode it; PayFast/PHP typically leaves it)
+            encoded = encoded.Replace("%7e", "~").Replace("%7E", "~");
 
-            // Convert spaces from %20 to +
-            escaped = escaped.Replace("%20", "+");
-
-            return escaped;
+            // Normalize percent hex to uppercase for consistency
+            // (PayFast signature is based on exact string)
+            var sb = new StringBuilder(encoded.Length);
+            for (int i = 0; i < encoded.Length; i++)
+            {
+                if (encoded[i] == '%' && i + 2 < encoded.Length)
+                {
+                    sb.Append('%');
+                    sb.Append(char.ToUpperInvariant(encoded[i + 1]));
+                    sb.Append(char.ToUpperInvariant(encoded[i + 2]));
+                    i += 2;
+                }
+                else
+                {
+                    sb.Append(encoded[i]);
+                }
+            }
+            return sb.ToString();
         }
     }
 }
