@@ -17,7 +17,7 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddRazorPages();
 #endif
 
-// ✅ REQUIRED: IHttpClientFactory for PaymentsController (PayFast ITN validate call)
+// ✅ REQUIRED: IHttpClientFactory for PayFast (ITN validate call)
 builder.Services.AddHttpClient();
 
 // Configure SQLite database - use an explicit file path inside the app content root
@@ -54,12 +54,20 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-// Register services
+// =========================
+// App Services
+// =========================
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<SettingsService>();
 
-// ✅ PayFast options binding (use the model type directly)
+// =========================
+// ✅ PayFast
+// =========================
+// Bind options from appsettings.json
 builder.Services.Configure<PayFastOptions>(builder.Configuration.GetSection("PayFast"));
+
+// Register PayFast service for DI
+builder.Services.AddScoped<PayFastService>();
 
 var app = builder.Build();
 
