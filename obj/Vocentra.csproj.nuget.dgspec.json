@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mokge\\source\\repos\\Vocentra\\Vocentra\\Vocentra.csproj": {}
+    "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Vocentra.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mokge\\source\\repos\\Vocentra\\Vocentra\\Vocentra.csproj": {
+    "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Vocentra.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mokge\\source\\repos\\Vocentra\\Vocentra\\Vocentra.csproj",
+        "projectUniqueName": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Vocentra.csproj",
         "projectName": "Vocentra",
-        "projectPath": "C:\\Users\\Mokge\\source\\repos\\Vocentra\\Vocentra\\Vocentra.csproj",
+        "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Vocentra.csproj",
         "packagesPath": "C:\\Users\\Mokge\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mokge\\source\\repos\\Vocentra\\Vocentra\\obj\\",
+        "outputPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

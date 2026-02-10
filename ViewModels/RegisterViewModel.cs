@@ -4,9 +4,7 @@ namespace Vocentra.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
-        [Display(Name = "Account Type")]
-        public string AccountType { get; set; }
+        // AccountType removed - not used anymore
 
         [Display(Name = "First Name")]
         public string? FirstName { get; set; }

@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Security Settings";
+}
+
+<h2>Security Settings</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div style="background-color:#d4edda;color:#155724;padding:10px;border-radius:5px;margin-bottom:20px;">
+        @ViewBag.Message
+    </div>
+}
+
+<form asp-action="ChangePassword" method="post" style="max-width:500px;">
+    <div style="margin-bottom:15px;">
+        <label>Current Password</label>
+        <input type="password" name="CurrentPassword" class="form-control" required style="padding:8px;" />
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <label>New Password</label>
+        <input type="password" name="NewPassword" class="form-control" required style="padding:8px;" />
+    </div>
+
+    <button type="submit" style="background-color:#000;color:#fff;border:none;padding:10px 20px;cursor:pointer;">Change Password</button>
+</form>

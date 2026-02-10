@@ -5,15 +5,7 @@
 <form asp-action="Register" method="post" class="mx-auto" style="max-width:600px;">
     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-    <div class="form-group mb-3">
-        <label asp-for="AccountType"></label>
-        <select asp-for="AccountType" class="form-control" required>
-            <option value="">Select Account Type</option>
-            <option value="Job Seeker">Job Seeker</option>
-            <option value="Recruiter">Recruiter</option>
-        </select>
-        <span asp-validation-for="AccountType" class="text-danger"></span>
-    </div>
+    <!-- AccountType removed -->
 
     <div class="form-group mb-3">
         <label asp-for="FirstName"></label>

@@ -1,0 +1,39 @@
+﻿@model Vocentra.Models.Job
+
+@{
+    ViewData["Title"] = "Publish Job";
+    var days = (int)(ViewBag.Days ?? 0);
+    var amount = (decimal)(ViewBag.Amount ?? 0m);
+}
+
+<h2>Publish: @Model.Title</h2>
+
+<hr />
+
+<p>
+    <strong>Application deadline:</strong>
+    @(Model.ApplicationDeadline?.ToString("yyyy-MM-dd") ?? "Not set")
+</p>
+
+<p><strong>Billing:</strong> R7 per day</p>
+<p><strong>Days:</strong> @days</p>
+<p><strong>Total to pay:</strong> R@(amount.ToString("0.00"))</p>
+
+@if (Model.IsPaid && string.Equals(Model.Status, "Active", StringComparison.OrdinalIgnoreCase))
+{
+    <p style="color: green; font-weight: bold;">
+        ✔ Job is live and paid
+    </p>
+}
+else
+{
+    <form method="post" action="/jobs/@Model.Id/pay">
+        <button type="submit" style="padding:10px 16px;font-size:16px;">
+            Pay with PayFast to Publish
+        </button>
+    </form>
+
+    <p style="margin-top:10px; color:#666;">
+        Your job will go live only after PayFast confirms payment.
+    </p>
+}

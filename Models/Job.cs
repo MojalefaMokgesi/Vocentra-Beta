@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
@@ -54,5 +55,23 @@ namespace Vocentra.Models
         public string? OwnerUserId { get; set; }
 
         public ICollection<Applicant>? Applicants { get; set; }
+        public ICollection<PaymentTransaction>? Payments { get; set; }
+
+        // Payment fields
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal PriceZar { get; set; }
+
+        public DateTime? PaidUntil { get; set; }
+
+        public string? PaymentProvider { get; set; }
+
+        public string? PaymentReference { get; set; }
+
+        public string? PaymentStatus { get; set; }
+
+        public DateTime? PaidAt { get; set; }
+        // Minimal flags for publishing flow
+        public bool IsPaid { get; set; }
+        public string Status { get; set; } = "Draft"; // Draft / Active / Expired
     }
 }

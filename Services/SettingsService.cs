@@ -8,10 +8,12 @@ namespace Vocentra.Services
     public class SettingsService
     {
         private readonly AppDbContext _db;
+        private readonly IServiceProvider _services;
 
-        public SettingsService(AppDbContext db)
+        public SettingsService(AppDbContext db, IServiceProvider services)
         {
             _db = db;
+            _services = services;
         }
 
         public async Task<string?> GetAsync(string key)

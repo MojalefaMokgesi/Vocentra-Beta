@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qymmguQnaHk=",
+  "dgSpecHash": "oQnpvbCwX7I=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Mokge\\source\\repos\\Vocentra\\Vocentra\\Vocentra.csproj",
+  "projectFilePath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Vocentra.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mokge\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Mokge\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

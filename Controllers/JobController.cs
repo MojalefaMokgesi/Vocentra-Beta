@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Vocentra.Data;
 using Vocentra.Models;
+using Vocentra.Services;
 
 namespace Vocentra.Controllers
 {
@@ -30,7 +31,7 @@ namespace Vocentra.Controllers
 
         // ===================== DETAILS =====================
         [HttpGet]
-        public async Task<IActionResult> Details(int id) 
+        public async Task<IActionResult> Details(int id)
         {
             var job = await _context.Jobs
                 .Include(j => j.Applicants)
@@ -38,6 +39,16 @@ namespace Vocentra.Controllers
 
             if (job == null)
                 return NotFound();
+
+            // Gate draft/unpaid from public
+            if (!job.IsPaid || !string.Equals(job.Status, "Active", StringComparison.OrdinalIgnoreCase))
+            {
+                var userId = _userManager.GetUserId(User);
+                var isAdmin = User.IsInRole("Admin");
+
+                if (!isAdmin && !string.Equals(job.OwnerUserId, userId, StringComparison.Ordinal))
+                    return NotFound();
+            }
 
             return View(job);
         }
@@ -48,6 +59,7 @@ namespace Vocentra.Controllers
         public IActionResult Create() => View();
 
         // ===================== CREATE (POST) =====================
+        // Saves as Draft (unpaid), then redirects to Publish (price + PayFast button)
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -55,13 +67,21 @@ namespace Vocentra.Controllers
         {
             if (!ModelState.IsValid) return View(job);
 
+            // Deadline is REQUIRED for pricing, and yours is nullable DateTime?
+            if (!job.ApplicationDeadline.HasValue)
+            {
+                ModelState.AddModelError(nameof(Job.ApplicationDeadline), "Application deadline is required.");
+                return View(job);
+            }
+
             // Handle file upload
             if (job.CompanyLogoFile != null && job.CompanyLogoFile.Length > 0)
             {
                 var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "company-logos");
                 if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
 
-                var fileName = Path.GetFileName(job.CompanyLogoFile.FileName);
+                // Avoid collisions by prefixing Guid
+                var fileName = $"{Guid.NewGuid():N}_{Path.GetFileName(job.CompanyLogoFile.FileName)}";
                 var filePath = Path.Combine(uploadDir, fileName);
 
                 await using var stream = new FileStream(filePath, FileMode.Create);
@@ -73,10 +93,55 @@ namespace Vocentra.Controllers
             job.PostedAt = DateTime.UtcNow;
             job.OwnerUserId = _userManager.GetUserId(User) ?? string.Empty;
 
+            // Force Draft/unpaid until PayFast ITN confirms
+            job.IsPaid = false;
+            job.Status = "Draft";
+            job.PaymentStatus = "Pending";
+            job.PaidAt = null;
+            job.PaidUntil = null;
+
+            // Optional: set a display-only price (source of truth is Pricing at pay-time in PaymentsController)
+            job.PriceZar = Pricing.Price(DateTime.UtcNow, job.ApplicationDeadline.Value);
+
             _context.Jobs.Add(job);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            // Option B: go to Publish page (price + PayFast)
+            return RedirectToAction(nameof(Publish), new { id = job.Id });
+        }
+
+        // ===================== PUBLISH (GET) =====================
+        // Shows price breakdown and PayFast button.
+        // You must create Views/Job/Publish.cshtml.
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Publish(int id)
+        {
+            var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == id);
+            if (job == null) return NotFound();
+
+            var userId = _userManager.GetUserId(User);
+            if (!User.IsInRole("Admin") && !string.Equals(job.OwnerUserId, userId, StringComparison.Ordinal))
+                return Forbid();
+
+            if (!job.ApplicationDeadline.HasValue)
+            {
+                // Shouldn’t happen if Create validates, but safe.
+                ViewBag.Days = 0;
+                ViewBag.Amount = 0m;
+                return View(job);
+            }
+
+            var start = DateTime.UtcNow.Date;
+            var end = job.ApplicationDeadline.Value.Date;
+
+            var days = Pricing.DaysInclusive(start, end);
+            var amount = days <= 0 ? 0m : (days * Pricing.RatePerDayZar);
+
+            ViewBag.Days = days;
+            ViewBag.Amount = amount;
+
+            return View(job);
         }
 
         // ===================== APPLY (GET) =====================
@@ -86,6 +151,10 @@ namespace Vocentra.Controllers
         {
             var job = await _context.Jobs.FindAsync(id);
             if (job == null)
+                return NotFound();
+
+            // Block applying to unpaid/inactive jobs
+            if (!job.IsPaid || !string.Equals(job.Status, "Active", StringComparison.OrdinalIgnoreCase))
                 return NotFound();
 
             ViewBag.JobTitle = job.Title;
@@ -108,7 +177,7 @@ namespace Vocentra.Controllers
         // ===================== APPLY (POST) =====================
         [Authorize]
         [HttpPost]
-        [ValidateAntiForgeryToken] 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Apply(Applicant model, int CurrentStep = 1)
         {
             var userId = _userManager.GetUserId(User);
@@ -137,9 +206,11 @@ namespace Vocentra.Controllers
                 return View(model);
             }
 
-            // Ensure Job exists
-            var jobExists = await _context.Jobs.AnyAsync(j => j.Id == model.JobId);
-            if (!jobExists) return NotFound();
+            // Ensure Job exists AND is active/paid
+            var jobEntity = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == model.JobId);
+            if (jobEntity == null) return NotFound();
+            if (!jobEntity.IsPaid || !string.Equals(jobEntity.Status, "Active", StringComparison.OrdinalIgnoreCase))
+                return NotFound();
 
             // Check if applicant already exists
             var applicant = await _context.Applicants
@@ -282,7 +353,7 @@ namespace Vocentra.Controllers
                     var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "company-logos");
                     if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
 
-                    var fileName = Path.GetFileName(job.CompanyLogoFile.FileName);
+                    var fileName = $"{Guid.NewGuid():N}_{Path.GetFileName(job.CompanyLogoFile.FileName)}";
                     var filePath = Path.Combine(uploadDir, fileName);
 
                     await using var stream = new FileStream(filePath, FileMode.Create);
@@ -303,6 +374,13 @@ namespace Vocentra.Controllers
                 existing.Benefits = job.Benefits;
                 existing.SkillsRequired = job.SkillsRequired;
                 existing.CompanyName = job.CompanyName;
+
+                // Refresh display-only price if still unpaid/draft
+                if ((!existing.IsPaid) || !string.Equals(existing.Status, "Active", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (existing.ApplicationDeadline.HasValue)
+                        existing.PriceZar = Pricing.Price(DateTime.UtcNow, existing.ApplicationDeadline.Value);
+                }
 
                 _context.Update(existing);
                 await _context.SaveChangesAsync();
@@ -348,3 +426,36 @@ namespace Vocentra.Controllers
         }
     }
 }
+
+/*
+====================================
+Create this view: Views/Job/Publish.cshtml
+====================================
+
+@model Vocentra.Models.Job
+@{
+    ViewData["Title"] = "Publish Job";
+    var days = (int)(ViewBag.Days ?? 0);
+    var amount = (decimal)(ViewBag.Amount ?? 0m);
+}
+
+<h2>Publish: @Model.Title</h2>
+
+<p><b>Deadline:</b> @Model.ApplicationDeadline?.ToString("yyyy-MM-dd")</p>
+<p><b>Billing:</b> R7/day</p>
+<p><b>Days:</b> @days</p>
+<p><b>Total:</b> R@amount.ToString("0.00")</p>
+
+@if (Model.IsPaid && string.Equals(Model.Status, "Active", StringComparison.OrdinalIgnoreCase))
+{
+    <p><b>Status:</b> Active (Paid)</p>
+}
+else
+{
+    <form method="post" action="/jobs/@Model.Id/pay">
+        <button type="submit">Pay with PayFast to Publish</button>
+    </form>
+    <p style="margin-top:10px;opacity:.8;">Your job goes live only after PayFast confirms payment (ITN).</p>
+}
+
+*/

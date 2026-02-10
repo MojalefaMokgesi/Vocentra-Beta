@@ -2,25 +2,78 @@
     ViewData["Title"] = "Security Settings";
 }
 
-<h2>Security Settings</h2>
+<div class="card" style="max-width:900px;margin:0 auto;padding:20px;">
+    <h2 style="margin-top:0;">Security Settings</h2>
 
-@if (ViewBag.Message != null)
-{
-    <div style="background-color:#d4edda;color:#155724;padding:10px;border-radius:5px;margin-bottom:20px;">
-        @ViewBag.Message
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div style="display:flex;gap:2rem;">
+        <div style="flex:1;">
+            <form asp-action="ChangePassword" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Current password</label>
+                    <input type="password" name="CurrentPassword" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">New password</label>
+                    <input type="password" name="NewPassword" class="form-control" required />
+                    <div class="form-text">Minimum 8 characters, include a number and a symbol.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Confirm new password</label>
+                    <input type="password" name="ConfirmPassword" class="form-control" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Change password</button>
+            </form>
+
+            <hr />
+
+            <form asp-action="LogoutAllSessions" method="post">
+                <button type="submit" class="btn btn-outline-secondary">Log out all sessions</button>
+            </form>
+        </div>
+
+        <div style="width:300px;">
+            <div class="card" style="padding:12px;margin-bottom:12px;">
+                <div style="font-weight:600">Last password change</div>
+                <div style="margin-top:8px;">@ViewBag.LastPasswordChange ?? "N/A"</div>
+            </div>
+
+            <div class="card" style="padding:12px;">
+                <div style="font-weight:600">Recent security activity</div>
+                <ul style="margin-top:8px;">
+                    @if ((ViewBag.SecurityActivity as IEnumerable<dynamic>) != null)
+                    {
+                        foreach (var a in (ViewBag.SecurityActivity as IEnumerable<dynamic>))
+                        {
+                            <li>@a.Action - @a.CreatedAt</li>
+                        }
+                    }
+                    else
+                    {
+                        <li>No recent activity</li>
+                    }
+                </ul>
+            </div>
+        </div>
     </div>
+</div>
+
+@section Scripts {
+    <script>
+        // simple client-side confirm on Logout all
+        document.querySelectorAll('form[asp-action="LogoutAllSessions"]').forEach(f => {
+            f.addEventListener('submit', function(e) {
+                if (!confirm('Log out all sessions except this one?')) e.preventDefault();
+            });
+        });
+    </script>
 }
-
-<form asp-action="ChangePassword" method="post" style="max-width:500px;">
-    <div style="margin-bottom:15px;">
-        <label>Current Password</label>
-        <input type="password" name="CurrentPassword" class="form-control" required style="padding:8px;" />
-    </div>
-
-    <div style="margin-bottom:15px;">
-        <label>New Password</label>
-        <input type="password" name="NewPassword" class="form-control" required style="padding:8px;" />
-    </div>
-
-    <button type="submit" style="background-color:#000;color:#fff;border:none;padding:10px 20px;cursor:pointer;">Change Password</button>
-</form>

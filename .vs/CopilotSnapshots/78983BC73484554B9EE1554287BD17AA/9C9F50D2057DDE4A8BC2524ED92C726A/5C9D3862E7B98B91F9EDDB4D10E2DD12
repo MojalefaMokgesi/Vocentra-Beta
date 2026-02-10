@@ -1,0 +1,26 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+  ,
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=vocentra.db"
+  },
+  "Authentication": {
+    "Google": {
+      "ClientId": "",
+      "ClientSecret": ""
+    },
+    "Facebook": {
+      "AppId": "",
+      "AppSecret": ""
+    },
+    "LinkedIn": {
+      "ClientId": "",
+      "ClientSecret": ""
+    }
+  }
+}

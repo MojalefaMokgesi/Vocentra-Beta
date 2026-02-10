@@ -18,10 +18,12 @@ namespace Vocentra.Data
         public DbSet<Vocentra.Models.UserProfile> UserProfiles => Set<Vocentra.Models.UserProfile>();
         public DbSet<Vocentra.Models.CompanyProfile> CompanyProfiles => Set<Vocentra.Models.CompanyProfile>();
         public DbSet<Vocentra.Models.SecuritySetting> SecuritySettings => Set<Vocentra.Models.SecuritySetting>();
+        public DbSet<Vocentra.Models.SecurityActivityLog> SecurityActivityLogs => Set<Vocentra.Models.SecurityActivityLog>();
 
         // NEW tables for one-click apply system
         public DbSet<UserApplicationProfile> UserApplicationProfiles => Set<UserApplicationProfile>();
         public DbSet<Application> Applications => Set<Application>();
+        public DbSet<PaymentTransaction> PaymentTransactions => Set<PaymentTransaction>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,0 +1,153 @@
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Vocentra.Data;
+using Vocentra.Models;
+using Vocentra.Services;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using System.Net.Http.Headers;
+using System.Text.Json;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container
+builder.Services.AddControllersWithViews();
+
+// Enable Razor runtime compilation in development
+#if DEBUG
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+#else
+builder.Services.AddRazorPages();
+#endif
+
+// Configure SQLite database
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? "Data Source=vocentra.db"));
+
+// Configure Identity with UI and roles
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+    options.User.RequireUniqueEmail = true;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<AppDbContext>();
+
+// Configure authentication cookie
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+});
+
+// Register file storage service
+builder.Services.AddScoped<FileStorageService>();
+
+// External authentication providers - configure via configuration (appsettings or user secrets)
+builder.Services.AddAuthentication()
+    .AddGoogle(googleOptions =>
+    {
+        var gClientId = builder.Configuration["Authentication:Google:ClientId"];
+        var gClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+        if (!string.IsNullOrEmpty(gClientId) && !string.IsNullOrEmpty(gClientSecret))
+        {
+            googleOptions.ClientId = gClientId;
+            googleOptions.ClientSecret = gClientSecret;
+        }
+    })
+    .AddFacebook(fbOptions =>
+    {
+        var fAppId = builder.Configuration["Authentication:Facebook:AppId"];
+        var fAppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+        if (!string.IsNullOrEmpty(fAppId) && !string.IsNullOrEmpty(fAppSecret))
+        {
+            fbOptions.AppId = fAppId;
+            fbOptions.AppSecret = fAppSecret;
+        }
+    })
+    .AddOAuth("LinkedIn", options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:LinkedIn:ClientId"] ?? string.Empty;
+        options.ClientSecret = builder.Configuration["Authentication:LinkedIn:ClientSecret"] ?? string.Empty;
+        options.CallbackPath = "/signin-linkedin";
+        options.AuthorizationEndpoint = "https://www.linkedin.com/oauth/v2/authorization";
+        options.TokenEndpoint = "https://www.linkedin.com/oauth/v2/accessToken";
+        options.UserInformationEndpoint = "https://api.linkedin.com/v2/me";
+        options.Scope.Add("r_liteprofile");
+        options.Scope.Add("r_emailaddress");
+        options.Events = new OAuthEvents
+        {
+            OnCreatingTicket = async context =>
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, options.UserInformationEndpoint + "?projection=(id,localizedFirstName,localizedLastName)");
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
+                var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+                response.EnsureSuccessStatusCode();
+                using var user = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+
+                if (user.RootElement.TryGetProperty("id", out var idProp))
+                {
+                    var id = idProp.GetString();
+                    if (!string.IsNullOrEmpty(id))
+                        context.Identity?.AddClaim(new Claim(ClaimTypes.NameIdentifier, id));
+                }
+
+                if (user.RootElement.TryGetProperty("localizedFirstName", out var firstProp))
+                {
+                    var first = firstProp.GetString();
+                    if (!string.IsNullOrEmpty(first))
+                        context.Identity?.AddClaim(new Claim(ClaimTypes.Name, first));
+                }
+
+                if (user.RootElement.TryGetProperty("localizedLastName", out var lastProp))
+                {
+                    var last = lastProp.GetString();
+                    if (!string.IsNullOrEmpty(last))
+                        context.Identity?.AddClaim(new Claim(ClaimTypes.Surname, last));
+                }
+            }
+        };
+    });
+
+
+
+var app = builder.Build();
+
+// Apply database migrations automatically
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
+// Configure the HTTP request pipeline
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Default route for controllers
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Map Razor Pages (required for Identity UI)
+app.MapRazorPages();
+
+app.Run();

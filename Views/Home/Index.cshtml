@@ -14,74 +14,89 @@
     }
 
     .container {
-        max-width: 960px;
+        max-width: 1100px;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 2rem 1rem;
     }
 
     /* Header Section */
     .page-header {
-        text-align: center;
-        margin-bottom: 3rem;
+        background: #000;
+        color: #fff;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+        border-radius: 4px;
     }
 
         .page-header h1 {
-            font-size: 2.5rem;
+            font-size: 2.25rem;
             letter-spacing: 3px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            margin-bottom: 2rem;
+            margin: 0;
+            text-align: left;
         }
 
     /* Sleek Search Bar */
     .filter-form {
         display: flex;
-        justify-content: center;
         align-items: center;
-        gap: 0.75rem;
-        background-color: #f9f9f9;
-        border: 1px solid #000;
-        border-radius: 50px;
-        padding: 0.75rem 1.25rem;
-        width: 80%;
-        margin: 0 auto 3rem auto;
-        transition: box-shadow 0.3s ease;
+        gap: 1rem;
+        background-color: #fff;
+        border: 2px solid #000;
+        border-radius: 999px;
+        padding: 0.6rem 0.9rem;
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto 2.5rem auto;
+        transition: box-shadow 0.25s ease;
     }
 
         .filter-form:hover {
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
         }
 
         .filter-form input {
             border: none;
-            background: none;
-            border-bottom: 1px solid transparent;
-            padding: 0.6rem;
-            flex: 1;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
+            background: transparent;
+            padding: 0.6rem 0.75rem;
+            flex: 1 1 0;
+            font-size: 1rem;
+            color: #222;
         }
+
+            .filter-form input::placeholder {
+                color: #888;
+            }
 
             .filter-form input:focus {
                 outline: none;
-                border-bottom: 1px solid #000;
             }
 
         .filter-form button {
             background-color: #000;
             color: #fff;
             border: none;
-            padding: 0.6rem 1.25rem;
+            padding: 0.55rem 1.15rem;
             border-radius: 30px;
             cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 700;
+            min-width: 110px;
         }
 
             .filter-form button:hover {
                 background-color: #222;
                 transform: translateY(-1px);
             }
+
+        /* Add subtle separators between inputs on large screens */
+        @@media (min-width: 700px) {
+            .filter-form input + input {
+                border-left: 1px solid rgba(0,0,0,0.06);
+                padding-left: 1rem;
+            }
+        }
 
     /* Job Listing Cards */
     .job-listing {

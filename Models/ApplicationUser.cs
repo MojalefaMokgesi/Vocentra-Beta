@@ -7,6 +7,10 @@ namespace Vocentra.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? CompanyName { get; set; }
-        public string? AccountType { get; set; } // "Job Seeker" or "Recruiter"
+        public bool IsDeactivated { get; set; }
+        // When a user requests an email change we store the pending value and timestamp
+        public string? PendingEmail { get; set; }
+        public DateTime? PendingEmailRequestedAt { get; set; }
+        public DateTime? LastPasswordChangedAt { get; set; }
     }
 }

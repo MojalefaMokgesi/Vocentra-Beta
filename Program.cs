@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using Vocentra.Data;
 using Vocentra.Models;
 using Vocentra.Services;
@@ -9,17 +10,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllersWithViews();
 
-// Enable Razor runtime compilation in development
+// Razor Pages + runtime compilation (Identity UI uses Razor Pages)
 #if DEBUG
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 #else
 builder.Services.AddRazorPages();
 #endif
 
-// Configure SQLite database
+// ✅ REQUIRED: IHttpClientFactory for PaymentsController (PayFast ITN validate call)
+builder.Services.AddHttpClient();
+
+// Configure SQLite database - use an explicit file path inside the app content root
+var dbFile = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrWhiteSpace(dbFile))
+{
+    // ensure the DB file lives in the app content root so tooling and runtime use the same file
+    var dbPath = Path.Combine(builder.Environment.ContentRootPath, "vocentra.db");
+    dbFile = $"Data Source={dbPath}";
+}
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Data Source=vocentra.db"));
+    options.UseSqlite(dbFile));
 
 // Configure Identity with UI and roles
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -43,10 +54,12 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-// Register file storage service
+// Register services
 builder.Services.AddScoped<FileStorageService>();
+builder.Services.AddScoped<SettingsService>();
 
-
+// ✅ PayFast options binding (use the model type directly)
+builder.Services.Configure<PayFastOptions>(builder.Configuration.GetSection("PayFast"));
 
 var app = builder.Build();
 

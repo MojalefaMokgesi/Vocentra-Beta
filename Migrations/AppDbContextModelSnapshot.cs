@@ -293,9 +293,6 @@ namespace Vocentra.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("AccountType")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("CompanyName")
                         .HasColumnType("TEXT");
 
@@ -313,7 +310,13 @@ namespace Vocentra.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDeactivated")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LastPasswordChangedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
@@ -331,6 +334,12 @@ namespace Vocentra.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PendingEmail")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("PendingEmailRequestedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
@@ -444,6 +453,9 @@ namespace Vocentra.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("JobType")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -457,13 +469,35 @@ namespace Vocentra.Migrations
                     b.Property<string>("OwnerUserId")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("PaidAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("PaidUntil")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PaymentProvider")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PaymentReference")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PaymentStatus")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("PostedAt")
                         .HasColumnType("TEXT");
+
+                    b.Property<decimal>("PriceZar")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SkillsRequired")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -477,6 +511,81 @@ namespace Vocentra.Migrations
                     b.HasIndex("OwnerUserId");
 
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.PaymentTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("AmountZar")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("DaysPaid")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MerchantReference")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("PaidAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Provider")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProviderPaymentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("PaymentTransactions");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.SecurityActivityLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SecurityActivityLogs");
                 });
 
             modelBuilder.Entity("Vocentra.Models.SecuritySetting", b =>
@@ -748,6 +857,17 @@ namespace Vocentra.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Vocentra.Models.PaymentTransaction", b =>
+                {
+                    b.HasOne("Vocentra.Models.Job", "Job")
+                        .WithMany("Payments")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+                });
+
             modelBuilder.Entity("Vocentra.Models.UserProfile", b =>
                 {
                     b.HasOne("Vocentra.Models.ApplicationUser", "User")
@@ -762,6 +882,8 @@ namespace Vocentra.Migrations
             modelBuilder.Entity("Vocentra.Models.Job", b =>
                 {
                     b.Navigation("Applicants");
+
+                    b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618
         }
