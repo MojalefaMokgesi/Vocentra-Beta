@@ -7,32 +7,32 @@ using Vocentra.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
 builder.Services.AddControllersWithViews();
 
-// Razor Pages + runtime compilation (Identity UI uses Razor Pages)
 #if DEBUG
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 #else
 builder.Services.AddRazorPages();
 #endif
 
-// ✅ REQUIRED: IHttpClientFactory for PayFast (ITN validate call)
+// IHttpClientFactory (needed for PayFast validate)
 builder.Services.AddHttpClient();
 
-// Configure SQLite database - use an explicit file path inside the app content root
+// PayFast options + service
+builder.Services.Configure<PayFastOptions>(builder.Configuration.GetSection("PayFast"));
+builder.Services.AddScoped<PayFastService>();
+
+// SQLite
 var dbFile = builder.Configuration.GetConnectionString("DefaultConnection");
 if (string.IsNullOrWhiteSpace(dbFile))
 {
-    // ensure the DB file lives in the app content root so tooling and runtime use the same file
     var dbPath = Path.Combine(builder.Environment.ContentRootPath, "vocentra.db");
     dbFile = $"Data Source={dbPath}";
 }
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(dbFile));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(dbFile));
 
-// Configure Identity with UI and roles
+// Identity
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.Password.RequireDigit = true;
@@ -45,7 +45,6 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
 
-// Configure authentication cookie
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Identity/Account/Login";
@@ -54,31 +53,19 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-// =========================
-// App Services
-// =========================
+// Your services
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<SettingsService>();
 
-// =========================
-// ✅ PayFast
-// =========================
-// Bind options from appsettings.json
-builder.Services.Configure<PayFastOptions>(builder.Configuration.GetSection("PayFast"));
-
-// Register PayFast service for DI
-builder.Services.AddScoped<PayFastService>();
-
 var app = builder.Build();
 
-// Apply database migrations automatically
+// Auto-migrate
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
 
-// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -93,12 +80,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Default route for controllers
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Map Razor Pages (required for Identity UI)
 app.MapRazorPages();
 
 app.Run();

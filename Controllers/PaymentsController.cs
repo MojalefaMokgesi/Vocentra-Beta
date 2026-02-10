@@ -53,7 +53,6 @@ namespace Vocentra.Controllers
             if (days <= 0) return BadRequest("Deadline must be today or later.");
 
             var amount = days * Pricing.RatePerDayZar;
-
             var merchantRef = $"JOB-{job.Id}-{Guid.NewGuid():N}";
 
             // Create transaction record BEFORE redirect
@@ -82,19 +81,16 @@ namespace Vocentra.Controllers
                 ? "https://sandbox.payfast.co.za/eng/process"
                 : "https://www.payfast.co.za/eng/process";
 
-            // Build the exact fields to POST (trim + remove empties)
-            var fields = BuildPayFastFields(job, merchantRef, amount);
+            // Build ordered fields EXACTLY as you will post them
+            var orderedFields = BuildPayFastFieldsOrdered(job, merchantRef, amount);
 
-            // Generate signature from the same fields (canonical string)
-            var signatureBase = BuildSignatureBaseString(fields, _opts.PassPhrase);
-            var signature = Md5Hex(signatureBase);
-            fields["signature"] = signature;
+            // Signature must be computed from the same ordered fields
+            var sigBase = BuildSignatureBaseStringOrdered(orderedFields, _opts.PassPhrase);
+            var signature = Md5Hex(sigBase);
 
-            // Optional: quick diagnostic (enable temporarily)
-            // Console.WriteLine("PF signature base: " + signatureBase);
-            // Console.WriteLine("PF signature md5:  " + signature);
+            orderedFields.Add(new KeyValuePair<string, string>("signature", signature));
 
-            var html = BuildAutoPostHtml(payFastUrl, fields);
+            var html = BuildAutoPostHtmlOrdered(payFastUrl, orderedFields);
             return Content(html, "text/html");
         }
 
@@ -119,14 +115,22 @@ namespace Vocentra.Controllers
         {
             if (!Request.HasFormContentType) return Ok();
 
-            var itn = Request.Form.ToDictionary(k => k.Key, v => v.Value.ToString());
+            // IMPORTANT: preserve the posted order
+            var itnOrdered = Request.Form
+                .Select(k => new KeyValuePair<string, string>(k.Key, k.Value.ToString()))
+                .ToList();
 
-            // 1) Signature verification (PayFast style)
-            if (!VerifySignature(itn, _opts.PassPhrase))
+            // Also keep a dictionary for convenience
+            var itnDict = itnOrdered
+                .GroupBy(x => x.Key, StringComparer.Ordinal) // avoid duplicate key crash
+                .ToDictionary(g => g.Key, g => g.Last().Value, StringComparer.Ordinal);
+
+            // 1) Signature verification (PayFast style: iterate until signature; do NOT sort)
+            if (!VerifySignatureItn(itnOrdered, _opts.PassPhrase))
                 return Ok();
 
             // 2) Find transaction
-            itn.TryGetValue("m_payment_id", out var mPaymentId);
+            itnDict.TryGetValue("m_payment_id", out var mPaymentId);
             if (string.IsNullOrWhiteSpace(mPaymentId)) return Ok();
 
             var tx = await _db.PaymentTransactions.FirstOrDefaultAsync(t => t.MerchantReference == mPaymentId);
@@ -137,7 +141,7 @@ namespace Vocentra.Controllers
                 return Ok();
 
             // 3) payment_status must be COMPLETE
-            itn.TryGetValue("payment_status", out var paymentStatus);
+            itnDict.TryGetValue("payment_status", out var paymentStatus);
             if (!string.Equals(paymentStatus, "COMPLETE", StringComparison.OrdinalIgnoreCase))
             {
                 tx.Status = paymentStatus ?? "Unknown";
@@ -146,7 +150,7 @@ namespace Vocentra.Controllers
             }
 
             // 4) Amount match against LOCKED transaction amount
-            itn.TryGetValue("amount_gross", out var amountGrossStr);
+            itnDict.TryGetValue("amount_gross", out var amountGrossStr);
             if (!decimal.TryParse(amountGrossStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var amountGross))
                 return Ok();
 
@@ -159,14 +163,14 @@ namespace Vocentra.Controllers
                 : "https://www.payfast.co.za/eng/query/validate";
 
             var http = _httpClientFactory.CreateClient();
-            using var resp = await http.PostAsync(validateUrl, new FormUrlEncodedContent(itn));
+            using var resp = await http.PostAsync(validateUrl, new FormUrlEncodedContent(itnDict));
             var body = (await resp.Content.ReadAsStringAsync()).Trim();
 
             if (!resp.IsSuccessStatusCode || !body.Equals("VALID", StringComparison.OrdinalIgnoreCase))
                 return Ok();
 
             // 6) Mark paid + activate job
-            itn.TryGetValue("pf_payment_id", out var pfPaymentId);
+            itnDict.TryGetValue("pf_payment_id", out var pfPaymentId);
 
             tx.Status = "Paid";
             tx.ProviderPaymentId = pfPaymentId;
@@ -187,40 +191,41 @@ namespace Vocentra.Controllers
         }
 
         // -------------------------
-        // Helpers
+        // Helpers (ORDERED)
         // -------------------------
 
-        private Dictionary<string, string> BuildPayFastFields(Job job, string merchantRef, decimal amount)
+        // Build fields in the PayFast "form spec" order (do not sort)
+        private List<KeyValuePair<string, string>> BuildPayFastFieldsOrdered(Job job, string merchantRef, decimal amount)
         {
-            // Sorted by key (ordinal) makes signature reproducible
-            var dict = new SortedDictionary<string, string>(StringComparer.Ordinal)
+            string Clean(string? s) => (s ?? "").Trim();
+
+            var fields = new List<KeyValuePair<string, string>>
             {
-                ["merchant_id"] = (_opts.MerchantId ?? "").Trim(),
-                ["merchant_key"] = (_opts.MerchantKey ?? "").Trim(),
-                ["return_url"] = (_opts.ReturnUrl ?? "").Trim(),
-                ["cancel_url"] = (_opts.CancelUrl ?? "").Trim(),
-                ["notify_url"] = (_opts.NotifyUrl ?? "").Trim(),
-                ["m_payment_id"] = merchantRef.Trim(),
-                ["amount"] = amount.ToString("0.00", CultureInfo.InvariantCulture),
-                ["item_name"] = $"Job {job.Title}".Trim()
+                // Merchant details
+                new("merchant_id",  Clean(_opts.MerchantId)),
+                new("merchant_key", Clean(_opts.MerchantKey)),
+                new("return_url",   Clean(_opts.ReturnUrl)),
+                new("cancel_url",   Clean(_opts.CancelUrl)),
+                new("notify_url",   Clean(_opts.NotifyUrl)),
+
+                // Transaction details
+                new("m_payment_id", Clean(merchantRef)),
+                new("amount",       amount.ToString("0.00", CultureInfo.InvariantCulture)),
+                new("item_name",    Clean($"Job {job.Title}"))
             };
 
-            // Remove empty values (PayFast expects empties excluded from signature string)
-            var cleaned = dict
-                .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
-                .ToDictionary(kv => kv.Key, kv => kv.Value.Trim(), StringComparer.Ordinal);
-
-            return cleaned;
+            // Remove empty values (PayFast excludes blanks from signature string)
+            return fields.Where(kv => !string.IsNullOrWhiteSpace(kv.Value)).ToList();
         }
 
-        private static string BuildAutoPostHtml(string actionUrl, IDictionary<string, string> fields)
+        private static string BuildAutoPostHtmlOrdered(string actionUrl, List<KeyValuePair<string, string>> fields)
         {
             var sb = new StringBuilder();
             sb.AppendLine("<html><body onload=\"document.forms[0].submit()\">");
             sb.AppendLine($"<form method=\"post\" action=\"{WebUtility.HtmlEncode(actionUrl)}\">");
 
-            // Post fields in stable key order
-            foreach (var kv in fields.OrderBy(k => k.Key, StringComparer.Ordinal))
+            // IMPORTANT: output in the same order used for signature
+            foreach (var kv in fields)
             {
                 sb.AppendLine(
                     $"<input type=\"hidden\" name=\"{WebUtility.HtmlEncode(kv.Key)}\" value=\"{WebUtility.HtmlEncode(kv.Value)}\" />");
@@ -230,39 +235,63 @@ namespace Vocentra.Controllers
             return sb.ToString();
         }
 
-        private static bool VerifySignature(IDictionary<string, string> data, string? passPhrase)
+        // Build signature base string from ORDERED fields (no sorting)
+        private static string BuildSignatureBaseStringOrdered(List<KeyValuePair<string, string>> fields, string? passPhrase)
         {
-            if (!data.TryGetValue("signature", out var received) || string.IsNullOrWhiteSpace(received))
-                return false;
+            var parts = new List<string>();
 
-            var signatureBase = BuildSignatureBaseString(data, passPhrase);
-            var calc = Md5Hex(signatureBase);
+            foreach (var kv in fields)
+            {
+                if (kv.Key.Equals("signature", StringComparison.OrdinalIgnoreCase))
+                    continue;
 
-            return string.Equals(received, calc, StringComparison.OrdinalIgnoreCase);
-        }
+                var key = (kv.Key ?? "").Trim();
+                var val = (kv.Value ?? "").Trim();
 
-        /// <summary>
-        /// PayFast expects signature string built like PHP urlencode (application/x-www-form-urlencoded):
-        /// - exclude signature
-        /// - exclude empty values
-        /// - sort by key (ordinal)
-        /// - key=value&key=value...
-        /// - append &passphrase=... only if passphrase is non-empty
-        /// </summary>
-        private static string BuildSignatureBaseString(IDictionary<string, string> data, string? passPhrase)
-        {
-            var filtered = data
-                .Where(kv => !kv.Key.Equals("signature", StringComparison.OrdinalIgnoreCase))
-                .Select(kv => new KeyValuePair<string, string>(kv.Key.Trim(), (kv.Value ?? "").Trim()))
-                .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
-                .OrderBy(kv => kv.Key, StringComparer.Ordinal);
+                if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(val))
+                    continue;
 
-            var param = string.Join("&", filtered.Select(kv => $"{kv.Key}={FormUrlEncodePhpStyle(kv.Value)}"));
+                parts.Add($"{key}={FormUrlEncodePhpStyle(val)}");
+            }
+
+            var param = string.Join("&", parts);
 
             if (!string.IsNullOrWhiteSpace(passPhrase))
                 param += $"&passphrase={FormUrlEncodePhpStyle(passPhrase.Trim())}";
 
             return param;
+        }
+
+        // ITN signature: PayFast PHP sample iterates until "signature" key, and does NOT sort.
+        private static bool VerifySignatureItn(List<KeyValuePair<string, string>> itnOrdered, string? passPhrase)
+        {
+            var received = itnOrdered.FirstOrDefault(x => x.Key.Equals("signature", StringComparison.OrdinalIgnoreCase)).Value;
+            if (string.IsNullOrWhiteSpace(received)) return false;
+
+            // Rebuild param string in received order, stopping when we reach signature
+            var parts = new List<string>();
+
+            foreach (var kv in itnOrdered)
+            {
+                if (kv.Key.Equals("signature", StringComparison.OrdinalIgnoreCase))
+                    break;
+
+                var key = (kv.Key ?? "").Trim();
+                var val = (kv.Value ?? "").Trim();
+
+                if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(val))
+                    continue;
+
+                parts.Add($"{key}={FormUrlEncodePhpStyle(val)}");
+            }
+
+            var param = string.Join("&", parts);
+
+            if (!string.IsNullOrWhiteSpace(passPhrase))
+                param += $"&passphrase={FormUrlEncodePhpStyle(passPhrase.Trim())}";
+
+            var calc = Md5Hex(param);
+            return string.Equals(received.Trim(), calc, StringComparison.OrdinalIgnoreCase);
         }
 
         private static string Md5Hex(string input)
@@ -272,23 +301,12 @@ namespace Vocentra.Controllers
             return Convert.ToHexString(hash).ToLowerInvariant();
         }
 
-        /// <summary>
-        /// PHP urlencode equivalent (RFC1738):
-        /// - space => +
-        /// - percent-encoding uses uppercase hex (matches typical PHP urlencode output)
-        /// - ~ remains unescaped
-        /// </summary>
+        // PHP urlencode equivalent (RFC1738-ish): space => +, normalize %xx to uppercase, keep ~
         private static string FormUrlEncodePhpStyle(string value)
         {
-            // WebUtility.UrlEncode uses application/x-www-form-urlencoded (space => +)
-            // but also encodes using lowercase/uppercase depending on framework; normalize percent hex to uppercase.
             var encoded = WebUtility.UrlEncode(value) ?? "";
-
-            // Keep ~ as ~ (some encoders encode it; PayFast/PHP typically leaves it)
             encoded = encoded.Replace("%7e", "~").Replace("%7E", "~");
 
-            // Normalize percent hex to uppercase for consistency
-            // (PayFast signature is based on exact string)
             var sb = new StringBuilder(encoded.Length);
             for (int i = 0; i < encoded.Length; i++)
             {
