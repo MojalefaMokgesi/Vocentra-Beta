@@ -1820,4 +1820,3 @@ C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra-Beta\obj\Debug\net8.0\refint\V
 C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra-Beta\obj\Debug\net8.0\Vocentra.pdb
 C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra-Beta\obj\Debug\net8.0\Vocentra.genruntimeconfig.cache
 C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra-Beta\obj\Debug\net8.0\ref\Vocentra.dll
-C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra-Beta\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -1,5 +1,5 @@
 using System;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace Vocentra.Models
 {
@@ -7,30 +7,46 @@ namespace Vocentra.Models
     {
         public int Id { get; set; }
 
-
+        [Required]
         public int JobId { get; set; }
-        public string UserId { get; set; } = null!;
 
+        // Navigation (this is what your controller needs)
+        public Job? Job { get; set; }
 
-        // LOCKED pricing at pay-time (prevents midnight mismatches)
+        [Required]
+        public string UserId { get; set; } = string.Empty;
+
+        [Required]
         public decimal AmountZar { get; set; }
+
         public int DaysPaid { get; set; }
-        public DateTime StartDate { get; set; } // Date used to compute pricing (Date-only in practice)
-        public DateTime EndDate { get; set; } // Job deadline date
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
+        [Required]
+        public string MerchantReference { get; set; } = string.Empty;
 
-        public string Status { get; set; } = "Pending"; // Pending / Paid / Failed
-        public string Provider { get; set; } = "PayFast";
+        [Required]
+        public string Provider { get; set; } = "ManualEFT";
 
+        [Required]
+        public string Status { get; set; } = PaymentStatuses.PendingPayment;
 
-        public string MerchantReference { get; set; } = null!; // unique
-        public string? ProviderPaymentId { get; set; } // pf_payment_id
+        // Manual EFT proof
+        public string? ProofFilePath { get; set; }
+        public string? UserBankName { get; set; }
+        public string? UserPaymentReference { get; set; }
+        public DateTime? ProofSubmittedAtUtc { get; set; }
 
+        // Admin review
+        public string? ReviewedByUserId { get; set; }
+        public DateTime? ReviewedAtUtc { get; set; }
+        public string? ReviewNote { get; set; }
 
-        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+        // Paid
         public DateTime? PaidAtUtc { get; set; }
 
-
-        public Job Job { get; set; } = null!;
+        // Tracking
+        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     }
 }

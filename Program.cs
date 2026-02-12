@@ -1,36 +1,42 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
 using Vocentra.Data;
 using Vocentra.Models;
 using Vocentra.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// MVC
 builder.Services.AddControllersWithViews();
 
+// Razor Pages (Identity UI)
 #if DEBUG
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 #else
 builder.Services.AddRazorPages();
 #endif
 
-// IHttpClientFactory (needed for PayFast validate)
-builder.Services.AddHttpClient();
-
-// PayFast options + service
-builder.Services.Configure<PayFastOptions>(builder.Configuration.GetSection("PayFast"));
-builder.Services.AddScoped<PayFastService>();
+// Optional but useful for services that need HttpContext
+builder.Services.AddHttpContextAccessor();
 
 // SQLite
-var dbFile = builder.Configuration.GetConnectionString("DefaultConnection");
-if (string.IsNullOrWhiteSpace(dbFile))
+var dbConn = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// If config contains only a file name (like "vocentra.db"), normalize it to a full path
+if (string.IsNullOrWhiteSpace(dbConn))
 {
     var dbPath = Path.Combine(builder.Environment.ContentRootPath, "vocentra.db");
-    dbFile = $"Data Source={dbPath}";
+    dbConn = $"Data Source={dbPath}";
+}
+else if (dbConn.Trim().EndsWith(".db", StringComparison.OrdinalIgnoreCase) && !dbConn.Contains("Data Source=", StringComparison.OrdinalIgnoreCase))
+{
+    // handle cases like: "vocentra.db"
+    var dbPath = Path.Combine(builder.Environment.ContentRootPath, dbConn.Trim());
+    dbConn = $"Data Source={dbPath}";
 }
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(dbFile));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(dbConn));
 
 // Identity
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -59,13 +65,14 @@ builder.Services.AddScoped<SettingsService>();
 
 var app = builder.Build();
 
-// Auto-migrate
+// Auto-migrate database
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
 
+// Pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -80,6 +87,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Routes
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

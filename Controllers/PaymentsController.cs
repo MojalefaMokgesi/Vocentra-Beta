@@ -1,30 +1,30 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Globalization;
-using System.Net;
+using System.IO;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using Vocentra.Data;
 using Vocentra.Models;
 using Vocentra.Services;
 
 namespace Vocentra.Controllers
 {
-    [Route("payments/payfast")]
+    [Route("payments")]
     public class PaymentsController : Controller
     {
-        private readonly PayFastOptions _opts;
         private readonly AppDbContext _db;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IWebHostEnvironment _env;
 
-        public PaymentsController(IOptions<PayFastOptions> opts, AppDbContext db, IHttpClientFactory httpClientFactory)
+        // TODO: move these to configuration later
+        private const string BankName = "Capitec Bank";
+        private const string AccountName = "Vocentra";
+        private const string AccountNumber = "1886474298";
+
+        public PaymentsController(AppDbContext db, IWebHostEnvironment env)
         {
-            _opts = opts.Value;
             _db = db;
-            _httpClientFactory = httpClientFactory;
+            _env = env;
         }
 
         // -------------------------
@@ -53,9 +53,10 @@ namespace Vocentra.Controllers
             if (days <= 0) return BadRequest("Deadline must be today or later.");
 
             var amount = days * Pricing.RatePerDayZar;
-            var merchantRef = $"JOB-{job.Id}-{Guid.NewGuid():N}";
 
-            // Create transaction record BEFORE redirect
+            // Unique reference user MUST use on EFT
+            var reference = $"JOB-{job.Id}-{Guid.NewGuid():N}".ToUpperInvariant();
+
             var tx = new PaymentTransaction
             {
                 JobId = job.Id,
@@ -64,265 +65,246 @@ namespace Vocentra.Controllers
                 DaysPaid = days,
                 StartDate = startDate,
                 EndDate = endDate,
-                MerchantReference = merchantRef,
-                Provider = "PayFast",
-                Status = "Pending"
+                MerchantReference = reference,
+                Provider = "ManualEFT",
+                Status = PaymentStatuses.PendingPayment,
+                CreatedAtUtc = DateTime.UtcNow
             };
+
             _db.PaymentTransactions.Add(tx);
 
-            // Force draft state until ITN confirms
-            job.IsPaid = false;
-            job.Status = "Draft";
-            job.PaymentStatus = "Pending";
+            // Lock job to Draft until approved
+            job.PaymentProvider = "ManualEFT";
+            job.PaymentReference = reference;
+            job.PaymentStatus = PaymentStatuses.PendingPayment;
+
+            JobPaymentGate.Apply(job);
 
             await _db.SaveChangesAsync();
 
-            var payFastUrl = _opts.UseSandbox
-                ? "https://sandbox.payfast.co.za/eng/process"
-                : "https://www.payfast.co.za/eng/process";
-
-            // Build ordered fields EXACTLY as you will post them
-            var orderedFields = BuildPayFastFieldsOrdered(job, merchantRef, amount);
-
-            // Signature must be computed from the same ordered fields
-            var sigBase = BuildSignatureBaseStringOrdered(orderedFields, _opts.PassPhrase);
-            var signature = Md5Hex(sigBase);
-
-            orderedFields.Add(new KeyValuePair<string, string>("signature", signature));
-
-            var html = BuildAutoPostHtmlOrdered(payFastUrl, orderedFields);
-            return Content(html, "text/html");
-        }
-
-        [HttpGet("return")]
-        public IActionResult Return()
-        {
-            return Content("Payment received by PayFast. Waiting for confirmation (ITN). Check your dashboard shortly.");
-        }
-
-        [HttpGet("cancel")]
-        public IActionResult Cancel()
-        {
-            return Content("Payment cancelled.");
+            return RedirectToAction(nameof(EftInstructions), new { txId = tx.Id });
         }
 
         // -------------------------
-        // ITN NOTIFY (activates job)
+        // EFT INSTRUCTIONS
         // -------------------------
-        [AllowAnonymous]
-        [HttpPost("notify")]
-        public async Task<IActionResult> Notify()
+        [Authorize]
+        [HttpGet("eft/{txId:int}")]
+        public async Task<IActionResult> EftInstructions(int txId)
         {
-            if (!Request.HasFormContentType) return Ok();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // IMPORTANT: preserve the posted order
-            var itnOrdered = Request.Form
-                .Select(k => new KeyValuePair<string, string>(k.Key, k.Value.ToString()))
-                .ToList();
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
 
-            // Also keep a dictionary for convenience
-            var itnDict = itnOrdered
-                .GroupBy(x => x.Key, StringComparer.Ordinal) // avoid duplicate key crash
-                .ToDictionary(g => g.Key, g => g.Last().Value, StringComparer.Ordinal);
+            if (tx == null) return NotFound();
 
-            // 1) Signature verification (PayFast style: iterate until signature; do NOT sort)
-            if (!VerifySignatureItn(itnOrdered, _opts.PassPhrase))
-                return Ok();
+            // user can only see their own transaction (admin can see all)
+            var isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && !string.Equals(tx.UserId, userId, StringComparison.Ordinal))
+                return Forbid();
 
-            // 2) Find transaction
-            itnDict.TryGetValue("m_payment_id", out var mPaymentId);
-            if (string.IsNullOrWhiteSpace(mPaymentId)) return Ok();
+            ViewBag.BankName = BankName;
+            ViewBag.AccountName = AccountName;
+            ViewBag.AccountNumber = AccountNumber;
 
-            var tx = await _db.PaymentTransactions.FirstOrDefaultAsync(t => t.MerchantReference == mPaymentId);
-            if (tx == null) return Ok();
+            return View(tx);
+        }
 
-            // Idempotent
-            if (string.Equals(tx.Status, "Paid", StringComparison.OrdinalIgnoreCase))
-                return Ok();
+        // -------------------------
+        // UPLOAD PROOF
+        // -------------------------
+        [Authorize]
+        [HttpGet("upload/{txId:int}")]
+        public async Task<IActionResult> UploadProof(int txId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // 3) payment_status must be COMPLETE
-            itnDict.TryGetValue("payment_status", out var paymentStatus);
-            if (!string.Equals(paymentStatus, "COMPLETE", StringComparison.OrdinalIgnoreCase))
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            var isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && !string.Equals(tx.UserId, userId, StringComparison.Ordinal))
+                return Forbid();
+
+            if (string.Equals(tx.Status, PaymentStatuses.Paid, StringComparison.OrdinalIgnoreCase))
+                return RedirectToAction(nameof(EftInstructions), new { txId });
+
+            return View(tx);
+        }
+
+        [Authorize]
+        [HttpPost("upload/{txId:int}")]
+        [RequestSizeLimit(10_000_000)] // 10MB
+        public async Task<IActionResult> UploadProof(int txId, IFormFile proofFile, string? userBankName, string? userPaymentReference)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            var isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && !string.Equals(tx.UserId, userId, StringComparison.Ordinal))
+                return Forbid();
+
+            if (proofFile == null || proofFile.Length == 0)
             {
-                tx.Status = paymentStatus ?? "Unknown";
-                await _db.SaveChangesAsync();
-                return Ok();
+                ModelState.AddModelError("", "Please upload a proof of payment file.");
+                return View(tx);
             }
 
-            // 4) Amount match against LOCKED transaction amount
-            itnDict.TryGetValue("amount_gross", out var amountGrossStr);
-            if (!decimal.TryParse(amountGrossStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var amountGross))
-                return Ok();
-
-            if (amountGross != tx.AmountZar)
-                return Ok();
-
-            // 5) Validate with PayFast (post-back)
-            var validateUrl = _opts.UseSandbox
-                ? "https://sandbox.payfast.co.za/eng/query/validate"
-                : "https://www.payfast.co.za/eng/query/validate";
-
-            var http = _httpClientFactory.CreateClient();
-            using var resp = await http.PostAsync(validateUrl, new FormUrlEncodedContent(itnDict));
-            var body = (await resp.Content.ReadAsStringAsync()).Trim();
-
-            if (!resp.IsSuccessStatusCode || !body.Equals("VALID", StringComparison.OrdinalIgnoreCase))
-                return Ok();
-
-            // 6) Mark paid + activate job
-            itnDict.TryGetValue("pf_payment_id", out var pfPaymentId);
-
-            tx.Status = "Paid";
-            tx.ProviderPaymentId = pfPaymentId;
-            tx.PaidAtUtc = DateTime.UtcNow;
-
-            var job = await _db.Jobs.FirstOrDefaultAsync(j => j.Id == tx.JobId);
-            if (job != null)
+            var allowed = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
-                job.IsPaid = true;
-                job.Status = "Active";
-                job.PaidAt = DateTime.UtcNow;
-                job.PaymentStatus = "Paid";
-                job.PaidUntil = tx.EndDate;
-            }
-
-            await _db.SaveChangesAsync();
-            return Ok();
-        }
-
-        // -------------------------
-        // Helpers (ORDERED)
-        // -------------------------
-
-        // Build fields in the PayFast "form spec" order (do not sort)
-        private List<KeyValuePair<string, string>> BuildPayFastFieldsOrdered(Job job, string merchantRef, decimal amount)
-        {
-            string Clean(string? s) => (s ?? "").Trim();
-
-            var fields = new List<KeyValuePair<string, string>>
-            {
-                // Merchant details
-                new("merchant_id",  Clean(_opts.MerchantId)),
-                new("merchant_key", Clean(_opts.MerchantKey)),
-                new("return_url",   Clean(_opts.ReturnUrl)),
-                new("cancel_url",   Clean(_opts.CancelUrl)),
-                new("notify_url",   Clean(_opts.NotifyUrl)),
-
-                // Transaction details
-                new("m_payment_id", Clean(merchantRef)),
-                new("amount",       amount.ToString("0.00", CultureInfo.InvariantCulture)),
-                new("item_name",    Clean($"Job {job.Title}"))
+                ".pdf", ".png", ".jpg", ".jpeg"
             };
 
-            // Remove empty values (PayFast excludes blanks from signature string)
-            return fields.Where(kv => !string.IsNullOrWhiteSpace(kv.Value)).ToList();
-        }
-
-        private static string BuildAutoPostHtmlOrdered(string actionUrl, List<KeyValuePair<string, string>> fields)
-        {
-            var sb = new StringBuilder();
-            sb.AppendLine("<html><body onload=\"document.forms[0].submit()\">");
-            sb.AppendLine($"<form method=\"post\" action=\"{WebUtility.HtmlEncode(actionUrl)}\">");
-
-            // IMPORTANT: output in the same order used for signature
-            foreach (var kv in fields)
+            var ext = Path.GetExtension(proofFile.FileName);
+            if (!allowed.Contains(ext))
             {
-                sb.AppendLine(
-                    $"<input type=\"hidden\" name=\"{WebUtility.HtmlEncode(kv.Key)}\" value=\"{WebUtility.HtmlEncode(kv.Value)}\" />");
+                ModelState.AddModelError("", "Only PDF, PNG, JPG files are allowed.");
+                return View(tx);
             }
 
-            sb.AppendLine("</form></body></html>");
-            return sb.ToString();
-        }
+            // Save file under wwwroot/uploads/payments
+            var uploadsRoot = Path.Combine(_env.WebRootPath, "uploads", "payments");
+            Directory.CreateDirectory(uploadsRoot);
 
-        // Build signature base string from ORDERED fields (no sorting)
-        private static string BuildSignatureBaseStringOrdered(List<KeyValuePair<string, string>> fields, string? passPhrase)
-        {
-            var parts = new List<string>();
+            var safeName = $"{tx.MerchantReference}_{DateTime.UtcNow:yyyyMMddHHmmss}{ext}";
+            var fullPath = Path.Combine(uploadsRoot, safeName);
 
-            foreach (var kv in fields)
+            using (var stream = System.IO.File.Create(fullPath))
             {
-                if (kv.Key.Equals("signature", StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                var key = (kv.Key ?? "").Trim();
-                var val = (kv.Value ?? "").Trim();
-
-                if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(val))
-                    continue;
-
-                parts.Add($"{key}={FormUrlEncodePhpStyle(val)}");
+                await proofFile.CopyToAsync(stream);
             }
 
-            var param = string.Join("&", parts);
+            tx.ProofFilePath = $"/uploads/payments/{safeName}";
+            tx.UserBankName = (userBankName ?? "").Trim();
+            tx.UserPaymentReference = (userPaymentReference ?? "").Trim();
+            tx.ProofSubmittedAtUtc = DateTime.UtcNow;
 
-            if (!string.IsNullOrWhiteSpace(passPhrase))
-                param += $"&passphrase={FormUrlEncodePhpStyle(passPhrase.Trim())}";
+            // Move state forward
+            tx.Status = PaymentStatuses.AwaitingProof;
 
-            return param;
-        }
-
-        // ITN signature: PayFast PHP sample iterates until "signature" key, and does NOT sort.
-        private static bool VerifySignatureItn(List<KeyValuePair<string, string>> itnOrdered, string? passPhrase)
-        {
-            var received = itnOrdered.FirstOrDefault(x => x.Key.Equals("signature", StringComparison.OrdinalIgnoreCase)).Value;
-            if (string.IsNullOrWhiteSpace(received)) return false;
-
-            // Rebuild param string in received order, stopping when we reach signature
-            var parts = new List<string>();
-
-            foreach (var kv in itnOrdered)
+            // Keep job locked
+            if (tx.Job != null)
             {
-                if (kv.Key.Equals("signature", StringComparison.OrdinalIgnoreCase))
-                    break;
-
-                var key = (kv.Key ?? "").Trim();
-                var val = (kv.Value ?? "").Trim();
-
-                if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(val))
-                    continue;
-
-                parts.Add($"{key}={FormUrlEncodePhpStyle(val)}");
+                tx.Job.PaymentStatus = PaymentStatuses.AwaitingProof;
+                JobPaymentGate.Apply(tx.Job);
             }
 
-            var param = string.Join("&", parts);
+            await _db.SaveChangesAsync();
 
-            if (!string.IsNullOrWhiteSpace(passPhrase))
-                param += $"&passphrase={FormUrlEncodePhpStyle(passPhrase.Trim())}";
-
-            var calc = Md5Hex(param);
-            return string.Equals(received.Trim(), calc, StringComparison.OrdinalIgnoreCase);
+            return RedirectToAction(nameof(EftInstructions), new { txId });
         }
 
-        private static string Md5Hex(string input)
+        // -------------------------
+        // ADMIN: REVIEW QUEUE
+        // -------------------------
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin/queue")]
+        public async Task<IActionResult> AdminQueue()
         {
-            using var md5 = MD5.Create();
-            var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
-            return Convert.ToHexString(hash).ToLowerInvariant();
+            var pending = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .Where(t =>
+                    t.Status == PaymentStatuses.AwaitingProof ||
+                    t.Status == PaymentStatuses.UnderReview)
+                .OrderByDescending(t => t.ProofSubmittedAtUtc ?? t.CreatedAtUtc)
+                .ToListAsync();
+
+            return View(pending);
         }
 
-        // PHP urlencode equivalent (RFC1738-ish): space => +, normalize %xx to uppercase, keep ~
-        private static string FormUrlEncodePhpStyle(string value)
+        [Authorize(Roles = "Admin")]
+        [HttpPost("admin/{txId:int}/start-review")]
+        public async Task<IActionResult> StartReview(int txId)
         {
-            var encoded = WebUtility.UrlEncode(value) ?? "";
-            encoded = encoded.Replace("%7e", "~").Replace("%7E", "~");
+            var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var sb = new StringBuilder(encoded.Length);
-            for (int i = 0; i < encoded.Length; i++)
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            tx.Status = PaymentStatuses.UnderReview;
+            tx.ReviewedByUserId = adminId;
+            tx.ReviewedAtUtc = DateTime.UtcNow;
+
+            if (tx.Job != null)
             {
-                if (encoded[i] == '%' && i + 2 < encoded.Length)
-                {
-                    sb.Append('%');
-                    sb.Append(char.ToUpperInvariant(encoded[i + 1]));
-                    sb.Append(char.ToUpperInvariant(encoded[i + 2]));
-                    i += 2;
-                }
-                else
-                {
-                    sb.Append(encoded[i]);
-                }
+                tx.Job.PaymentStatus = PaymentStatuses.UnderReview;
+                JobPaymentGate.Apply(tx.Job);
             }
-            return sb.ToString();
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminQueue));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("admin/{txId:int}/approve")]
+        public async Task<IActionResult> Approve(int txId)
+        {
+            var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            tx.Status = PaymentStatuses.Paid;
+            tx.PaidAtUtc = DateTime.UtcNow;
+            tx.ReviewedByUserId = adminId;
+            tx.ReviewedAtUtc = DateTime.UtcNow;
+
+            if (tx.Job != null)
+            {
+                tx.Job.PaymentStatus = PaymentStatuses.Paid;
+                tx.Job.PaymentProvider = "ManualEFT";
+                tx.Job.PaymentReference = tx.MerchantReference;
+                tx.Job.PaidAt = DateTime.UtcNow;
+                tx.Job.PaidUntil = tx.EndDate;
+
+                JobPaymentGate.Apply(tx.Job);
+            }
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminQueue));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("admin/{txId:int}/reject")]
+        public async Task<IActionResult> Reject(int txId, string? reason)
+        {
+            var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            tx.Status = PaymentStatuses.Rejected;
+            tx.ReviewNote = (reason ?? "").Trim();
+            tx.ReviewedByUserId = adminId;
+            tx.ReviewedAtUtc = DateTime.UtcNow;
+
+            if (tx.Job != null)
+            {
+                tx.Job.PaymentStatus = PaymentStatuses.Rejected;
+                JobPaymentGate.Apply(tx.Job); // keeps Draft
+            }
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminQueue));
         }
     }
 }

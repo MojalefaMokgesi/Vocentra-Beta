@@ -47,31 +47,39 @@ namespace Vocentra.Models
 
         public string? CompanyLogoUrl { get; set; }
 
-        [NotMapped] // EF ignores this property
+        [NotMapped]
         public IFormFile? CompanyLogoFile { get; set; }
 
-        // Ownership: the Identity user (AspNetUsers.Id) who created/owns this job
-        // Make nullable for smooth migration and existing data
+        // Ownership
         public string? OwnerUserId { get; set; }
 
         public ICollection<Applicant>? Applicants { get; set; }
         public ICollection<PaymentTransaction>? Payments { get; set; }
 
-        // Payment fields
+        // -----------------------------
+        // Payment Fields
+        // -----------------------------
+
         [Column(TypeName = "decimal(18,2)")]
         public decimal PriceZar { get; set; }
 
         public DateTime? PaidUntil { get; set; }
 
-        public string? PaymentProvider { get; set; }
+        public string PaymentProvider { get; set; } = "ManualEFT";
 
-        public string? PaymentReference { get; set; }
+        public string PaymentReference { get; set; } = string.Empty;
 
-        public string? PaymentStatus { get; set; }
+        public string PaymentStatus { get; set; } = PaymentStatuses.PendingPayment;
 
         public DateTime? PaidAt { get; set; }
-        // Minimal flags for publishing flow
-        public bool IsPaid { get; set; }
-        public string Status { get; set; } = "Draft"; // Draft / Active / Expired
+
+        // -----------------------------
+        // Publishing State
+        // -----------------------------
+
+        public bool IsPaid { get; set; } = false;
+
+        // Draft / Active / Expired
+        public string Status { get; set; } = "Draft";
     }
 }
