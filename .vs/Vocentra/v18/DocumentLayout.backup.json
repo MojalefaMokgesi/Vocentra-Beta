@@ -3,108 +3,30 @@
   "WorkspaceRootPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\services\\jobpaymentgate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:services\\jobpaymentgate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\models\\paymenttransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:models\\paymenttransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\controllers\\paymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:controllers\\paymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\models\\paymentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:models\\paymentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\models\\job.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:models\\job.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\controllers\\jobcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:controllers\\jobcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\views\\job\\publish.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:views\\job\\publish.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\services\\pricing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:services\\pricing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\views\\account\\settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:views\\account\\settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{5615D5D6-29D4-43C6-9EAD-C8E39FA59374}|..\\Vocentra.Admin\\Vocentra.Admin.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra.admin\\vocentra.admin.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\vocentra.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:vocentra.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{5615D5D6-29D4-43C6-9EAD-C8E39FA59374}|..\\Vocentra.Admin\\Vocentra.Admin.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra.admin\\controllers\\adminpaymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\viewmodels\\accountsettingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:viewmodels\\accountsettingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\controllers\\userapplicationprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:controllers\\userapplicationprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5615D5D6-29D4-43C6-9EAD-C8E39FA59374}|..\\Vocentra.Admin\\Vocentra.Admin.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra.admin\\views\\adminpayments\\queue.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\models\\securityactivitylog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:models\\securityactivitylog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5615D5D6-29D4-43C6-9EAD-C8E39FA59374}|..\\Vocentra.Admin\\Vocentra.Admin.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra.admin\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\migrations\\20260206120000_adduserflagsandsecuritylog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:migrations\\20260206120000_adduserflagsandsecuritylog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\views\\account\\security.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:views\\account\\security.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra-beta\\services\\settingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:services\\settingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5615D5D6-29D4-43C6-9EAD-C8E39FA59374}|..\\Vocentra.Admin\\Vocentra.Admin.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra.admin\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -114,327 +36,105 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PaymentStatus.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\PaymentStatus.cs",
-              "RelativeDocumentMoniker": "Models\\PaymentStatus.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\PaymentStatus.cs",
-              "RelativeToolTip": "Models\\PaymentStatus.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T16:13:06.065Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-06T21:26:47.617Z",
-              "EditorCaption": ""
+              "DocumentIndex": 2,
+              "Title": "Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "ToolTip": "C:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "ViewState": "AgIAAFkCAAAAAAAAAAAlwGkCAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2026-02-12T12:09:22.602Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "PaymentsController.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Controllers\\PaymentsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\PaymentsController.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Controllers\\PaymentsController.cs",
-              "RelativeToolTip": "Controllers\\PaymentsController.cs",
-              "ViewState": "AgIAABkBAAAAAAAAAAAswDYBAAAAAAAAAAAAAA==",
+              "Title": "AdminPaymentsController.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Controllers\\AdminPaymentsController.cs",
+              "RelativeDocumentMoniker": "..\\Vocentra.Admin\\Controllers\\AdminPaymentsController.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Controllers\\AdminPaymentsController.cs",
+              "RelativeToolTip": "..\\Vocentra.Admin\\Controllers\\AdminPaymentsController.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAswGQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T20:52:48.229Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Job.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\Job.cs",
-              "RelativeDocumentMoniker": "Models\\Job.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\Job.cs",
-              "RelativeToolTip": "Models\\Job.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAA9wFUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T20:33:44.564Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PaymentTransaction.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\PaymentTransaction.cs",
-              "RelativeDocumentMoniker": "Models\\PaymentTransaction.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\PaymentTransaction.cs",
-              "RelativeToolTip": "Models\\PaymentTransaction.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAA9wCEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T20:41:58.959Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-12T11:02:23.134Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAswGEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T15:34:35.757Z",
+              "Title": "Vocentra.Admin.csproj",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Vocentra.Admin.csproj",
+              "RelativeDocumentMoniker": "..\\Vocentra.Admin\\Vocentra.Admin.csproj",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Vocentra.Admin.csproj",
+              "RelativeToolTip": "..\\Vocentra.Admin\\Vocentra.Admin.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-12T10:57:40.951Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserApplicationProfileController.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Controllers\\UserApplicationProfileController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserApplicationProfileController.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Controllers\\UserApplicationProfileController.cs",
+              "RelativeToolTip": "Controllers\\UserApplicationProfileController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAcwB0AAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-12T11:25:15.961Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "JobPaymentGate.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Services\\JobPaymentGate.cs",
-              "RelativeDocumentMoniker": "Services\\JobPaymentGate.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Services\\JobPaymentGate.cs",
-              "RelativeToolTip": "Services\\JobPaymentGate.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T16:18:01.174Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "JobController.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Controllers\\JobController.cs",
-              "RelativeDocumentMoniker": "Controllers\\JobController.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Controllers\\JobController.cs",
-              "RelativeToolTip": "Controllers\\JobController.cs",
-              "ViewState": "AgIAAPsAAAAAAAAAAAAcwBEBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T21:30:08.583Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Publish.cshtml",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Job\\Publish.cshtml",
-              "RelativeDocumentMoniker": "Views\\Job\\Publish.cshtml",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Job\\Publish.cshtml",
-              "RelativeToolTip": "Views\\Job\\Publish.cshtml",
-              "ViewState": "AgIAABAAAAAAAAAAAAAswCcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-10T11:31:24.391Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAuwCEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:08:32.737Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "Controllers\\AccountController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T18:48:11.517Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Settings.cshtml",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Account\\Settings.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\Settings.cshtml",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Account\\Settings.cshtml",
-              "RelativeToolTip": "Views\\Account\\Settings.cshtml",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAtwGsAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-06T18:45:28.166Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Pricing.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Services\\Pricing.cs",
-              "RelativeDocumentMoniker": "Services\\Pricing.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Services\\Pricing.cs",
-              "RelativeToolTip": "Services\\Pricing.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAABsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T20:40:43.538Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "SettingsService.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Services\\SettingsService.cs",
-              "RelativeDocumentMoniker": "Services\\SettingsService.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Services\\SettingsService.cs",
-              "RelativeToolTip": "Services\\SettingsService.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T20:08:03.577Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "SecurityActivityLog.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\SecurityActivityLog.cs",
-              "RelativeDocumentMoniker": "Models\\SecurityActivityLog.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\SecurityActivityLog.cs",
-              "RelativeToolTip": "Models\\SecurityActivityLog.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:07:05.793Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "20260206120000_AddUserFlagsAndSecurityLog.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Migrations\\20260206120000_AddUserFlagsAndSecurityLog.cs",
-              "RelativeDocumentMoniker": "Migrations\\20260206120000_AddUserFlagsAndSecurityLog.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Migrations\\20260206120000_AddUserFlagsAndSecurityLog.cs",
-              "RelativeToolTip": "Migrations\\20260206120000_AddUserFlagsAndSecurityLog.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:07:34.513Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "Security.cshtml",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Account\\Security.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\Security.cshtml",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Account\\Security.cshtml",
-              "RelativeToolTip": "Views\\Account\\Security.cshtml",
-              "ViewState": "AgIAAE0AAAAAAAAAAIBJwE8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-06T19:08:01.744Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "RegisterViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\ViewModels\\RegisterViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\RegisterViewModel.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\ViewModels\\RegisterViewModel.cs",
-              "RelativeToolTip": "ViewModels\\RegisterViewModel.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:09:31.901Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Account\\Register.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\Register.cshtml",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Account\\Register.cshtml",
-              "RelativeToolTip": "Views\\Account\\Register.cshtml",
-              "ViewState": "AgIAAAYAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-06T19:09:38.408Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "ApplicationUser.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\ApplicationUser.cs",
-              "RelativeDocumentMoniker": "Models\\ApplicationUser.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Models\\ApplicationUser.cs",
-              "RelativeToolTip": "Models\\ApplicationUser.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAABQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:04:30.931Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "AccountSettingsViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\ViewModels\\AccountSettingsViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\AccountSettingsViewModel.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\ViewModels\\AccountSettingsViewModel.cs",
-              "RelativeToolTip": "ViewModels\\AccountSettingsViewModel.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAIBIwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:04:15.263Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAFwAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-06T18:37:56.149Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "appsettings.Development.json",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\appsettings.Development.json",
-              "RelativeToolTip": "appsettings.Development.json",
-              "ViewState": "AgIAAA8AAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-06T15:43:41.969Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
               "Title": "Vocentra.csproj",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Vocentra.csproj",
               "RelativeDocumentMoniker": "Vocentra.csproj",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Vocentra.csproj",
               "RelativeToolTip": "Vocentra.csproj",
-              "ViewState": "AgIAACEAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-06T15:36:56.307Z"
+              "WhenOpened": "2026-02-06T15:36:56.307Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Login.cshtml",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
-              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Login.cshtml",
-              "ViewState": "AgIAAAgAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-06T15:35:52.858Z"
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\appsettings.json",
+              "RelativeDocumentMoniker": "..\\Vocentra.Admin\\appsettings.json",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\appsettings.json",
+              "RelativeToolTip": "..\\Vocentra.Admin\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-12T11:00:53.354Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAABUAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Program.cs",
+              "RelativeDocumentMoniker": "..\\Vocentra.Admin\\Program.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Program.cs",
+              "RelativeToolTip": "..\\Vocentra.Admin\\Program.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAswC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-12T11:01:34.712Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Queue.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Views\\AdminPayments\\Queue.cshtml",
+              "RelativeDocumentMoniker": "..\\Vocentra.Admin\\Views\\AdminPayments\\Queue.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Views\\AdminPayments\\Queue.cshtml",
+              "RelativeToolTip": "..\\Vocentra.Admin\\Views\\AdminPayments\\Queue.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAswEsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-06T15:35:09.743Z"
+              "WhenOpened": "2026-02-12T11:04:10.433Z"
             }
           ]
         }

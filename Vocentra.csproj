@@ -4,38 +4,16 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<ApplicationIcon>Vocentra icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="Vocentra icon.ico" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="MailKit" Version="4.14.1" />
-
-		<!-- Razor runtime compilation (optional but fine) -->
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.11" />
-
-		<!-- EF Core aligned to net8 -->
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-
-		<!-- Identity aligned to net8 -->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
-
-		<!-- Scaffolding aligned to net8 -->
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="wwwroot\uploads\" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.11" />
 	</ItemGroup>
 
 </Project>
+
