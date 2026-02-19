@@ -45,7 +45,10 @@ if (string.IsNullOrWhiteSpace(conn))
     conn = $"Data Source={dbPath}";
     isSqlite = true;
     isSqlServer = false;
-    builder.Logging.CreateLogger("Startup").LogWarning("DefaultConnection is empty - falling back to local SQLite at {Path}", dbPath);
+
+    // Create a temporary LoggerFactory with console provider and log the warning
+    var tempLogger = LoggerFactory.Create(lb => lb.AddConsole()).CreateLogger("Startup");
+    tempLogger.LogWarning("DefaultConnection is empty - falling back to local SQLite at {Path}", dbPath);
 }
 
 // Register DbContext using the connection string discovered above
