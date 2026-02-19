@@ -111,6 +111,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<SettingsService>();
 
+// Provide a no-op email sender when email settings are not configured to avoid runtime errors
+builder.Services.AddSingleton<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, Vocentra.Services.NullEmailSender>();
+
 // Payment/workflow services
 builder.Services.AddScoped<Vocentra.Services.INotificationService, Vocentra.Services.NotificationService>();
 builder.Services.AddScoped<Vocentra.Services.IAuditService, Vocentra.Services.AuditService>();

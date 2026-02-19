@@ -111,6 +111,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<SettingsService>();
 
+// Provide a no-op email sender when email settings are not configured to avoid runtime errors
+builder.Services.AddSingleton<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, Vocentra.Services.NullEmailSender>();
+
 // Payment/workflow services
 builder.Services.AddScoped<Vocentra.Services.INotificationService, Vocentra.Services.NotificationService>();
 builder.Services.AddScoped<Vocentra.Services.IAuditService, Vocentra.Services.AuditService>();
@@ -207,35 +210,6 @@ try
                 // rethrow so outer try/catch will handle process termination/logging
                 throw;
             }
-        }
-    }
-
-    // Additional startup diagnostics: log environment, presence of key config values and DB connectivity
-    using (var startupScope = app.Services.CreateScope())
-    {
-        var envLogger = startupScope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupDiagnostics");
-        try
-        {
-            var cfg = startupScope.ServiceProvider.GetRequiredService<IConfiguration>();
-            envLogger.LogInformation("Environment: {Environment}", app.Environment.EnvironmentName);
-            var hasConn = !string.IsNullOrWhiteSpace(cfg.GetConnectionString("DefaultConnection"));
-            envLogger.LogInformation("Has DefaultConnection: {HasConn}", hasConn);
-
-            try
-            {
-                var db = startupScope.ServiceProvider.GetRequiredService<AppDbContext>();
-                var canConnect = db.Database.CanConnect();
-                envLogger.LogInformation("Database.CanConnect: {CanConnect}", canConnect);
-            }
-            catch (Exception ex)
-            {
-                envLogger.LogError(ex, "Database connectivity check failed");
-            }
-        }
-        catch (Exception ex)
-        {
-            var envLogger2 = startupScope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupDiagnostics");
-            envLogger2.LogError(ex, "Startup diagnostics failed");
         }
     }
 

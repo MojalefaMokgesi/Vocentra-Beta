@@ -111,6 +111,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<SettingsService>();
 
+// Provide a no-op email sender when email settings are not configured to avoid runtime errors
+builder.Services.AddSingleton<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, Vocentra.Services.NullEmailSender>();
+
 // Payment/workflow services
 builder.Services.AddScoped<Vocentra.Services.INotificationService, Vocentra.Services.NotificationService>();
 builder.Services.AddScoped<Vocentra.Services.IAuditService, Vocentra.Services.AuditService>();
@@ -128,28 +131,6 @@ else
 }
 
 builder.Services.AddScoped<Vocentra.Services.IPaymentWorkflowService, Vocentra.Services.PaymentWorkflowService>();
-
-// Configure email settings and register IEmailSender implementation
-builder.Services.Configure<Vocentra.Services.EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-var emailSection = builder.Configuration.GetSection("EmailSettings");
-var emailHost = emailSection["Host"];
-if (!string.IsNullOrWhiteSpace(emailHost))
-{
-    // SMTP configured
-    builder.Services.AddScoped<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, Vocentra.Services.SmtpEmailSender>();
-}
-else
-{
-    // Fallback to a no-op sender to avoid runtime DI failures when email is not configured
-    builder.Services.AddSingleton<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, Vocentra.Services.NullEmailSender>();
-}
-
-// Application Insights (optional) - enable if connection string present
-var aiConn = builder.Configuration["ApplicationInsights:ConnectionString"] ?? builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"];
-if (!string.IsNullOrWhiteSpace(aiConn))
-{
-    builder.Services.AddApplicationInsightsTelemetry();
-}
 
 // Build and run with robust startup error handling
 try
@@ -210,57 +191,10 @@ try
         }
     }
 
-    // Additional startup diagnostics: log environment, presence of key config values and DB connectivity
-    using (var startupScope = app.Services.CreateScope())
-    {
-        var envLogger = startupScope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupDiagnostics");
-        try
-        {
-            var cfg = startupScope.ServiceProvider.GetRequiredService<IConfiguration>();
-            envLogger.LogInformation("Environment: {Environment}", app.Environment.EnvironmentName);
-            var hasConn = !string.IsNullOrWhiteSpace(cfg.GetConnectionString("DefaultConnection"));
-            envLogger.LogInformation("Has DefaultConnection: {HasConn}", hasConn);
-
-            try
-            {
-                var db = startupScope.ServiceProvider.GetRequiredService<AppDbContext>();
-                var canConnect = db.Database.CanConnect();
-                envLogger.LogInformation("Database.CanConnect: {CanConnect}", canConnect);
-            }
-            catch (Exception ex)
-            {
-                envLogger.LogError(ex, "Database connectivity check failed");
-            }
-        }
-        catch (Exception ex)
-        {
-            var envLogger2 = startupScope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupDiagnostics");
-            envLogger2.LogError(ex, "Startup diagnostics failed");
-        }
-    }
-
     // Pipeline
     if (!app.Environment.IsDevelopment())
     {
-        // Custom exception handler that logs the full exception including trace id so Azure Log Stream / App Insights capture it.
-        app.UseExceptionHandler(errorApp =>
-        {
-            errorApp.Run(async context =>
-            {
-                var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-                var feat = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerPathFeature>();
-                var traceId = System.Diagnostics.Activity.Current?.Id ?? context.TraceIdentifier;
-                if (feat?.Error != null)
-                {
-                    logger.LogError(feat.Error, "Unhandled exception (TraceId: {TraceId}) on path {Path}", traceId, feat.Path);
-                }
-
-                context.Response.StatusCode = 500;
-                context.Response.ContentType = "text/html";
-                await context.Response.WriteAsync($"<h1>Server error</h1><p>Reference: {traceId}</p>");
-            });
-        });
-
+        app.UseExceptionHandler("/Home/Error");
         app.UseHsts();
     }
 
