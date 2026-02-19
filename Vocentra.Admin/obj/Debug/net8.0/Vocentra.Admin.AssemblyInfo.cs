@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Vocentra.Admin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e7378a348da985bd3412c9f14efdd493245bb8f9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+124022cdf305fe76e338e0ee25872bc50234917a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Vocentra.Admin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Vocentra.Admin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
