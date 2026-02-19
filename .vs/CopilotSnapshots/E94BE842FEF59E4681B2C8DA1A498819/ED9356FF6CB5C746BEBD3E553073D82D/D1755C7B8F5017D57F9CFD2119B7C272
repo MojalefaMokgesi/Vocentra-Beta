@@ -177,13 +177,8 @@ try
     }
 
     // Auto-migrate database (safe logging) - run inside scope so we can catch and log errors
-    // By default migrations/seeding ran only in Development. However when the
-    // application is using a local SQLite file as a fallback (no DefaultConnection)
-    // we should attempt to apply migrations in Production as well so the app
-    // doesn't fail with "no such table" when the DB file is created on the host.
-    // We only enable this automatic migration for SQLite to avoid unexpected
-    // schema changes on managed production databases (e.g. Azure SQL).
-    if (app.Environment.IsDevelopment() || isSqlite)
+    // Run migrations and seed only in Development environment to avoid production auto-migrate
+    if (app.Environment.IsDevelopment())
     {
         using (var scope = app.Services.CreateScope())
         {
@@ -208,9 +203,9 @@ try
             catch (Exception ex)
             {
                 // This makes the failure visible in Log Stream / stdout logs
-                logger.LogError(ex, "Database migration failed during startup.");
-                // Do NOT rethrow here for production SQLite fallback - log and continue so
-                // the app can start and surface a proper error page instead of crashing.
+                logger.LogCritical(ex, "Database migration failed during startup.");
+                // rethrow so outer try/catch will handle process termination/logging
+                throw;
             }
         }
     }
