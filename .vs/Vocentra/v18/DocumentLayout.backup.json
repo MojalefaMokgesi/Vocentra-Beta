@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -75,6 +79,38 @@
     {
       "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\services\\auditservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:services\\auditservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\areas\\admin\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\areas\\admin\\views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\areas\\admin\\views\\admin\\managejobs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\views\\admin\\managejobs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\areas\\admin\\views\\admin\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\views\\admin\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\areas\\admin\\views\\admin\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\views\\admin\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\areas\\admin\\views\\admin\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\views\\admin\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\source\\repos\\vocentra backups\\vocentra main\\areas\\admin\\views\\admin\\applicants.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\views\\admin\\applicants.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -84,63 +120,141 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "AuditService.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\AuditService.cs",
-              "RelativeDocumentMoniker": "Services\\AuditService.cs",
-              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\AuditService.cs",
-              "RelativeToolTip": "Services\\AuditService.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T14:37:07.935Z",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAuwG0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-19T15:48:01.626Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "AzureBlobProofStorageService.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\AzureBlobProofStorageService.cs",
-              "RelativeDocumentMoniker": "Services\\AzureBlobProofStorageService.cs",
-              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\AzureBlobProofStorageService.cs",
-              "RelativeToolTip": "Services\\AzureBlobProofStorageService.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T14:36:54.174Z",
+              "DocumentIndex": 28,
+              "Title": "Applicants.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Applicants.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Applicants.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Applicants.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Admin\\Applicants.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-19T15:42:21.833Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "LocalProofStorageService.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\LocalProofStorageService.cs",
-              "RelativeDocumentMoniker": "Services\\LocalProofStorageService.cs",
-              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\LocalProofStorageService.cs",
-              "RelativeToolTip": "Services\\LocalProofStorageService.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T14:36:38.646Z",
+              "DocumentIndex": 27,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Delete.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Delete.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Delete.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Admin\\Delete.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-19T15:41:32.699Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "IProofStorageService.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\IProofStorageService.cs",
-              "RelativeDocumentMoniker": "Services\\IProofStorageService.cs",
-              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\IProofStorageService.cs",
-              "RelativeToolTip": "Services\\IProofStorageService.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T14:36:23.451Z",
+              "DocumentIndex": 26,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Edit.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Admin\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAANoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-19T15:41:11.932Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 25,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Create.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Create.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Create.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Admin\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAN0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-19T15:40:39.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ManageJobs.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\ManageJobs.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\ManageJobs.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\ManageJobs.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Admin\\ManageJobs.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-19T15:40:05.61Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAnwCEAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T15:27:29.35Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Admin\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-19T15:39:42.338Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-19T15:39:16.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Areas\\Admin\\_ViewStart.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-19T15:38:58.894Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "web.config",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\web.config",
               "RelativeDocumentMoniker": "web.config",
@@ -152,20 +266,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAnwMcAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 17,
+              "Title": "IProofStorageService.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\IProofStorageService.cs",
+              "RelativeDocumentMoniker": "Services\\IProofStorageService.cs",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\IProofStorageService.cs",
+              "RelativeToolTip": "Services\\IProofStorageService.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-13T15:27:29.35Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T14:36:23.451Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 18,
+              "Title": "LocalProofStorageService.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\LocalProofStorageService.cs",
+              "RelativeDocumentMoniker": "Services\\LocalProofStorageService.cs",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\LocalProofStorageService.cs",
+              "RelativeToolTip": "Services\\LocalProofStorageService.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T14:36:38.646Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "AzureBlobProofStorageService.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\AzureBlobProofStorageService.cs",
+              "RelativeDocumentMoniker": "Services\\AzureBlobProofStorageService.cs",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\AzureBlobProofStorageService.cs",
+              "RelativeToolTip": "Services\\AzureBlobProofStorageService.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T14:36:54.174Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AuditService.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\AuditService.cs",
+              "RelativeDocumentMoniker": "Services\\AuditService.cs",
+              "ToolTip": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Services\\AuditService.cs",
+              "RelativeToolTip": "Services\\AuditService.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T14:37:07.935Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "azure-webapp.yml",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\.github\\workflows\\azure-webapp.yml",
               "RelativeDocumentMoniker": ".github\\workflows\\azure-webapp.yml",
@@ -177,7 +326,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Directory.Build.props",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Directory.Build.props",
               "RelativeDocumentMoniker": "Directory.Build.props",
@@ -189,7 +338,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -201,7 +350,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "PaymentsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Controllers\\PaymentsController.cs",
               "RelativeDocumentMoniker": "Controllers\\PaymentsController.cs",
@@ -213,7 +362,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "JobController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Controllers\\JobController.cs",
               "RelativeDocumentMoniker": "Controllers\\JobController.cs",
@@ -225,7 +374,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Views\\Job\\Details.cshtml",
               "RelativeDocumentMoniker": "Views\\Job\\Details.cshtml",
@@ -237,7 +386,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "AdminPaymentsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.Admin\\Controllers\\AdminPaymentsController.cs",
               "RelativeDocumentMoniker": "Vocentra.Admin\\Controllers\\AdminPaymentsController.cs",
@@ -249,7 +398,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Vocentra.Admin.csproj",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.Admin\\Vocentra.Admin.csproj",
               "RelativeDocumentMoniker": "Vocentra.Admin\\Vocentra.Admin.csproj",
@@ -261,7 +410,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "UserApplicationProfileController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Controllers\\UserApplicationProfileController.cs",
               "RelativeDocumentMoniker": "Controllers\\UserApplicationProfileController.cs",
@@ -273,7 +422,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Vocentra.csproj",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.csproj",
               "RelativeDocumentMoniker": "Vocentra.csproj",
@@ -285,7 +434,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.Admin\\appsettings.json",
               "RelativeDocumentMoniker": "Vocentra.Admin\\appsettings.json",
@@ -297,7 +446,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.Admin\\Program.cs",
               "RelativeDocumentMoniker": "Vocentra.Admin\\Program.cs",
@@ -309,7 +458,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Microsoft.NET.Sdk.StaticWebAssets.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
@@ -321,7 +470,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Queue.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.Admin\\Views\\AdminPayments\\Queue.cshtml",
               "RelativeDocumentMoniker": "Vocentra.Admin\\Views\\AdminPayments\\Queue.cshtml",

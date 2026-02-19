@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7YuldbBgwZ0=",
+  "dgSpecHash": "ZZCNdHPp4XI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.csproj",
+  "projectFilePath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mokge\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Mokge\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
@@ -107,9 +107,9 @@
       "code": "NU1603",
       "level": "Warning",
       "message": "Vocentra depends on Azure.Storage.Blobs (>= 12.17.1) but Azure.Storage.Blobs 12.17.1 was not found. Azure.Storage.Blobs 12.18.0 was resolved instead.",
-      "projectPath": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.csproj",
+      "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.csproj",
+      "filePath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
       "libraryId": "Azure.Storage.Blobs",
       "targetGraphs": [
         "net8.0"
