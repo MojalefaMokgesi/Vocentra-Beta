@@ -40,17 +40,15 @@ namespace Vocentra.Controllers
             if (job == null)
                 return NotFound();
 
-            // Determine whether the job is publicly visible (paid + active)
-            var isPublic = job.IsPaid && string.Equals(job.Status, "Active", StringComparison.OrdinalIgnoreCase);
+            if (!job.IsPaid || !string.Equals(job.Status, "Active", StringComparison.OrdinalIgnoreCase))
+            {
+                var userId = _userManager.GetUserId(User);
+                var isAdmin = User.IsInRole("Admin");
 
-            // Allow owner and admins to view the job regardless of public status.
-            var userId = _userManager.GetUserId(User);
-            var isAdmin = User.IsInRole("Admin");
+                if (!isAdmin && job.OwnerUserId != userId)
+                    return NotFound();
+            }
 
-            ViewBag.IsPublic = isPublic;
-            ViewBag.IsOwner = isAdmin || job.OwnerUserId == userId;
-
-            // Do not block viewing; show the job page but hide/disable apply actions for non-public jobs.
             return View(job);
         }
 

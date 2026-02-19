@@ -37,18 +37,7 @@
             <p>@Model.SkillsRequired</p>
 
             <div class="text-end mt-4">
-                @if ((ViewBag.IsPublic ?? false) == true)
-                {
-                    <a asp-action="Apply" asp-route-id="@Model.Id" class="btn btn-apply btn-lg">Apply Now</a>
-                }
-                else if ((ViewBag.IsOwner ?? false) == true)
-                {
-                    <span class="badge bg-warning text-dark">Preview: job is not published</span>
-                }
-                else
-                {
-                    <span class="text-muted">This job is not currently public. Please check back later.</span>
-                }
+                <a asp-action="Apply" asp-route-id="@Model.Id" class="btn btn-apply btn-lg">Apply Now</a>
             </div>
         </div>
     </div>
