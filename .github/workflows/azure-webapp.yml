@@ -9,6 +9,7 @@ on:
 env:
   DOTNET_VERSION: '8.0.x'
   PUBLISH_DIR: ${{ github.workspace }}/publish
+  PROJECT_PATH: "./Vocentra Main/Vocentra.csproj"
 
 jobs:
   build-and-deploy:
@@ -24,21 +25,13 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore Vocentra.csproj
+        run: dotnet restore "${{ env.PROJECT_PATH }}"
 
       - name: Build
-        run: dotnet build Vocentra.csproj -c Release --no-restore
+        run: dotnet build "${{ env.PROJECT_PATH }}" -c Release --no-restore
 
       - name: Publish
-        run: dotnet publish Vocentra.csproj -c Release -o "$PUBLISH_DIR" --no-build
-        env:
-          PUBLISH_DIR: ${{ env.PUBLISH_DIR }}
-
-      - name: Upload artifact (optional)
-        uses: actions/upload-artifact@v4
-        with:
-          name: publish
-          path: ${{ env.PUBLISH_DIR }}
+        run: dotnet publish "${{ env.PROJECT_PATH }}" -c Release -o "${{ env.PUBLISH_DIR }}" --no-build
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
