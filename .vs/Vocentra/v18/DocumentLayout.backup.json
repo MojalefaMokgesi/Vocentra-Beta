@@ -194,7 +194,7 @@
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-02-19T15:48:01.626Z",
               "EditorCaption": ""
@@ -267,10 +267,9 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAO8AAAAAAAAAAABBwCEAAABNAAAAAAAAAA==",
+              "ViewState": "AgIAANYAAAAAAAAAAIBJwCEAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-13T15:27:29.35Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-13T15:27:29.35Z"
             },
             {
               "$type": "Document",
@@ -412,9 +411,10 @@
               "RelativeDocumentMoniker": "Controllers\\PaymentsController.cs",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Controllers\\PaymentsController.cs",
               "RelativeToolTip": "Controllers\\PaymentsController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAABRwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T09:18:05.734Z"
+              "WhenOpened": "2026-02-19T09:18:05.734Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -486,8 +486,7 @@
               "RelativeToolTip": "Vocentra.csproj",
               "ViewState": "AgIAABgAAAAAAAAAAABBwAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-06T15:36:56.307Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T15:36:56.307Z"
             },
             {
               "$type": "Document",
