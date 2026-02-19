@@ -31,7 +31,7 @@ namespace Vocentra.Controllers
         // NEW: PaymentRequest PayGate (for manual EFT workflow)
         // -------------------------
         [Authorize]
-        [HttpGet("payments/gate/{id:int}")]
+        [HttpGet("gate/{id:int}")]
         public async Task<IActionResult> PayGate(int id)
         {
             var pr = await _db.PaymentRequests.Include(p => p.Job).Include(p => p.Messages).FirstOrDefaultAsync(p => p.Id == id);
@@ -49,7 +49,7 @@ namespace Vocentra.Controllers
         }
 
         [Authorize]
-        [HttpPost("payments/gate/{id:int}/submit")]
+        [HttpPost("gate/{id:int}/submit")]
         [RequestSizeLimit(10_000_000)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubmitProof(int id, IFormFile proofFile, string? notes, decimal? amountClaimed)

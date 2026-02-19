@@ -1,0 +1,358 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Security.Claims;
+using Vocentra.Data;
+using Vocentra.Models;
+using Vocentra.Services;
+
+namespace Vocentra.Controllers
+{
+    [Route("payments")]
+    public class PaymentsController : Controller
+    {
+        private readonly AppDbContext _db;
+        private readonly IWebHostEnvironment _env;
+
+        // TODO: move these to configuration later
+        private const string BankName = "Capitec Bank";
+        private const string AccountName = "Vocentra";
+        private const string AccountNumber = "1886474298";
+
+        public PaymentsController(AppDbContext db, IWebHostEnvironment env)
+        {
+            _db = db;
+            _env = env;
+        }
+
+        // -------------------------
+        // NEW: PaymentRequest PayGate (for manual EFT workflow)
+        // -------------------------
+        [Authorize]
+        [HttpGet("payments/gate/{id:int}")]
+        public async Task<IActionResult> PayGate(int id)
+        {
+            var pr = await _db.PaymentRequests.Include(p => p.Job).Include(p => p.Messages).FirstOrDefaultAsync(p => p.Id == id);
+            if (pr == null) return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isAdmin = User.IsInRole("Admin") || User.IsInRole("FinanceAdmin");
+            if (!isAdmin && pr.UserId != userId) return Forbid();
+
+            // Get active bank details
+            var bank = await _db.PaymentBankAccounts.FirstOrDefaultAsync(b => b.IsActive && b.ValidFrom <= DateTime.UtcNow && (b.ValidTo == null || b.ValidTo >= DateTime.UtcNow));
+            ViewBag.Bank = bank;
+
+            return View("PayGate", pr);
+        }
+
+        [Authorize]
+        [HttpPost("payments/gate/{id:int}/submit")]
+        [RequestSizeLimit(10_000_000)]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubmitProof(int id, IFormFile proofFile, string? notes, decimal? amountClaimed)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId)) return Forbid();
+
+            try
+            {
+                var workflow = HttpContext.RequestServices.GetRequiredService<IPaymentWorkflowService>();
+                var submission = await workflow.SubmitProofAsync(id, proofFile, notes, userId, amountClaimed);
+                return RedirectToAction("PayGate", new { id });
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                var pr = await _db.PaymentRequests.Include(p => p.Job).FirstOrDefaultAsync(p => p.Id == id);
+                return View("PayGate", pr);
+            }
+        }
+
+        // -------------------------
+        // PAY (creates pending tx)
+        // -------------------------
+        [Authorize]
+        [HttpPost("/jobs/{id:int}/pay")]
+        public async Task<IActionResult> PayJob(int id)
+        {
+            var job = await _db.Jobs.FirstOrDefaultAsync(j => j.Id == id);
+            if (job == null) return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
+
+            // ApplicationDeadline is nullable; ensure it has a value before accessing Date
+            if (!job.ApplicationDeadline.HasValue)
+                return BadRequest("Job must have an application deadline.");
+
+            if (job.IsPaid && string.Equals(job.Status, "Active", StringComparison.OrdinalIgnoreCase))
+                return BadRequest("Job is already active/paid.");
+
+            if (!job.ApplicationDeadline.HasValue)
+                return BadRequest("Application deadline is required.");
+
+            var startDate = DateTime.UtcNow.Date;
+            var endDate = job.ApplicationDeadline.Value.Date;
+
+            var days = Pricing.DaysInclusive(startDate, endDate);
+            if (days <= 0) return BadRequest("Deadline must be today or later.");
+
+            var amount = days * Pricing.RatePerDayZar;
+
+            // Unique reference user MUST use on EFT
+            var reference = $"JOB-{job.Id}-{Guid.NewGuid():N}".ToUpperInvariant();
+
+            var tx = new PaymentTransaction
+            {
+                JobId = job.Id,
+                UserId = userId,
+                AmountZar = amount,
+                DaysPaid = days,
+                StartDate = startDate,
+                EndDate = endDate,
+                MerchantReference = reference,
+                Provider = "ManualEFT",
+                Status = PaymentStatuses.PendingPayment,
+                CreatedAtUtc = DateTime.UtcNow
+            };
+
+            _db.PaymentTransactions.Add(tx);
+
+            // Lock job to Draft until approved
+            job.PaymentProvider = "ManualEFT";
+            job.PaymentReference = reference;
+            job.PaymentStatus = PaymentStatuses.PendingPayment;
+
+            JobPaymentGate.Apply(job);
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(EftInstructions), new { txId = tx.Id });
+        }
+
+        // -------------------------
+        // EFT INSTRUCTIONS
+        // -------------------------
+        [Authorize]
+        [HttpGet("eft/{txId:int}")]
+        public async Task<IActionResult> EftInstructions(int txId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            // user can only see their own transaction (admin can see all)
+            var isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && !string.Equals(tx.UserId, userId, StringComparison.Ordinal))
+                return Forbid();
+
+            ViewBag.BankName = BankName;
+            ViewBag.AccountName = AccountName;
+            ViewBag.AccountNumber = AccountNumber;
+
+            return View(tx);
+        }
+
+        // -------------------------
+        // UPLOAD PROOF
+        // -------------------------
+        [Authorize]
+        [HttpGet("upload/{txId:int}")]
+        public async Task<IActionResult> UploadProof(int txId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            var isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && !string.Equals(tx.UserId, userId, StringComparison.Ordinal))
+                return Forbid();
+
+            if (string.Equals(tx.Status, PaymentStatuses.Paid, StringComparison.OrdinalIgnoreCase))
+                return RedirectToAction(nameof(EftInstructions), new { txId });
+
+            return View(tx);
+        }
+
+        [Authorize]
+        [HttpPost("upload/{txId:int}")]
+        [RequestSizeLimit(10_000_000)] // 10MB
+        public async Task<IActionResult> UploadProof(int txId, IFormFile proofFile, string? userBankName, string? userPaymentReference)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            var isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && !string.Equals(tx.UserId, userId, StringComparison.Ordinal))
+                return Forbid();
+
+            if (proofFile == null || proofFile.Length == 0)
+            {
+                ModelState.AddModelError("", "Please upload a proof of payment file.");
+                return View(tx);
+            }
+
+            var allowed = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ".pdf", ".png", ".jpg", ".jpeg"
+            };
+
+            var ext = Path.GetExtension(proofFile.FileName);
+            if (!allowed.Contains(ext))
+            {
+                ModelState.AddModelError("", "Only PDF, PNG, JPG files are allowed.");
+                return View(tx);
+            }
+
+            // Save file under wwwroot/uploads/payments
+            var uploadsRoot = Path.Combine(_env.WebRootPath, "uploads", "payments");
+            Directory.CreateDirectory(uploadsRoot);
+
+            var safeName = $"{tx.MerchantReference}_{DateTime.UtcNow:yyyyMMddHHmmss}{ext}";
+            var fullPath = Path.Combine(uploadsRoot, safeName);
+
+            using (var stream = System.IO.File.Create(fullPath))
+            {
+                await proofFile.CopyToAsync(stream);
+            }
+
+            tx.ProofFilePath = $"/uploads/payments/{safeName}";
+            tx.UserBankName = (userBankName ?? "").Trim();
+            tx.UserPaymentReference = (userPaymentReference ?? "").Trim();
+            tx.ProofSubmittedAtUtc = DateTime.UtcNow;
+
+            // Move state forward
+            tx.Status = PaymentStatuses.AwaitingProof;
+
+            // Keep job locked
+            if (tx.Job != null)
+            {
+                tx.Job.PaymentStatus = PaymentStatuses.AwaitingProof;
+                JobPaymentGate.Apply(tx.Job);
+            }
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(EftInstructions), new { txId });
+        }
+
+        // -------------------------
+        // ADMIN: REVIEW QUEUE
+        // -------------------------
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin/queue")]
+        public async Task<IActionResult> AdminQueue()
+        {
+            var pending = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .Where(t =>
+                    t.Status == PaymentStatuses.AwaitingProof ||
+                    t.Status == PaymentStatuses.UnderReview)
+                .OrderByDescending(t => t.ProofSubmittedAtUtc ?? t.CreatedAtUtc)
+                .ToListAsync();
+
+            return View(pending);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("admin/{txId:int}/start-review")]
+        public async Task<IActionResult> StartReview(int txId)
+        {
+            var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            tx.Status = PaymentStatuses.UnderReview;
+            tx.ReviewedByUserId = adminId;
+            tx.ReviewedAtUtc = DateTime.UtcNow;
+
+            if (tx.Job != null)
+            {
+                tx.Job.PaymentStatus = PaymentStatuses.UnderReview;
+                JobPaymentGate.Apply(tx.Job);
+            }
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminQueue));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("admin/{txId:int}/approve")]
+        public async Task<IActionResult> Approve(int txId)
+        {
+            var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            tx.Status = PaymentStatuses.Paid;
+            tx.PaidAtUtc = DateTime.UtcNow;
+            tx.ReviewedByUserId = adminId;
+            tx.ReviewedAtUtc = DateTime.UtcNow;
+
+            if (tx.Job != null)
+            {
+                tx.Job.PaymentStatus = PaymentStatuses.Paid;
+                tx.Job.PaymentProvider = "ManualEFT";
+                tx.Job.PaymentReference = tx.MerchantReference;
+                tx.Job.PaidAt = DateTime.UtcNow;
+                tx.Job.PaidUntil = tx.EndDate;
+
+                JobPaymentGate.Apply(tx.Job);
+            }
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminQueue));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("admin/{txId:int}/reject")]
+        public async Task<IActionResult> Reject(int txId, string? reason)
+        {
+            var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var tx = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(t => t.Id == txId);
+
+            if (tx == null) return NotFound();
+
+            tx.Status = PaymentStatuses.Rejected;
+            tx.ReviewNote = (reason ?? "").Trim();
+            tx.ReviewedByUserId = adminId;
+            tx.ReviewedAtUtc = DateTime.UtcNow;
+
+            if (tx.Job != null)
+            {
+                tx.Job.PaymentStatus = PaymentStatuses.Rejected;
+                JobPaymentGate.Apply(tx.Job); // keeps Draft
+            }
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminQueue));
+        }
+    }
+}

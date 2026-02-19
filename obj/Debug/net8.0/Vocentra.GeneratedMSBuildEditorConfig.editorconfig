@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra Main
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Mokge/OneDrive/Documents/GitHub/Vocentra Main/Areas/Admin/Views/Access/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWNjZXNzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Mokge/OneDrive/Documents/GitHub/Vocentra Main/Areas/Admin/Views/AdminPayments/Queue.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWRtaW5QYXltZW50c1xRdWV1ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

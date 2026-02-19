@@ -1,0 +1,69 @@
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using System;
+
+namespace Vocentra.Middlewares
+{
+    public class AdminGateMiddleware
+    {
+        private readonly RequestDelegate _next;
+        private readonly ILogger<AdminGateMiddleware> _logger;
+
+        public AdminGateMiddleware(RequestDelegate next, ILogger<AdminGateMiddleware> logger)
+        {
+            _next = next;
+            _logger = logger;
+        }
+
+        public async Task InvokeAsync(HttpContext context, Vocentra.Services.IAdminGateService gate)
+        {
+            try
+            {
+                var path = context.Request.Path.Value ?? string.Empty;
+                if (path.StartsWith("/Admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Allow access to the Access controller itself and static resources
+                    if (path.StartsWith("/Admin/Access", StringComparison.OrdinalIgnoreCase) ||
+                        path.StartsWith("/Admin/Access/", StringComparison.OrdinalIgnoreCase) ||
+                        path.Contains("/static/") ||
+                        path.Contains(".css") ||
+                        path.Contains(".js") ||
+                        path.Contains(".png") ||
+                        path.Contains(".jpg") ||
+                        path.Contains(".jpeg") ||
+                        path.Contains(".svg") ||
+                        path.Contains(".woff") ||
+                        path.Contains(".woff2"))
+                    {
+                        await _next(context);
+                        return;
+                    }
+
+                    // If user is not authenticated or not in role, allow Authorization to handle it
+                    var user = context.User;
+                    if (user?.Identity?.IsAuthenticated != true || !(user.IsInRole("Admin") || user.IsInRole("FinanceAdmin")))
+                    {
+                        await _next(context);
+                        return;
+                    }
+
+                    // If authenticated and in role, ensure gate verification
+                    if (!gate.IsVerified(context))
+                    {
+                        // Redirect to Access page for verification
+                        var returnUrl = Uri.EscapeDataString(context.Request.Path + context.Request.QueryString);
+                        context.Response.Redirect($"/Admin/Access?returnUrl={returnUrl}");
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "AdminGateMiddleware failed");
+            }
+
+            await _next(context);
+        }
+    }
+}

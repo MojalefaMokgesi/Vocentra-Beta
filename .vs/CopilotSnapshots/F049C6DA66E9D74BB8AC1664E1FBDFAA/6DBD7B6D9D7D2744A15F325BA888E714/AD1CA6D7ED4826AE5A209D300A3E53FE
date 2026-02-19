@@ -1,0 +1,329 @@
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Vocentra.Data;
+using Vocentra.Models;
+using Vocentra.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add console logging (visible in Azure Log Stream)
+builder.Logging.AddConsole();
+
+// MVC
+builder.Services.AddControllersWithViews();
+
+// Razor Pages (Identity UI)
+#if DEBUG
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+#else
+builder.Services.AddRazorPages();
+#endif
+
+builder.Services.AddHttpContextAccessor();
+// Data protection for download tokens
+using System.IO;
+
+// Configure DataProtection and persist keys in Production to ensure consistency on Azure App Service
+var dataProtectionBuilder = builder.Services.AddDataProtection();
+if (!builder.Environment.IsDevelopment())
+{
+    var keysDir = Path.Combine(builder.Environment.ContentRootPath, "DataProtectionKeys");
+    try
+    {
+        Directory.CreateDirectory(keysDir);
+        dataProtectionBuilder.PersistKeysToFileSystem(new DirectoryInfo(keysDir));
+    }
+    catch
+    {
+        // Swallow exceptions here - startup should not fail if key persistence cannot be configured.
+    }
+}
+
+// Connection string (use GetConnectionString to allow Azure App Service mapping)
+var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Decide provider based on connection string contents
+var isSqlServer =
+    !string.IsNullOrWhiteSpace(conn) &&
+    (conn.Contains("Server=", StringComparison.OrdinalIgnoreCase) ||
+     conn.Contains("Initial Catalog=", StringComparison.OrdinalIgnoreCase) ||
+     conn.Contains("User ID=", StringComparison.OrdinalIgnoreCase) ||
+     conn.Contains("Password=", StringComparison.OrdinalIgnoreCase));
+
+var isSqlite =
+    !string.IsNullOrWhiteSpace(conn) &&
+    (conn.Contains("Data Source=", StringComparison.OrdinalIgnoreCase) ||
+     conn.Trim().EndsWith(".db", StringComparison.OrdinalIgnoreCase));
+
+// Default behavior: if connection string is missing, fall back to local SQLite file
+if (string.IsNullOrWhiteSpace(conn))
+{
+    var dbPath = Path.Combine(builder.Environment.ContentRootPath, "vocentra.db");
+    conn = $"Data Source={dbPath}";
+    isSqlite = true;
+    isSqlServer = false;
+
+    // Create a temporary LoggerFactory with console provider and log the warning
+    var tempLogger = LoggerFactory.Create(lb => lb.AddConsole()).CreateLogger("Startup");
+    tempLogger.LogWarning("DefaultConnection is empty - falling back to local SQLite at {Path}", dbPath);
+}
+
+// Register DbContext using the connection string discovered above
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    if (isSqlServer)
+    {
+        options.UseSqlServer(conn, sql =>
+        {
+            sql.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorNumbersToAdd: null);
+        });
+    }
+    else if (isSqlite)
+    {
+        // Normalize SQLite "vocentra.db" -> "Data Source=...\\vocentra.db"
+        if (conn.Trim().EndsWith(".db", StringComparison.OrdinalIgnoreCase) &&
+            !conn.Contains("Data Source=", StringComparison.OrdinalIgnoreCase))
+        {
+            var dbPath = Path.Combine(builder.Environment.ContentRootPath, conn.Trim());
+            conn = $"Data Source={dbPath}";
+        }
+
+        options.UseSqlite(conn);
+    }
+    else
+    {
+        throw new InvalidOperationException(
+            "DefaultConnection is present but doesn't look like SQL Server or SQLite. " +
+            "Set a valid SQL Server (Azure SQL) or SQLite connection string.");
+    }
+});
+
+// Identity
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+    options.User.RequireUniqueEmail = true;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+});
+
+// Services
+builder.Services.AddScoped<FileStorageService>();
+builder.Services.AddScoped<SettingsService>();
+
+// Payment/workflow services
+builder.Services.AddScoped<Vocentra.Services.INotificationService, Vocentra.Services.NotificationService>();
+builder.Services.AddScoped<Vocentra.Services.IAuditService, Vocentra.Services.AuditService>();
+
+// Choose proof storage provider: Azure Blob if configured, otherwise local
+var blobConn = builder.Configuration["AzureBlobStorage:ConnectionString"] ?? builder.Configuration["AzureBlobStorage"];
+if (!string.IsNullOrWhiteSpace(blobConn))
+{
+    builder.Services.AddSingleton(new Azure.Storage.Blobs.BlobServiceClient(blobConn));
+    builder.Services.AddScoped<Vocentra.Services.IProofStorageService, Vocentra.Services.AzureBlobProofStorageService>();
+}
+else
+{
+    builder.Services.AddScoped<Vocentra.Services.IProofStorageService, Vocentra.Services.LocalProofStorageService>();
+}
+
+builder.Services.AddScoped<Vocentra.Services.IPaymentWorkflowService, Vocentra.Services.PaymentWorkflowService>();
+
+// Admin access gate configuration and service
+builder.Services.Configure<Vocentra.Services.AdminAccessOptions>(builder.Configuration.GetSection("AdminAccess"));
+builder.Services.AddSingleton<Vocentra.Services.IAdminGateService, Vocentra.Services.AdminGateService>();
+
+// Configure email settings and register IEmailSender implementation
+builder.Services.Configure<Vocentra.Services.EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+var emailSection = builder.Configuration.GetSection("EmailSettings");
+var emailHost = emailSection["Host"];
+if (!string.IsNullOrWhiteSpace(emailHost))
+{
+    // SMTP configured
+    builder.Services.AddScoped<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, Vocentra.Services.SmtpEmailSender>();
+}
+else
+{
+    // Fallback to a no-op sender to avoid runtime DI failures when email is not configured
+    builder.Services.AddSingleton<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, Vocentra.Services.NullEmailSender>();
+}
+
+// Application Insights (optional) - enable if connection string present
+var aiConn = builder.Configuration["ApplicationInsights:ConnectionString"] ?? builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"];
+if (!string.IsNullOrWhiteSpace(aiConn))
+{
+    builder.Services.AddApplicationInsightsTelemetry();
+}
+
+// Build and run with robust startup error handling
+try
+{
+    var app = builder.Build();
+
+    // Validate important configuration sections early and log warnings (do not crash)
+    var cfg = app.Configuration;
+    var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+    var startupLogger = loggerFactory.CreateLogger("Startup");
+
+    if (string.IsNullOrWhiteSpace(cfg.GetConnectionString("DefaultConnection")))
+    {
+        startupLogger.LogWarning("ConnectionStrings:DefaultConnection is empty. Application will use local SQLite fallback.");
+    }
+
+    if (!cfg.GetSection("EmailSettings").Exists())
+    {
+        startupLogger.LogWarning("Configuration section 'EmailSettings' is missing. Email features may not work until configured.");
+    }
+
+    if (!cfg.GetSection("PayFast").Exists())
+    {
+        startupLogger.LogWarning("Configuration section 'PayFast' is missing. PayFast payment provider will be disabled until configured.");
+    }
+
+    // Auto-migrate database (safe logging) - run inside scope so we can catch and log errors
+    // By default migrations/seeding ran only in Development. However when the
+    // application is using a local SQLite file as a fallback (no DefaultConnection)
+    // we should attempt to apply migrations in Production as well so the app
+    // doesn't fail with "no such table" when the DB file is created on the host.
+    // We only enable this automatic migration for SQLite to avoid unexpected
+    // schema changes on managed production databases (e.g. Azure SQL).
+    if (app.Environment.IsDevelopment() || isSqlite)
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupMigrations");
+            try
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
+                logger.LogInformation("Database migration completed successfully.");
+                // Seed roles, admin user and sample bank account (only if configured)
+                try
+                {
+                    var seedCfg = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                    await Vocentra.Data.SeedData.EnsureSeedAsync(scope.ServiceProvider, seedCfg);
+                    logger.LogInformation("Seed data ensured.");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Seed data failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                // This makes the failure visible in Log Stream / stdout logs
+                logger.LogError(ex, "Database migration failed during startup.");
+                // Do NOT rethrow here for production SQLite fallback - log and continue so
+                // the app can start and surface a proper error page instead of crashing.
+            }
+        }
+    }
+
+    // Additional startup diagnostics: log environment, presence of key config values and DB connectivity
+    using (var startupScope = app.Services.CreateScope())
+    {
+        var envLogger = startupScope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupDiagnostics");
+        try
+        {
+            var startupCfg = startupScope.ServiceProvider.GetRequiredService<IConfiguration>();
+            envLogger.LogInformation("Environment: {Environment}", app.Environment.EnvironmentName);
+            var hasConn = !string.IsNullOrWhiteSpace(startupCfg.GetConnectionString("DefaultConnection"));
+            envLogger.LogInformation("Has DefaultConnection: {HasConn}", hasConn);
+
+            try
+            {
+                var db = startupScope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var canConnect = db.Database.CanConnect();
+                envLogger.LogInformation("Database.CanConnect: {CanConnect}", canConnect);
+            }
+            catch (Exception ex)
+            {
+                envLogger.LogError(ex, "Database connectivity check failed");
+            }
+        }
+        catch (Exception ex)
+        {
+            var envLogger2 = startupScope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupDiagnostics");
+            envLogger2.LogError(ex, "Startup diagnostics failed");
+        }
+    }
+
+    // Pipeline
+    if (!app.Environment.IsDevelopment())
+    {
+        // Custom exception handler that logs the full exception including trace id so Azure Log Stream / App Insights capture it.
+        app.UseExceptionHandler(errorApp =>
+        {
+            errorApp.Run(async context =>
+            {
+                var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+                var feat = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerPathFeature>();
+                var traceId = System.Diagnostics.Activity.Current?.Id ?? context.TraceIdentifier;
+                if (feat?.Error != null)
+                {
+                    logger.LogError(feat.Error, "Unhandled exception (TraceId: {TraceId}) on path {Path}", traceId, feat.Path);
+                }
+
+                context.Response.StatusCode = 500;
+                context.Response.ContentType = "text/html";
+                await context.Response.WriteAsync($"<h1>Server error</h1><p>Reference: {traceId}</p>");
+            });
+        });
+
+        app.UseHsts();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+
+    app.UseRouting();
+
+    app.UseAuthentication();
+    // Admin gate middleware enforces one-time access code for /Admin routes for role users
+    app.UseMiddleware<Vocentra.Middlewares.AdminGateMiddleware>();
+
+    app.UseAuthorization();
+
+    // Routes
+    app.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    app.MapRazorPages();
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    // Ensure startup exceptions are visible in Azure Log Stream and App Service logs
+    try
+    {
+        Console.Error.WriteLine("Host terminated unexpectedly during startup: " + ex);
+        // Also write to stdout for Azure's LogStream
+        Console.WriteLine("Host terminated unexpectedly during startup: " + ex);
+    }
+    catch { }
+
+    // Ensure process exits with a non-zero code so Azure marks deployment as failed
+    Environment.ExitCode = 1;
+    throw; // rethrow so the host can surface the error
+}

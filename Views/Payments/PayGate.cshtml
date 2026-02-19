@@ -9,7 +9,8 @@
     <p>Reference: <strong>@Model.Reference</strong></p>
 </div>
 <hr />
-<form asp-action="SubmitProof" method="post" enctype="multipart/form-data">
+<form asp-controller="Payments" asp-action="SubmitProof" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
     <input type="hidden" name="id" value="@Model.Id" />
     <div class="form-group">
         <label>Upload proof (PDF/JPG/PNG, max 10MB)</label>

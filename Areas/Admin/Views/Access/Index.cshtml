@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Admin Access";
+}
+
+<h2>Admin access code required</h2>
+<p>You must enter the admin access code to continue to the admin area.</p>
+
+<form asp-area="Admin" asp-controller="Access" asp-action="Verify" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="code">Access Code</label>
+        <input type="password" name="code" id="code" class="form-control" />
+    </div>
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+    <button type="submit" class="btn btn-primary">Verify</button>
+</form>
+
+<form asp-area="Admin" asp-controller="Access" asp-action="Logout" method="post" style="margin-top:10px;">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-secondary">Logout Admin Session</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@e.ErrorMessage</div>
+        }
+    </div>
+}

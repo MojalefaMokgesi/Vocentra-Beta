@@ -1,0 +1,7 @@
+﻿namespace Vocentra.Services
+{
+    public class AdminAccessOptions
+    {
+        public string? Code { get; set; }
+    }
+}

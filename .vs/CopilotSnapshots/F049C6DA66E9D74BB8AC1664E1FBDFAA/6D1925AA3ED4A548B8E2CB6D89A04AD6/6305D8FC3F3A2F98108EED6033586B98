@@ -1,0 +1,34 @@
+﻿@model Vocentra.Models.PaymentRequest
+@{
+    ViewData["Title"] = "Payment Gate";
+}
+<h2>Payment Gate</h2>
+<div>
+    <h4>Job: @Model.Job?.Title</h4>
+    <p>Amount: @Model.Amount.ToString("C")</p>
+    <p>Reference: <strong>@Model.Reference</strong></p>
+</div>
+<hr />
+<form asp-action="SubmitProof" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="form-group">
+        <label>Upload proof (PDF/JPG/PNG, max 10MB)</label>
+        <input type="file" name="proofFile" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Notes (optional)</label>
+        <textarea name="notes" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Proof</button>
+</form>
+
+@if (Model.Messages != null && Model.Messages.Any())
+{
+    <h4>Messages</h4>
+    <ul>
+        @foreach(var m in Model.Messages.OrderByDescending(x=>x.CreatedAt))
+        {
+            <li>@m.CreatedAt.ToLocalTime(): @m.Message</li>
+        }
+    </ul>
+}

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vocentra.Data;
@@ -22,7 +24,22 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddHttpContextAccessor();
 // Data protection for download tokens
-builder.Services.AddDataProtection();
+
+// Configure DataProtection and persist keys in Production to ensure consistency on Azure App Service
+var dataProtectionBuilder = builder.Services.AddDataProtection();
+if (!builder.Environment.IsDevelopment())
+{
+    var keysDir = Path.Combine(builder.Environment.ContentRootPath, "DataProtectionKeys");
+    try
+    {
+        Directory.CreateDirectory(keysDir);
+        dataProtectionBuilder.PersistKeysToFileSystem(new DirectoryInfo(keysDir));
+    }
+    catch
+    {
+        // Swallow exceptions here - startup should not fail if key persistence cannot be configured.
+    }
+}
 
 // Connection string (use GetConnectionString to allow Azure App Service mapping)
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -128,6 +145,10 @@ else
 }
 
 builder.Services.AddScoped<Vocentra.Services.IPaymentWorkflowService, Vocentra.Services.PaymentWorkflowService>();
+
+// Admin access gate configuration and service
+builder.Services.Configure<Vocentra.Services.AdminAccessOptions>(builder.Configuration.GetSection("AdminAccess"));
+builder.Services.AddSingleton<Vocentra.Services.IAdminGateService, Vocentra.Services.AdminGateService>();
 
 // Configure email settings and register IEmailSender implementation
 builder.Services.Configure<Vocentra.Services.EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
@@ -275,6 +296,9 @@ try
     app.UseRouting();
 
     app.UseAuthentication();
+    // Admin gate middleware enforces one-time access code for /Admin routes for role users
+    app.UseMiddleware<Vocentra.Middlewares.AdminGateMiddleware>();
+
     app.UseAuthorization();
 
     // Routes

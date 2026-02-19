@@ -1,0 +1,57 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Vocentra.Services;
+using Vocentra.Services;
+
+namespace Vocentra.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    [Authorize(Roles = "Admin,FinanceAdmin")]
+    public class AccessController : Controller
+    {
+        private readonly IAdminGateService _gate;
+        private readonly AdminAccessOptions _opts;
+
+        public AccessController(IAdminGateService gate, IOptions<AdminAccessOptions> opts)
+        {
+            _gate = gate;
+            _opts = opts.Value ?? new AdminAccessOptions();
+        }
+
+        [HttpGet]
+        public IActionResult Index(string? returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Verify(string code, string? returnUrl)
+        {
+            var configured = _opts.Code ?? string.Empty;
+            if (!_gate.VerifyCode(code ?? string.Empty, configured))
+            {
+                ModelState.AddModelError(string.Empty, "Invalid access code.");
+                ViewBag.ReturnUrl = returnUrl;
+                return View("Index");
+            }
+
+            _gate.MarkVerified(HttpContext);
+
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
+
+            return RedirectToAction("Index", "Admin", new { area = "Admin" });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Logout()
+        {
+            _gate.Clear(HttpContext);
+            return RedirectToAction("Index", "Access", new { area = "Admin" });
+        }
+    }
+}
