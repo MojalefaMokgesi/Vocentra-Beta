@@ -1,4 +1,4 @@
-name: Build and deploy Vocentra to Azure Web App
+﻿name: Build and deploy Vocentra to Azure Web App
 
 on:
   push:
@@ -22,9 +22,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Dotnet --info
-        run: dotnet --info
 
       # Clean helps prevent obj/ stale generated AssemblyInfo causing duplicate attributes in CI
       - name: Clean
