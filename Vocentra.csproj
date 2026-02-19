@@ -4,11 +4,11 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
 
-	<ItemGroup>
-	  <None Include=".github\workflows\azure-webapp.yml" />
-	</ItemGroup>
+		<!-- Prevent CI failures caused by duplicate assembly attributes when the repo also contains AssemblyInfo.cs or [assembly: ...] -->
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
@@ -20,4 +20,3 @@
 	</ItemGroup>
 
 </Project>
-

@@ -89,3 +89,6 @@ C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra.Admin\obj\Debug\net8.0\Vocentr
 C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra.Admin\obj\Debug\net8.0\Vocentra.Admin.genruntimeconfig.cache
 C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra.Admin\obj\Debug\net8.0\ref\Vocentra.Admin.dll
 C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra.Admin\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra Main\Vocentra.Admin\obj\Debug\net8.0\Vocentra.Admin.dll
+C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra Main\Vocentra.Admin\obj\Debug\net8.0\refint\Vocentra.Admin.dll
+C:\Users\Mokge\OneDrive\Documents\GitHub\Vocentra Main\Vocentra.Admin\obj\Debug\net8.0\Vocentra.Admin.pdb

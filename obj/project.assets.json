@@ -4017,11 +4017,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Vocentra.csproj",
+      "projectUniqueName": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
       "projectName": "Vocentra",
-      "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\Vocentra.csproj",
+      "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
       "packagesPath": "C:\\Users\\Mokge\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra-Beta\\obj\\",
+      "outputPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Vocentra.Admin.csproj": {}
+    "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\Vocentra.Admin.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Vocentra.Admin.csproj": {
+    "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\Vocentra.Admin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Vocentra.Admin.csproj",
+        "projectUniqueName": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\Vocentra.Admin.csproj",
         "projectName": "Vocentra.Admin",
-        "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\Vocentra.Admin.csproj",
+        "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\Vocentra.Admin.csproj",
         "packagesPath": "C:\\Users\\Mokge\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Admin\\obj\\",
+        "outputPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Core\\Vocentra.Core.csproj": {
-                "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Core\\Vocentra.Core.csproj"
+              "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Core\\Vocentra.Core.csproj": {
+                "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Core\\Vocentra.Core.csproj"
               }
             }
           }
@@ -55,88 +55,6 @@
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.UI": {
-              "target": "Package",
-              "version": "[8.0.11, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Core\\Vocentra.Core.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Core\\Vocentra.Core.csproj",
-        "projectName": "Vocentra.Core",
-        "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Core\\Vocentra.Core.csproj",
-        "packagesPath": "C:\\Users\\Mokge\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra.Core\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\Mokge\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "10.0.100"
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "dependencies": {
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.11, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.11, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.11, )"
             }
