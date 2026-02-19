@@ -127,6 +127,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\areas\\admin\\controllers\\diagnosticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\controllers\\diagnosticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\areas\\admin\\controllers\\accesscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\controllers\\accesscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\areas\\admin\\controllers\\paymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\controllers\\paymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\areas\\admin\\controllers\\adminpaymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\controllers\\adminpaymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -136,8 +148,47 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 7,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "AdminPaymentsController.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T18:46:54.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "PaymentsController.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\PaymentsController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\PaymentsController.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\PaymentsController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\PaymentsController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T18:46:46.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "AccessController.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AccessController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AccessController.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AccessController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\AccessController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T18:46:37.43Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 32,
@@ -413,8 +464,7 @@
               "RelativeToolTip": "Controllers\\PaymentsController.cs",
               "ViewState": "AgIAADIAAAAAAAAAAABRwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T09:18:05.734Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T09:18:05.734Z"
             },
             {
               "$type": "Document",

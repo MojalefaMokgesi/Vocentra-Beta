@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Vocentra.Services;
@@ -7,7 +7,7 @@ using Vocentra.Services;
 namespace Vocentra.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin,FinanceAdmin")]
     public class AccessController : Controller
     {
         private readonly IAdminGateService _gate;
