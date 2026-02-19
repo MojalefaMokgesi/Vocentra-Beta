@@ -115,6 +115,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\services\\nullemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:services\\nullemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\services\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:services\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\services\\smtpemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:services\\smtpemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\areas\\admin\\controllers\\diagnosticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\controllers\\diagnosticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -124,8 +136,44 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "DiagnosticsController.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\DiagnosticsController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\DiagnosticsController.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\DiagnosticsController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\DiagnosticsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T16:13:32.393Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "SmtpEmailSender.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\SmtpEmailSender.cs",
+              "RelativeDocumentMoniker": "Services\\SmtpEmailSender.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\SmtpEmailSender.cs",
+              "RelativeToolTip": "Services\\SmtpEmailSender.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T16:13:02.608Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "EmailSettings.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\EmailSettings.cs",
+              "RelativeDocumentMoniker": "Services\\EmailSettings.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\EmailSettings.cs",
+              "RelativeToolTip": "Services\\EmailSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T16:12:52.18Z"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 29,
@@ -136,8 +184,7 @@
               "RelativeToolTip": "Services\\NullEmailSender.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T16:03:44.224Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T16:03:44.224Z"
             },
             {
               "$type": "Document",
@@ -147,7 +194,7 @@
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-02-19T15:48:01.626Z",
               "EditorCaption": ""
@@ -220,7 +267,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAHAAAAAAAAAAAABRwCEAAABNAAAAAAAAAA==",
+              "ViewState": "AgIAAO8AAAAAAAAAAABBwCEAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-13T15:27:29.35Z",
               "EditorCaption": ""
@@ -437,9 +484,10 @@
               "RelativeDocumentMoniker": "Vocentra.csproj",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
               "RelativeToolTip": "Vocentra.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAABBwAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-06T15:36:56.307Z"
+              "WhenOpened": "2026-02-06T15:36:56.307Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

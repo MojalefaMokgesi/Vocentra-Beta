@@ -216,9 +216,9 @@ try
         var envLogger = startupScope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupDiagnostics");
         try
         {
-            var startupCfg = startupScope.ServiceProvider.GetRequiredService<IConfiguration>();
+            var cfg = startupScope.ServiceProvider.GetRequiredService<IConfiguration>();
             envLogger.LogInformation("Environment: {Environment}", app.Environment.EnvironmentName);
-            var hasConn = !string.IsNullOrWhiteSpace(startupCfg.GetConnectionString("DefaultConnection"));
+            var hasConn = !string.IsNullOrWhiteSpace(cfg.GetConnectionString("DefaultConnection"));
             envLogger.LogInformation("Has DefaultConnection: {HasConn}", hasConn);
 
             try

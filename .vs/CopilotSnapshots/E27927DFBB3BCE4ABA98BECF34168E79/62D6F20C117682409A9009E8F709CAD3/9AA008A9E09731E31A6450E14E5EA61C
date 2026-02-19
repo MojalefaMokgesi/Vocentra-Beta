@@ -22,7 +22,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.11" />
 		<PackageReference Include="Azure.Storage.Blobs" Version="12.17.1" />
-		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
 	</ItemGroup>
 
     <ItemGroup>

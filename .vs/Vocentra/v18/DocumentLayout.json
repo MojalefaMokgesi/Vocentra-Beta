@@ -148,8 +148,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\DiagnosticsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T16:13:32.393Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T16:13:32.393Z"
             },
             {
               "$type": "Document",
@@ -161,8 +160,7 @@
               "RelativeToolTip": "Services\\SmtpEmailSender.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T16:13:02.608Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T16:13:02.608Z"
             },
             {
               "$type": "Document",
@@ -174,8 +172,7 @@
               "RelativeToolTip": "Services\\EmailSettings.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T16:12:52.18Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T16:12:52.18Z"
             },
             {
               "$type": "Document",
@@ -270,7 +267,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAABBwCEAAABNAAAAAAAAAA==",
+              "ViewState": "AgIAAO8AAAAAAAAAAABBwCEAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-13T15:27:29.35Z",
               "EditorCaption": ""
@@ -487,9 +484,10 @@
               "RelativeDocumentMoniker": "Vocentra.csproj",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
               "RelativeToolTip": "Vocentra.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAABBwAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-06T15:36:56.307Z"
+              "WhenOpened": "2026-02-06T15:36:56.307Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
