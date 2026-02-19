@@ -1,0 +1,23 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+
+  "AllowedHosts": "*",
+
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=tcp:vocentra-sql-server.database.windows.net,1433;Initial Catalog=Vocentra;Persist Security Info=False;User ID=vocentraadmin;Password=G33km0d3!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  },
+
+  "EmailSettings": {
+    "SmtpServer": "smtp.gmail.com",
+    "SmtpPort": 587,
+    "SmtpUser": "your-email@gmail.com",
+    "SmtpPass": "your-email-password",
+    "SenderName": "Vocentra",
+    "SenderEmail": "your-email@gmail.com"
+  }
+}

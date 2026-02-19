@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vocentra.Data;
 using Vocentra.Models;
 using Vocentra.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add console logging (visible in Azure Log Stream)
+builder.Logging.AddConsole();
 
 // MVC
 builder.Services.AddControllersWithViews();
@@ -18,12 +22,10 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddHttpContextAccessor();
 
-// Connection string
+// Connection string (use GetConnectionString to allow Azure App Service mapping)
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Decide provider based on connection string contents
-// Azure SQL / SQL Server usually contains "Server=" or "Data Source=" + "Initial Catalog="
-// SQLite usually contains "Data Source=" + ".db" or ends with ".db"
 var isSqlServer =
     !string.IsNullOrWhiteSpace(conn) &&
     (conn.Contains("Server=", StringComparison.OrdinalIgnoreCase) ||
@@ -36,16 +38,17 @@ var isSqlite =
     (conn.Contains("Data Source=", StringComparison.OrdinalIgnoreCase) ||
      conn.Trim().EndsWith(".db", StringComparison.OrdinalIgnoreCase));
 
-// Default behavior: if connection string is missing, use SQLite local file
+// Default behavior: if connection string is missing, fall back to local SQLite file
 if (string.IsNullOrWhiteSpace(conn))
 {
     var dbPath = Path.Combine(builder.Environment.ContentRootPath, "vocentra.db");
     conn = $"Data Source={dbPath}";
     isSqlite = true;
     isSqlServer = false;
+    builder.Logging.CreateLogger("Startup").LogWarning("DefaultConnection is empty - falling back to local SQLite at {Path}", dbPath);
 }
 
-// Register DbContext
+// Register DbContext using the connection string discovered above
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     if (isSqlServer)
@@ -60,7 +63,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     }
     else if (isSqlite)
     {
-        // Normalize SQLite "vocentra.db" -> "Data Source=...\vocentra.db"
+        // Normalize SQLite "vocentra.db" -> "Data Source=...\\vocentra.db"
         if (conn.Trim().EndsWith(".db", StringComparison.OrdinalIgnoreCase) &&
             !conn.Contains("Data Source=", StringComparison.OrdinalIgnoreCase))
         {
@@ -103,46 +106,86 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<SettingsService>();
 
-var app = builder.Build();
-
-// Auto-migrate database (safe logging)
-using (var scope = app.Services.CreateScope())
+// Build and run with robust startup error handling
+try
 {
-    var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupMigrations");
+    var app = builder.Build();
+
+    // Validate important configuration sections early and log warnings (do not crash)
+    var cfg = app.Configuration;
+    var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+    var startupLogger = loggerFactory.CreateLogger("Startup");
+
+    if (string.IsNullOrWhiteSpace(cfg.GetConnectionString("DefaultConnection")))
+    {
+        startupLogger.LogWarning("ConnectionStrings:DefaultConnection is empty. Application will use local SQLite fallback.");
+    }
+
+    if (!cfg.GetSection("EmailSettings").Exists())
+    {
+        startupLogger.LogWarning("Configuration section 'EmailSettings' is missing. Email features may not work until configured.");
+    }
+
+    if (!cfg.GetSection("PayFast").Exists())
+    {
+        startupLogger.LogWarning("Configuration section 'PayFast' is missing. PayFast payment provider will be disabled until configured.");
+    }
+
+    // Auto-migrate database (safe logging) - run inside scope so we can catch and log errors
+    using (var scope = app.Services.CreateScope())
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupMigrations");
+        try
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            db.Database.Migrate();
+            logger.LogInformation("Database migration completed successfully.");
+        }
+        catch (Exception ex)
+        {
+            // This makes the failure visible in Log Stream / stdout logs
+            logger.LogCritical(ex, "Database migration failed during startup.");
+            // rethrow so outer try/catch will handle process termination/logging
+            throw;
+        }
+    }
+
+    // Pipeline
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseExceptionHandler("/Home/Error");
+        app.UseHsts();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+
+    app.UseRouting();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    // Routes
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    app.MapRazorPages();
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    // Ensure startup exceptions are visible in Azure Log Stream and App Service logs
     try
     {
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        db.Database.Migrate();
-        logger.LogInformation("Database migration completed successfully.");
+        Console.Error.WriteLine("Host terminated unexpectedly during startup: " + ex);
+        // Also write to stdout for Azure's LogStream
+        Console.WriteLine("Host terminated unexpectedly during startup: " + ex);
     }
-    catch (Exception ex)
-    {
-        // This makes the failure visible in Log Stream / stdout logs
-        logger.LogCritical(ex, "Database migration failed during startup.");
-        throw; // keep throwing so you don't run a broken app silently
-    }
+    catch { }
+
+    // Ensure process exits with a non-zero code so Azure marks deployment as failed
+    Environment.ExitCode = 1;
+    throw; // rethrow so the host can surface the error
 }
-
-// Pipeline
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-// Routes
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapRazorPages();
-
-app.Run();
