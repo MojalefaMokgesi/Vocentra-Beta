@@ -370,6 +370,45 @@ namespace Vocentra.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Vocentra.Models.AuditLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ActorRole")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ActorUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EntityId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EntityType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IpAddress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MetadataJson")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditLogs");
+                });
+
             modelBuilder.Entity("Vocentra.Models.CompanyProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -425,6 +464,9 @@ namespace Vocentra.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("ApplicationDeadline")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ApprovedByUserId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Benefits")
@@ -493,6 +535,9 @@ namespace Vocentra.Migrations
                     b.Property<decimal>("PriceZar")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<DateTime?>("PublishedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
@@ -514,6 +559,213 @@ namespace Vocentra.Migrations
                     b.HasIndex("OwnerUserId");
 
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.ModerationDecision", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AdminUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("DecisionType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PaymentRequestId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentRequestId");
+
+                    b.ToTable("ModerationDecisions");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LinkUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.PaymentBankAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AccountHolder")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BankName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BranchCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ValidFrom")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ValidTo")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentBankAccounts");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.PaymentMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PaymentRequestId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SenderRole")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SenderUserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentRequestId");
+
+                    b.ToTable("PaymentMessages");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.PaymentRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("CurrentSubmissionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("NeedsAttention")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Reference")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RiskFlags")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("PaymentRequests");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.PaymentSubmission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal?>("AmountClaimed")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("DocumentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FileHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PaymentRequestId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SnapshotStatus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SubmittedByUserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.HasIndex("PaymentRequestId");
+
+                    b.ToTable("PaymentSubmissions");
                 });
 
             modelBuilder.Entity("Vocentra.Models.PaymentTransaction", b =>
@@ -585,6 +837,42 @@ namespace Vocentra.Migrations
                     b.HasIndex("JobId");
 
                     b.ToTable("PaymentTransactions");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.ProofDocument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OriginalFileName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Sha256")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("SizeBytes")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StorageProvider")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("StoredPathOrBlobKey")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProofDocuments");
                 });
 
             modelBuilder.Entity("Vocentra.Models.SecurityActivityLog", b =>
@@ -878,6 +1166,58 @@ namespace Vocentra.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Vocentra.Models.ModerationDecision", b =>
+                {
+                    b.HasOne("Vocentra.Models.PaymentRequest", "PaymentRequest")
+                        .WithMany()
+                        .HasForeignKey("PaymentRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaymentRequest");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.PaymentMessage", b =>
+                {
+                    b.HasOne("Vocentra.Models.PaymentRequest", "PaymentRequest")
+                        .WithMany("Messages")
+                        .HasForeignKey("PaymentRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaymentRequest");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.PaymentRequest", b =>
+                {
+                    b.HasOne("Vocentra.Models.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.PaymentSubmission", b =>
+                {
+                    b.HasOne("Vocentra.Models.ProofDocument", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vocentra.Models.PaymentRequest", "PaymentRequest")
+                        .WithMany("Submissions")
+                        .HasForeignKey("PaymentRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
+
+                    b.Navigation("PaymentRequest");
+                });
+
             modelBuilder.Entity("Vocentra.Models.PaymentTransaction", b =>
                 {
                     b.HasOne("Vocentra.Models.Job", "Job")
@@ -905,6 +1245,13 @@ namespace Vocentra.Migrations
                     b.Navigation("Applicants");
 
                     b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("Vocentra.Models.PaymentRequest", b =>
+                {
+                    b.Navigation("Messages");
+
+                    b.Navigation("Submissions");
                 });
 #pragma warning restore 612, 618
         }

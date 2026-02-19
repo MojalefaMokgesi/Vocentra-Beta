@@ -19,14 +19,18 @@ namespace Vocentra.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IWebHostEnvironment _env;
 
+        private readonly IPaymentWorkflowService _paymentWorkflow;
+
         public JobController(
             AppDbContext context,
             UserManager<ApplicationUser> userManager,
-            IWebHostEnvironment env)
+            IWebHostEnvironment env,
+            IPaymentWorkflowService paymentWorkflow)
         {
             _context = context;
             _userManager = userManager;
             _env = env;
+            _paymentWorkflow = paymentWorkflow;
         }
 
         // ===================== DETAILS =====================
@@ -97,7 +101,9 @@ namespace Vocentra.Controllers
             _context.Jobs.Add(job);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Publish), new { id = job.Id });
+            // Create payment request and redirect user to pay gate
+            var pr = await _paymentWorkflow.CreatePaymentRequestAsync(job);
+            return RedirectToAction("PayGate", "Payments", new { id = pr.Id });
         }
 
         // ===================== PUBLISH =====================

@@ -11,11 +11,10 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Vocentra.Admin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8801ce03651a178723137d0467b5ef720fe72b18")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f47330638c93107ca37c9fe367a03581a585cf9f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Vocentra.Admin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Vocentra.Admin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

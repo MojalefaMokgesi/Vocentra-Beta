@@ -1,0 +1,90 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+
+namespace Vocentra.Models
+{
+    [Index(nameof(OwnerUserId))]
+    public class Job
+    {
+        public int Id { get; set; }
+
+        [Required, MaxLength(200)]
+        public string Title { get; set; } = string.Empty;
+
+        [Required]
+        public string Description { get; set; } = string.Empty;
+
+        [Required, MaxLength(150)]
+        public string Location { get; set; } = string.Empty;
+
+        [Required, MaxLength(50)]
+        public string JobType { get; set; } = string.Empty;
+
+        [Required, Column(TypeName = "decimal(18,2)")]
+        [DataType(DataType.Currency)]
+        public decimal Salary { get; set; }
+
+        public DateTime PostedAt { get; set; } = DateTime.Now;
+
+        [Required, MaxLength(100)]
+        public string Category { get; set; } = string.Empty;
+
+        [Required, MaxLength(50)]
+        public string ExperienceLevel { get; set; } = string.Empty;
+
+        [DataType(DataType.Date)]
+        public DateTime? ApplicationDeadline { get; set; }
+
+        public string Benefits { get; set; } = string.Empty;
+
+        public string SkillsRequired { get; set; } = string.Empty;
+
+        [MaxLength(200)]
+        public string CompanyName { get; set; } = string.Empty;
+
+        public string? CompanyLogoUrl { get; set; }
+
+        [NotMapped]
+        public IFormFile? CompanyLogoFile { get; set; }
+
+        // Ownership
+        public string? OwnerUserId { get; set; }
+
+        public ICollection<Applicant>? Applicants { get; set; }
+        public ICollection<PaymentTransaction>? Payments { get; set; }
+
+        // -----------------------------
+        // Payment Fields
+        // -----------------------------
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal PriceZar { get; set; }
+
+        public DateTime? PaidUntil { get; set; }
+
+        public string PaymentProvider { get; set; } = "ManualEFT";
+
+        public string PaymentReference { get; set; } = string.Empty;
+
+        // Legacy compatibility string field (kept for older code)
+        public string PaymentStatus { get; set; } = "PendingPayment";
+
+        public DateTime? PaidAt { get; set; }
+
+        // -----------------------------
+        // Publishing State
+        // -----------------------------
+
+        public bool IsPaid { get; set; } = false;
+
+        // Strongly-typed publishing state
+        public JobStatus JobStatus { get; set; } = JobStatus.Draft;
+
+        public DateTime? PublishedAt { get; set; }
+
+        public string? ApprovedByUserId { get; set; }
+    }
+}

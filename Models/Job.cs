@@ -69,7 +69,8 @@ namespace Vocentra.Models
 
         public string PaymentReference { get; set; } = string.Empty;
 
-        public string PaymentStatus { get; set; } = PaymentStatuses.PendingPayment;
+        // Legacy compatibility string field (kept for older code)
+        public string PaymentStatus { get; set; } = "PendingPayment";
 
         public DateTime? PaidAt { get; set; }
 
@@ -79,7 +80,26 @@ namespace Vocentra.Models
 
         public bool IsPaid { get; set; } = false;
 
-        // Draft / Active / Expired
-        public string Status { get; set; } = "Draft";
+        // Legacy persisted string status (kept for compatibility)
+        public string Status { get; set; } = JobStatus.Draft.ToString();
+
+        // Strongly-typed publishing state helper (not mapped) for new code to use
+        [NotMapped]
+        public JobStatus JobStatus
+        {
+            get
+            {
+                if (Enum.TryParse<JobStatus>(Status, true, out var s)) return s;
+                return JobStatus.Draft;
+            }
+            set
+            {
+                Status = value.ToString();
+            }
+        }
+
+        public DateTime? PublishedAt { get; set; }
+
+        public string? ApprovedByUserId { get; set; }
     }
 }

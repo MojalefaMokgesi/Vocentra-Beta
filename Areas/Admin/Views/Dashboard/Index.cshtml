@@ -1,0 +1,24 @@
+@model IEnumerable<Vocentra.Models.PaymentRequest>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+<h2>Admin Dashboard</h2>
+<div>
+    <p>Under review: @ViewBag.CountUnder</p>
+    <p>Needs more info: @ViewBag.CountNeeds</p>
+    <p>Overdue: @ViewBag.Overdue</p>
+</div>
+<h3>Recent requests</h3>
+<table class="table">
+<thead><tr><th>Id</th><th>Job</th><th>Amount</th><th>Created</th></tr></thead>
+<tbody>
+@foreach(var p in Model){
+    <tr>
+        <td>@p.Id</td>
+        <td>@p.Job?.Title</td>
+        <td>@p.Amount.ToString("C")</td>
+        <td>@p.CreatedAt.ToLocalTime()</td>
+    </tr>
+}
+</tbody>
+</table>

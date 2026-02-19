@@ -1,0 +1,75 @@
+@model List<Vocentra.Models.PaymentTransaction>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Payments Queue";
+}
+
+<h2>Payments Queue</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+@if (Model == null || Model.Count == 0)
+{
+    <p>No payments waiting for review.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Tx</th>
+                <th>Job</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Reference</th>
+                <th>Proof</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tx in Model)
+            {
+                <tr>
+                    <td>@tx.Id</td>
+                    <td>@tx.Job?.Title</td>
+                    <td>R @tx.AmountZar.ToString("0.00")</td>
+                    <td>@tx.Status</td>
+                    <td>@tx.MerchantReference</td>
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(tx.ProofFilePath))
+                        {
+                            <a href="@tx.ProofFilePath" target="_blank">Open</a>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
+                    <td style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <form asp-action="StartReview" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@tx.Id" />
+                            <button class="btn btn-sm btn-warning" type="submit">Review</button>
+                        </form>
+
+                        <form asp-action="Approve" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@tx.Id" />
+                            <button class="btn btn-sm btn-success" type="submit">Approve</button>
+                        </form>
+
+                        <form asp-action="Reject" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@tx.Id" />
+                            <input class="form-control form-control-sm" style="max-width:200px;" name="reason" placeholder="Reason" />
+                            <button class="btn btn-sm btn-danger" type="submit">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

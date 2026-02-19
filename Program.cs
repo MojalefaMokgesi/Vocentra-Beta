@@ -21,6 +21,8 @@ builder.Services.AddRazorPages();
 #endif
 
 builder.Services.AddHttpContextAccessor();
+// Data protection for download tokens
+builder.Services.AddDataProtection();
 
 // Connection string (use GetConnectionString to allow Azure App Service mapping)
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -109,6 +111,24 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<SettingsService>();
 
+// Payment/workflow services
+builder.Services.AddScoped<Vocentra.Services.INotificationService, Vocentra.Services.NotificationService>();
+builder.Services.AddScoped<Vocentra.Services.IAuditService, Vocentra.Services.AuditService>();
+
+// Choose proof storage provider: Azure Blob if configured, otherwise local
+var blobConn = builder.Configuration["AzureBlobStorage:ConnectionString"] ?? builder.Configuration["AzureBlobStorage"];
+if (!string.IsNullOrWhiteSpace(blobConn))
+{
+    builder.Services.AddSingleton(new Azure.Storage.Blobs.BlobServiceClient(blobConn));
+    builder.Services.AddScoped<Vocentra.Services.IProofStorageService, Vocentra.Services.AzureBlobProofStorageService>();
+}
+else
+{
+    builder.Services.AddScoped<Vocentra.Services.IProofStorageService, Vocentra.Services.LocalProofStorageService>();
+}
+
+builder.Services.AddScoped<Vocentra.Services.IPaymentWorkflowService, Vocentra.Services.PaymentWorkflowService>();
+
 // Build and run with robust startup error handling
 try
 {
@@ -135,21 +155,36 @@ try
     }
 
     // Auto-migrate database (safe logging) - run inside scope so we can catch and log errors
-    using (var scope = app.Services.CreateScope())
+    // Run migrations and seed only in Development environment to avoid production auto-migrate
+    if (app.Environment.IsDevelopment())
     {
-        var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupMigrations");
-        try
+        using (var scope = app.Services.CreateScope())
         {
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            db.Database.Migrate();
-            logger.LogInformation("Database migration completed successfully.");
-        }
-        catch (Exception ex)
-        {
-            // This makes the failure visible in Log Stream / stdout logs
-            logger.LogCritical(ex, "Database migration failed during startup.");
-            // rethrow so outer try/catch will handle process termination/logging
-            throw;
+            var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupMigrations");
+            try
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
+                logger.LogInformation("Database migration completed successfully.");
+                // Seed roles, admin user and sample bank account (only if configured)
+                try
+                {
+                    var seedCfg = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                    await Vocentra.Data.SeedData.EnsureSeedAsync(scope.ServiceProvider, seedCfg);
+                    logger.LogInformation("Seed data ensured.");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Seed data failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                // This makes the failure visible in Log Stream / stdout logs
+                logger.LogCritical(ex, "Database migration failed during startup.");
+                // rethrow so outer try/catch will handle process termination/logging
+                throw;
+            }
         }
     }
 
@@ -169,6 +204,7 @@ try
     app.UseAuthorization();
 
     // Routes
+    app.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");

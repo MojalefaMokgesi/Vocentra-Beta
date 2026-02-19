@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj": {}
+    "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj": {
+    "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
+        "projectUniqueName": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.csproj",
         "projectName": "Vocentra",
-        "projectPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
+        "projectPath": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\Vocentra.csproj",
         "packagesPath": "C:\\Users\\Mokge\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\obj\\",
+        "outputPath": "C:\\Users\\Mokge\\source\\repos\\Vocentra Backups\\Vocentra Main\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -49,6 +49,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.17.1, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.11, )"
@@ -62,6 +66,12 @@
               "version": "[8.0.11, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.11, )"
             },

@@ -1,0 +1,68 @@
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Vocentra.Models;
+
+namespace Vocentra.Services
+{
+    public class AzureBlobProofStorageService : IProofStorageService
+    {
+        private readonly BlobContainerClient _container;
+
+        public AzureBlobProofStorageService(IConfiguration cfg)
+        {
+            var conn = cfg["AzureBlobStorage:ConnectionString"] ?? cfg["AzureBlobStorage"];
+            if (string.IsNullOrWhiteSpace(conn)) throw new InvalidOperationException("AzureBlobStorage connection string is not configured.");
+            var containerName = cfg["AzureBlobStorage:Container"] ?? "proofdocuments";
+
+            var client = new BlobServiceClient(conn);
+            _container = client.GetBlobContainerClient(containerName.ToLowerInvariant());
+            _container.CreateIfNotExists(PublicAccessType.None);
+        }
+
+        public async Task<ProofDocument> SaveAsync(IFormFile file)
+        {
+            var blobName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var blob = _container.GetBlobClient(blobName);
+
+            var headers = new BlobHttpHeaders { ContentType = file.ContentType };
+
+            using (var stream = file.OpenReadStream())
+            {
+                await blob.UploadAsync(stream, headers);
+            }
+
+            // compute sha256
+            string sha256;
+            using (var sha = System.Security.Cryptography.SHA256.Create())
+            using (var s = await blob.OpenReadAsync())
+            {
+                var hash = sha.ComputeHash(s);
+                sha256 = Convert.ToHexString(hash);
+            }
+
+            return new ProofDocument
+            {
+                StorageProvider = StorageProvider.AzureBlob,
+                StoredPathOrBlobKey = blobName,
+                OriginalFileName = file.FileName,
+                ContentType = file.ContentType,
+                SizeBytes = file.Length,
+                Sha256 = sha256,
+                UploadedAt = DateTime.UtcNow
+            };
+        }
+
+        public async Task<Stream> GetStreamAsync(ProofDocument doc)
+        {
+            if (doc.StorageProvider != StorageProvider.AzureBlob) throw new InvalidOperationException("Document is not stored in Azure Blob");
+            var blob = _container.GetBlobClient(doc.StoredPathOrBlobKey);
+            var resp = await blob.DownloadAsync();
+            return resp.Value.Content;
+        }
+    }
+}

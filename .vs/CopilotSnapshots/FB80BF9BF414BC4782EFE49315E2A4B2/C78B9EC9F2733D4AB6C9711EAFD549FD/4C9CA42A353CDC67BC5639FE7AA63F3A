@@ -1,0 +1,36 @@
+﻿using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Vocentra.Data;
+using Vocentra.Models;
+
+namespace Vocentra.Services
+{
+    public class AuditService : IAuditService
+    {
+        private readonly AppDbContext _db;
+        private readonly ILogger<AuditService> _log;
+
+        public AuditService(AppDbContext db, ILogger<AuditService> log)
+        {
+            _db = db;
+            _log = log;
+        }
+
+        public async Task LogAsync(string actorUserId, string actorRole, string action, string entityType, string entityId, string? ip = null, string? ua = null, string? metadataJson = null)
+        {
+            var a = new AuditLog
+            {
+                ActorUserId = actorUserId,
+                ActorRole = actorRole,
+                Action = action,
+                EntityType = entityType,
+                EntityId = entityId,
+                IpAddress = ip,
+                UserAgent = ua,
+                MetadataJson = metadataJson
+            };
+            _db.AuditLogs.Add(a);
+            await _db.SaveChangesAsync();
+        }
+    }
+}

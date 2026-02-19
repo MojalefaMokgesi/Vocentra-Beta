@@ -1,0 +1,3 @@
+﻿@using Vocentra.Admin
+@using Vocentra.Admin.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

@@ -28,6 +28,50 @@ namespace Vocentra.Controllers
         }
 
         // -------------------------
+        // NEW: PaymentRequest PayGate (for manual EFT workflow)
+        // -------------------------
+        [Authorize]
+        [HttpGet("payments/gate/{id:int}")]
+        public async Task<IActionResult> PayGate(int id)
+        {
+            var pr = await _db.PaymentRequests.Include(p => p.Job).Include(p => p.Messages).FirstOrDefaultAsync(p => p.Id == id);
+            if (pr == null) return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isAdmin = User.IsInRole("Admin") || User.IsInRole("FinanceAdmin");
+            if (!isAdmin && pr.UserId != userId) return Forbid();
+
+            // Get active bank details
+            var bank = await _db.PaymentBankAccounts.FirstOrDefaultAsync(b => b.IsActive && b.ValidFrom <= DateTime.UtcNow && (b.ValidTo == null || b.ValidTo >= DateTime.UtcNow));
+            ViewBag.Bank = bank;
+
+            return View("PayGate", pr);
+        }
+
+        [Authorize]
+        [HttpPost("payments/gate/{id:int}/submit")]
+        [RequestSizeLimit(10_000_000)]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubmitProof(int id, IFormFile proofFile, string? notes, decimal? amountClaimed)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId)) return Forbid();
+
+            try
+            {
+                var workflow = HttpContext.RequestServices.GetRequiredService<IPaymentWorkflowService>();
+                var submission = await workflow.SubmitProofAsync(id, proofFile, notes, userId, amountClaimed);
+                return RedirectToAction("PayGate", new { id });
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                var pr = await _db.PaymentRequests.Include(p => p.Job).FirstOrDefaultAsync(p => p.Id == id);
+                return View("PayGate", pr);
+            }
+        }
+
+        // -------------------------
         // PAY (creates pending tx)
         // -------------------------
         [Authorize]

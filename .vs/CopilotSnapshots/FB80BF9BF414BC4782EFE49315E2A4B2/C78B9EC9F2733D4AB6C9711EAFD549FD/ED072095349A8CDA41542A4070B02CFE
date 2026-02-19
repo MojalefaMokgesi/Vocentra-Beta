@@ -1,0 +1,114 @@
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Vocentra.Models;
+
+namespace Vocentra.Services
+{
+    public class AzureBlobProofStorageService : IProofStorageService
+    {
+        private readonly BlobContainerClient _container;
+        private readonly Microsoft.AspNetCore.DataProtection.IDataProtector _protector;
+
+        public AzureBlobProofStorageService(IConfiguration cfg, Microsoft.AspNetCore.DataProtection.IDataProtectionProvider dp)
+        {
+            var conn = cfg["AzureBlobStorage:ConnectionString"] ?? cfg["AzureBlobStorage"];
+            if (string.IsNullOrWhiteSpace(conn)) throw new InvalidOperationException("AzureBlobStorage connection string is not configured.");
+            var containerName = cfg["AzureBlobStorage:Container"] ?? "proofdocuments";
+
+            var client = new BlobServiceClient(conn);
+            _container = client.GetBlobContainerClient(containerName.ToLowerInvariant());
+            _container.CreateIfNotExists(PublicAccessType.None);
+            _protector = dp.CreateProtector("ProofDownloadToken");
+        }
+
+        public async Task<ProofDocument> SaveAsync(IFormFile file)
+        {
+            var blobName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var blob = _container.GetBlobClient(blobName);
+
+            var headers = new BlobHttpHeaders { ContentType = file.ContentType };
+
+            using (var stream = file.OpenReadStream())
+            {
+                await blob.UploadAsync(stream, headers);
+            }
+
+            // compute sha256
+            string sha256;
+            using (var sha = System.Security.Cryptography.SHA256.Create())
+            using (var s = await blob.OpenReadAsync())
+            {
+                var hash = sha.ComputeHash(s);
+                sha256 = Convert.ToHexString(hash);
+            }
+
+            return new ProofDocument
+            {
+                StorageProvider = StorageProvider.AzureBlob,
+                StoredPathOrBlobKey = blobName,
+                OriginalFileName = file.FileName,
+                ContentType = file.ContentType,
+                SizeBytes = file.Length,
+                Sha256 = sha256,
+                UploadedAt = DateTime.UtcNow
+            };
+        }
+
+        public async Task<Stream> GetStreamAsync(ProofDocument doc)
+        {
+            if (doc.StorageProvider != StorageProvider.AzureBlob) throw new InvalidOperationException("Document is not stored in Azure Blob");
+            var blob = _container.GetBlobClient(doc.StoredPathOrBlobKey);
+            var resp = await blob.DownloadAsync();
+            return resp.Value.Content;
+        }
+
+        public Task<string> CreateDownloadTokenAsync(ProofDocument doc, TimeSpan validFor)
+        {
+            var payload = new
+            {
+                doc.StorageProvider,
+                doc.StoredPathOrBlobKey,
+                doc.OriginalFileName,
+                doc.ContentType,
+                Expiry = DateTime.UtcNow.Add(validFor)
+            };
+            var json = System.Text.Json.JsonSerializer.Serialize(payload);
+            var token = _protector.Protect(json);
+            return Task.FromResult(token);
+        }
+
+        public async Task<Stream> GetStreamFromDownloadTokenAsync(string token)
+        {
+            try
+            {
+                var json = _protector.Unprotect(token);
+                var doc = System.Text.Json.JsonSerializer.Deserialize<DownloadTokenPayload>(json);
+                if (doc == null) throw new InvalidOperationException("Invalid token payload");
+                if (doc.Expiry < DateTime.UtcNow) throw new InvalidOperationException("Token expired");
+                if (doc.StorageProvider != StorageProvider.AzureBlob) throw new InvalidOperationException("Token not for blob storage");
+
+                var blob = _container.GetBlobClient(doc.StoredPathOrBlobKey);
+                var resp = await blob.DownloadAsync();
+                return resp.Value.Content;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Invalid or expired token", ex);
+            }
+        }
+
+        private class DownloadTokenPayload
+        {
+            public StorageProvider StorageProvider { get; set; }
+            public string StoredPathOrBlobKey { get; set; } = string.Empty;
+            public string OriginalFileName { get; set; } = string.Empty;
+            public string ContentType { get; set; } = string.Empty;
+            public DateTime Expiry { get; set; }
+        }
+    }
+}

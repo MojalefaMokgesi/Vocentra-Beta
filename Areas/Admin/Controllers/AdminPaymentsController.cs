@@ -1,0 +1,109 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Vocentra.Data;
+using Vocentra.Models;
+using Vocentra.Services;
+
+namespace Vocentra.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    [Authorize(Roles = "Admin,FinanceAdmin")]
+    public class AdminPaymentsController : Controller
+    {
+        private readonly AppDbContext _db;
+
+        public AdminPaymentsController(AppDbContext db)
+        {
+            _db = db;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Queue()
+        {
+            var pending = await _db.PaymentTransactions
+                .Include(t => t.Job)
+                .Where(t => t.Status == PaymentStatuses.AwaitingProof || t.Status == PaymentStatuses.UnderReview)
+                .OrderByDescending(t => t.ProofSubmittedAtUtc ?? t.CreatedAtUtc)
+                .ToListAsync();
+
+            return View(pending);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> StartReview(int id)
+        {
+            var tx = await _db.PaymentTransactions.Include(t => t.Job).FirstOrDefaultAsync(t => t.Id == id);
+            if (tx == null) return NotFound();
+
+            tx.Status = PaymentStatuses.UnderReview;
+            if (tx.Job != null)
+            {
+                tx.Job.PaymentStatus = PaymentStatuses.UnderReview;
+                JobPaymentGate.Apply(tx.Job);
+            }
+
+            await _db.SaveChangesAsync();
+            TempData["Message"] = $"Tx #{tx.Id} set to UnderReview.";
+            return RedirectToAction(nameof(Queue));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var tx = await _db.PaymentTransactions.Include(t => t.Job).FirstOrDefaultAsync(t => t.Id == id);
+            if (tx == null) return NotFound();
+
+            tx.Status = PaymentStatuses.Paid;
+            tx.PaidAtUtc = DateTime.UtcNow;
+
+            if (tx.Job != null)
+            {
+                tx.Job.PaymentStatus = PaymentStatuses.Paid;
+                tx.Job.PaymentProvider = "ManualEFT";
+                tx.Job.PaymentReference = tx.MerchantReference;
+                tx.Job.PaidAt = DateTime.UtcNow;
+                tx.Job.PaidUntil = tx.EndDate;
+
+                JobPaymentGate.Apply(tx.Job);
+            }
+
+            await _db.SaveChangesAsync();
+            TempData["Message"] = $"Approved Tx #{tx.Id}. Job activated.";
+            return RedirectToAction(nameof(Queue));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Reject(int id, string? reason)
+        {
+            if (string.IsNullOrWhiteSpace(reason))
+            {
+                TempData["Message"] = "Reason is required to reject.";
+                return RedirectToAction(nameof(Queue));
+            }
+
+            var tx = await _db.PaymentTransactions.Include(t => t.Job).FirstOrDefaultAsync(t => t.Id == id);
+            if (tx == null) return NotFound();
+
+            tx.Status = PaymentStatuses.Rejected;
+            tx.ReviewNote = (reason ?? "").Trim();
+            tx.ReviewedAtUtc = DateTime.UtcNow;
+
+            if (tx.Job != null)
+            {
+                tx.Job.PaymentStatus = PaymentStatuses.Rejected;
+                JobPaymentGate.Apply(tx.Job);
+            }
+
+            await _db.SaveChangesAsync();
+            TempData["Message"] = $"Rejected Tx #{tx.Id}.";
+            return RedirectToAction(nameof(Queue));
+        }
+    }
+}

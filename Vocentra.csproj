@@ -12,19 +12,24 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.11" />
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.17.1" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<!-- Exclude admin project folder from main compilation -->
-		<Compile Remove="Vocentra.Admin\**\*.cs" />
-		<Content Remove="Vocentra.Admin\**\*" />
-		<None Remove="Vocentra.Admin\**\*" />
-		<EmbeddedResource Remove="Vocentra.Admin\**\*" />
-	</ItemGroup>
+    <ItemGroup>
+        <!-- Exclude legacy Vocentra.Admin project files (build artifacts and leftover files) from compilation -->
+        <Compile Remove="Vocentra.Admin\**\*.cs" />
+        <Content Remove="Vocentra.Admin\**\*" />
+        <None Remove="Vocentra.Admin\**\*" />
+        <EmbeddedResource Remove="Vocentra.Admin\**\*" />
+    </ItemGroup>
 
 </Project>

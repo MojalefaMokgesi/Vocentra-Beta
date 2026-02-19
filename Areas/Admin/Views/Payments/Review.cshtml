@@ -1,0 +1,48 @@
+@model Vocentra.Models.PaymentRequest
+@{
+    ViewData["Title"] = "Review Payment";
+}
+<h2>Review Payment Request #@Model.Id</h2>
+<div>
+    <h4>Job: @Model.Job?.Title</h4>
+    <p>Amount: @Model.Amount.ToString("C")</p>
+    <p>Reference: @Model.Reference</p>
+    <p>Status: @Model.Status</p>
+</div>
+<hr />
+<h4>Submissions</h4>
+@if (Model.Submissions != null && Model.Submissions.Any())
+{
+    <ul>
+    @foreach(var s in Model.Submissions.OrderByDescending(x=>x.SubmittedAt)){
+        <li>@s.SubmittedAt.ToLocalTime() - <a asp-controller="Payments" asp-action="DownloadProof" asp-route-id="@s.DocumentId">Download</a> - Notes: @s.Notes</li>
+    }
+    </ul>
+}
+
+<form asp-area="Admin" asp-controller="Payments" asp-action="Approve" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button class="btn btn-success">Approve</button>
+</form>
+
+<form asp-area="Admin" asp-controller="Payments" asp-action="Decline" method="post" style="margin-top:10px;">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="form-group"><label>Reason</label><input name="reason" class="form-control" /></div>
+    <button class="btn btn-danger">Decline</button>
+</form>
+
+<form asp-area="Admin" asp-controller="Payments" asp-action="RequestMoreInfo" method="post" style="margin-top:10px;">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="form-group"><label>Message to user</label><textarea name="message" class="form-control"></textarea></div>
+    <button class="btn btn-warning">Request More Info</button>
+</form>
+
+<h4>Messages</h4>
+@if (Model.Messages != null && Model.Messages.Any())
+{
+    <ul>
+    @foreach(var m in Model.Messages.OrderByDescending(x=>x.CreatedAt)){
+        <li>@m.CreatedAt.ToLocalTime() - @m.Message</li>
+    }
+    </ul>
+}
