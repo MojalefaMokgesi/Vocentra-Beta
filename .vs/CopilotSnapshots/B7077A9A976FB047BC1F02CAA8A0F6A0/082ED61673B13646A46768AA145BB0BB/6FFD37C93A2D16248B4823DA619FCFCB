@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,10 +39,6 @@ namespace Vocentra.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
-
-            // ApplicationDeadline is nullable; ensure it has a value before accessing Date
-            if (!job.ApplicationDeadline.HasValue)
-                return BadRequest("Job must have an application deadline.");
 
             if (job.IsPaid && string.Equals(job.Status, "Active", StringComparison.OrdinalIgnoreCase))
                 return BadRequest("Job is already active/paid.");
