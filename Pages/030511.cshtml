@@ -1,0 +1,38 @@
+@page
+@model Vocentra.Pages.Page030511Model
+@{
+    ViewData["Title"] = "030511";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Enter PIN</h3>
+
+                    <form method="post">
+                        <div class="mb-3">
+                            <label asp-for="Pin" class="form-label">PIN</label>
+                            <input asp-for="Pin" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Pin" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="mt-3 text-danger">@Model.ErrorMessage</div>
+                    }
+
+                    <div class="mt-3 text-muted small">If the PIN is correct you will be redirected to the Admin area. You still must be signed in and have the appropriate role to access admin pages.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

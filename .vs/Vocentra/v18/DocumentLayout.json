@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\middlewares\\admingatemiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:middlewares\\admingatemiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -213,8 +217,12 @@
       "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\middlewares\\admingatemiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:middlewares\\admingatemiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\pages\\030511.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:pages\\030511.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\pages\\030511.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:pages\\030511.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -224,23 +232,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 56,
+              "Title": "030511.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Pages\\030511.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\030511.cshtml.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Pages\\030511.cshtml.cs",
+              "RelativeToolTip": "Pages\\030511.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T16:51:01.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "030511.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Pages\\030511.cshtml",
+              "RelativeDocumentMoniker": "Pages\\030511.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Pages\\030511.cshtml",
+              "RelativeToolTip": "Pages\\030511.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-20T16:50:56.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "AdminGateMiddleware.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Middlewares\\AdminGateMiddleware.cs",
               "RelativeDocumentMoniker": "Middlewares\\AdminGateMiddleware.cs",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Middlewares\\AdminGateMiddleware.cs",
               "RelativeToolTip": "Middlewares\\AdminGateMiddleware.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T10:27:04.746Z"
+              "WhenOpened": "2026-02-20T10:27:04.746Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 42,
               "Title": "ApplicantsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\ApplicantsController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ApplicantsController.cs",
@@ -252,7 +287,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 41,
               "Title": "EmployersController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\EmployersController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\EmployersController.cs",
@@ -264,7 +299,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 40,
               "Title": "JobsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\JobsController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\JobsController.cs",
@@ -276,7 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 39,
               "Title": "admin.js",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\js\\admin.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\admin.js",
@@ -288,7 +323,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 38,
               "Title": "admin.css",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\css\\admin.css",
               "RelativeDocumentMoniker": "wwwroot\\css\\admin.css",
@@ -300,7 +335,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -313,7 +348,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 43,
               "Title": "ReportsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\ReportsController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ReportsController.cs",
@@ -325,7 +360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 54,
               "Title": "DashboardController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\DashboardController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\DashboardController.cs",
@@ -337,7 +372,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 53,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Audit\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Audit\\Index.cshtml",
@@ -349,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 52,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Settings\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Settings\\Index.cshtml",
@@ -361,7 +396,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 51,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Reports\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Reports\\Index.cshtml",
@@ -373,7 +408,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 50,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Applicants\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Applicants\\Index.cshtml",
@@ -385,7 +420,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 49,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Employers\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Employers\\Index.cshtml",
@@ -397,7 +432,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 48,
               "Title": "Review.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Jobs\\Review.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Jobs\\Review.cshtml",
@@ -409,7 +444,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 47,
               "Title": "Queue.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Jobs\\Queue.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Jobs\\Queue.cshtml",
@@ -421,7 +456,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 46,
               "Title": "Review.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Payments\\Review.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Payments\\Review.cshtml",
@@ -433,7 +468,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 45,
               "Title": "AuditController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AuditController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AuditController.cs",
@@ -445,7 +480,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 44,
               "Title": "SettingsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\SettingsController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\SettingsController.cs",
@@ -457,7 +492,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "EmailSettings.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\EmailSettings.cs",
               "RelativeDocumentMoniker": "Services\\EmailSettings.cs",
@@ -469,7 +504,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "SmtpEmailSender.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\SmtpEmailSender.cs",
               "RelativeDocumentMoniker": "Services\\SmtpEmailSender.cs",
@@ -481,7 +516,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 33,
               "Title": "DiagnosticsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\DiagnosticsController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\DiagnosticsController.cs",
@@ -493,7 +528,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 34,
               "Title": "AccessController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AccessController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AccessController.cs",
@@ -505,7 +540,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 35,
               "Title": "PaymentsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\PaymentsController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\PaymentsController.cs",
@@ -517,7 +552,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 37,
               "Title": "Queue.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Payments\\Queue.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Payments\\Queue.cshtml",
@@ -529,7 +564,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 36,
               "Title": "AdminPaymentsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
@@ -541,7 +576,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "NullEmailSender.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\NullEmailSender.cs",
               "RelativeDocumentMoniker": "Services\\NullEmailSender.cs",
@@ -553,7 +588,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 29,
               "Title": "Applicants.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Applicants.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Applicants.cshtml",
@@ -565,7 +600,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Delete.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Delete.cshtml",
@@ -577,7 +612,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Edit.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Edit.cshtml",
@@ -589,7 +624,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Create.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Create.cshtml",
@@ -601,7 +636,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "ManageJobs.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\ManageJobs.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\ManageJobs.cshtml",
@@ -613,7 +648,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -621,12 +656,11 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAACoBAAAAAAAAAABBwCEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-13T15:27:29.35Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-13T15:27:29.35Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Admin\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Admin\\Index.cshtml",
@@ -638,7 +672,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
@@ -650,7 +684,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\_ViewStart.cshtml",
@@ -662,7 +696,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "web.config",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\web.config",
               "RelativeDocumentMoniker": "web.config",
@@ -674,7 +708,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "IProofStorageService.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\IProofStorageService.cs",
               "RelativeDocumentMoniker": "Services\\IProofStorageService.cs",
@@ -686,7 +720,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "LocalProofStorageService.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\LocalProofStorageService.cs",
               "RelativeDocumentMoniker": "Services\\LocalProofStorageService.cs",
@@ -698,7 +732,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "AzureBlobProofStorageService.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\AzureBlobProofStorageService.cs",
               "RelativeDocumentMoniker": "Services\\AzureBlobProofStorageService.cs",
@@ -710,7 +744,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "AuditService.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\AuditService.cs",
               "RelativeDocumentMoniker": "Services\\AuditService.cs",
@@ -722,7 +756,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "azure-webapp.yml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\.github\\workflows\\azure-webapp.yml",
               "RelativeDocumentMoniker": ".github\\workflows\\azure-webapp.yml",
@@ -734,7 +768,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Directory.Build.props",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Directory.Build.props",
               "RelativeDocumentMoniker": "Directory.Build.props",
@@ -746,7 +780,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -758,7 +792,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "PaymentsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Controllers\\PaymentsController.cs",
               "RelativeDocumentMoniker": "Controllers\\PaymentsController.cs",
@@ -770,7 +804,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "JobController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Controllers\\JobController.cs",
               "RelativeDocumentMoniker": "Controllers\\JobController.cs",
@@ -782,7 +816,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Views\\Job\\Details.cshtml",
               "RelativeDocumentMoniker": "Views\\Job\\Details.cshtml",
@@ -794,7 +828,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AdminPaymentsController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\Controllers\\AdminPaymentsController.cs",
               "RelativeDocumentMoniker": "Vocentra.Admin\\Controllers\\AdminPaymentsController.cs",
@@ -806,7 +840,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Vocentra.Admin.csproj",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\Vocentra.Admin.csproj",
               "RelativeDocumentMoniker": "Vocentra.Admin\\Vocentra.Admin.csproj",
@@ -818,7 +852,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "UserApplicationProfileController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Controllers\\UserApplicationProfileController.cs",
               "RelativeDocumentMoniker": "Controllers\\UserApplicationProfileController.cs",
@@ -830,7 +864,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Vocentra.csproj",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.csproj",
               "RelativeDocumentMoniker": "Vocentra.csproj",
@@ -842,7 +876,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\appsettings.json",
               "RelativeDocumentMoniker": "Vocentra.Admin\\appsettings.json",
@@ -854,7 +888,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\Program.cs",
               "RelativeDocumentMoniker": "Vocentra.Admin\\Program.cs",
@@ -866,7 +900,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Microsoft.NET.Sdk.StaticWebAssets.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
@@ -878,7 +912,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Queue.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Vocentra.Admin\\Views\\AdminPayments\\Queue.cshtml",
               "RelativeDocumentMoniker": "Vocentra.Admin\\Views\\AdminPayments\\Queue.cshtml",
