@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using Vocentra.Services;
 namespace Vocentra.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class PaymentsController : Controller
     {
     private readonly AppDbContext _db;
@@ -38,7 +38,6 @@ namespace Vocentra.Areas.Admin.Controllers
         }
 
         [HttpGet("download/{docId:int}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DownloadDocument(int docId)
         {
             var doc = await _db.ProofDocuments.FindAsync(docId);
@@ -49,7 +48,6 @@ namespace Vocentra.Areas.Admin.Controllers
             return File(stream, doc.ContentType ?? "application/octet-stream", doc.OriginalFileName ?? $"proof_{doc.Id}");
         }
 
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Review(int id)
         {
             var req = await _db.PaymentRequests
@@ -63,7 +61,6 @@ namespace Vocentra.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Approve(int id)
         {
             var adminId = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "";
@@ -73,7 +70,6 @@ namespace Vocentra.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Decline(int id, string reason)
         {
             if (string.IsNullOrWhiteSpace(reason))
@@ -90,7 +86,6 @@ namespace Vocentra.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RequestMoreInfo(int id, string message)
         {
             if (string.IsNullOrWhiteSpace(message))
