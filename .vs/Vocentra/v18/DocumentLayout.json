@@ -234,7 +234,7 @@
               "RelativeDocumentMoniker": "Middlewares\\AdminGateMiddleware.cs",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Middlewares\\AdminGateMiddleware.cs",
               "RelativeToolTip": "Middlewares\\AdminGateMiddleware.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAjwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-20T10:27:04.746Z",
               "EditorCaption": ""
@@ -283,9 +283,10 @@
               "RelativeDocumentMoniker": "wwwroot\\js\\admin.js",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\js\\admin.js",
               "RelativeToolTip": "wwwroot\\js\\admin.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAABRwB8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-02-20T09:29:58.934Z"
+              "WhenOpened": "2026-02-20T09:29:58.934Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -427,9 +428,10 @@
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Payments\\Review.cshtml",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Payments\\Review.cshtml",
               "RelativeToolTip": "Areas\\Admin\\Views\\Payments\\Review.cshtml",
-              "ViewState": "AgIAAFIAAAAAAAAAAABRwFUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAIBJwFUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:32:23.218Z"
+              "WhenOpened": "2026-02-20T09:32:23.218Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -511,7 +513,7 @@
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\PaymentsController.cs",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\PaymentsController.cs",
               "RelativeToolTip": "Areas\\Admin\\Controllers\\PaymentsController.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABkAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-19T18:46:46.217Z",
               "EditorCaption": ""
@@ -524,9 +526,10 @@
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Payments\\Queue.cshtml",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Payments\\Queue.cshtml",
               "RelativeToolTip": "Areas\\Admin\\Views\\Payments\\Queue.cshtml",
-              "ViewState": "AgIAAEEAAAAAAAAAAABRwEQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAABRwE8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:10:47.38Z"
+              "WhenOpened": "2026-02-20T09:10:47.38Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -620,9 +623,10 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAACoBAAAAAAAAAABBwCEAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAJcAAAAAAAAAAIBJwCEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-13T15:27:29.35Z"
+              "WhenOpened": "2026-02-13T15:27:29.35Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -644,9 +648,10 @@
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAEkAAAAAAAAAAABRwEwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAIBJwFAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-19T15:39:16.775Z"
+              "WhenOpened": "2026-02-19T15:39:16.775Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,48 +24,16 @@ namespace Vocentra.Areas.Admin.Controllers
             _storage = storage;
         }
 
-        public async Task<IActionResult> Queue(string? status = "UnderReview", string? q = null, string? from = null, string? to = null)
+        public async Task<IActionResult> Queue(string status = "UnderReview")
         {
-            var query = _db.PaymentRequests
+            var list = await _db.PaymentRequests
                 .Include(p => p.Job)
                 .Include(p => p.Messages)
                 .Include(p => p.Submissions).ThenInclude(s => s.Document)
-                .AsQueryable();
+                .Where(p => p.Status == PaymentStatus.UnderReview || p.Status == PaymentStatus.NeedsMoreInfo || p.Status == PaymentStatus.PendingPayment)
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
 
-            // status filter
-            if (!string.IsNullOrEmpty(status))
-            {
-                if (System.Enum.TryParse<PaymentStatus>(status, out var ps))
-                {
-                    query = query.Where(p => p.Status == ps);
-                }
-            }
-            else
-            {
-                // default to under review / pending / needs more info
-                query = query.Where(p => p.Status == PaymentStatus.UnderReview || p.Status == PaymentStatus.NeedsMoreInfo || p.Status == PaymentStatus.PendingPayment);
-            }
-
-            // search by reference or job title/id
-            if (!string.IsNullOrWhiteSpace(q))
-            {
-                var ql = q.Trim();
-                query = query.Where(p => p.Reference.Contains(ql) || (p.Job != null && p.Job.Title.Contains(ql)) || p.JobId.ToString() == ql);
-            }
-
-            // date range
-            if (!string.IsNullOrWhiteSpace(from) && DateTime.TryParse(from, out var fd))
-            {
-                query = query.Where(p => p.CreatedAt >= fd.ToUniversalTime());
-            }
-            if (!string.IsNullOrWhiteSpace(to) && DateTime.TryParse(to, out var td))
-            {
-                // include the full day
-                var end = td.Date.AddDays(1).ToUniversalTime();
-                query = query.Where(p => p.CreatedAt < end);
-            }
-
-            var list = await query.OrderByDescending(p => p.CreatedAt).ToListAsync();
             return View(list);
         }
 

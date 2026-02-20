@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function(){
+﻿document.addEventListener('DOMContentLoaded', function(){
     // Sidebar toggle for small screens
     var sidebar = document.querySelector('.admin-sidebar');
     var toggleButtons = document.querySelectorAll('[data-admin-toggle]');
@@ -16,16 +16,6 @@ document.addEventListener('DOMContentLoaded', function(){
             if(!confirm(msg)){
                 e.preventDefault();
             }
-        });
-    });
-
-    // Disable submit buttons to prevent duplicate submissions
-    document.querySelectorAll('form').forEach(function(form){
-        form.addEventListener('submit', function(e){
-            var btns = form.querySelectorAll('button[type="submit"], input[type="submit"]');
-            btns.forEach(function(b){
-                try { b.disabled = true; b.classList.add('disabled'); } catch (ex) { }
-            });
         });
     });
 });

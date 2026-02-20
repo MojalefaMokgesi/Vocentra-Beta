@@ -148,9 +148,6 @@ builder.Services.AddScoped<Vocentra.Services.IPaymentWorkflowService, Vocentra.S
 
 // Admin access gate configuration and service removed temporarily to allow further development
 // (Previously configured AdminAccessOptions and IAdminGateService)
-// Register admin access gate options and service
-builder.Services.Configure<Vocentra.Services.AdminAccessOptions>(builder.Configuration.GetSection("AdminAccess"));
-builder.Services.AddScoped<Vocentra.Services.IAdminGateService, Vocentra.Services.AdminGateService>();
 
 // Configure email settings and register IEmailSender implementation
 builder.Services.Configure<Vocentra.Services.EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
@@ -298,9 +295,8 @@ try
     app.UseRouting();
 
     app.UseAuthentication();
-
-    // Admin gate middleware - ensures /Admin routes require the admin access code
-    app.UseMiddleware<Vocentra.Middlewares.AdminGateMiddleware>();
+    // Admin gate middleware removed temporarily to allow access during development
+    // (Previously: app.UseMiddleware<Vocentra.Middlewares.AdminGateMiddleware>();)
 
     app.UseAuthorization();
 

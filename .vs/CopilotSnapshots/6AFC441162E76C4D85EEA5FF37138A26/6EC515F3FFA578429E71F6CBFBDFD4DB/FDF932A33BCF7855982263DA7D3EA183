@@ -1,4 +1,4 @@
-@{
+﻿@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -37,21 +37,17 @@
             </div>
 
             <nav class="nav flex-column">
-                @{ string? currentController = ViewContext.RouteData.Values["controller"]?.ToString(); }
-                <a class="nav-link sidebar-link @(currentController == "Dashboard" ? "active" : "")" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">🏠 Overview</a>
-                <a class="nav-link sidebar-link @(currentController == "Jobs" ? "active" : "")" asp-area="Admin" asp-controller="Jobs" asp-action="Queue">🧾 Jobs</a>
-                <a class="nav-link sidebar-link @(currentController == "Payments" ? "active" : "")" asp-area="Admin" asp-controller="Payments" asp-action="Queue">💳 Payments</a>
-                <a class="nav-link sidebar-link @(currentController == "Employers" ? "active" : "")" asp-area="Admin" asp-controller="Employers" asp-action="Index">🏢 Employers</a>
-                <a class="nav-link sidebar-link @(currentController == "Applicants" ? "active" : "")" asp-area="Admin" asp-controller="Applicants" asp-action="Index">📬 Applicants</a>
-                <a class="nav-link sidebar-link @(currentController == "Reports" ? "active" : "")" asp-area="Admin" asp-controller="Reports" asp-action="Index">📈 Reports</a>
-                <a class="nav-link sidebar-link @(currentController == "Settings" ? "active" : "")" asp-area="Admin" asp-controller="Settings" asp-action="Index">⚙️ Settings</a>
-                <a class="nav-link sidebar-link @(currentController == "Audit" ? "active" : "")" asp-area="Admin" asp-controller="Audit" asp-action="Index">🧾 Audit Log</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">🏠 Overview</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Jobs" asp-action="Queue">🧾 Jobs</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Payments" asp-action="Queue">💳 Payments</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Employers" asp-action="Index">🏢 Employers</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Applicants" asp-action="Index">📬 Applicants</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Reports" asp-action="Index">📈 Reports</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Settings" asp-action="Index">⚙️ Settings</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Audit" asp-action="Index">🧾 Audit Log</a>
 
                 <div class="mt-4">
-                    <form asp-area="Admin" asp-controller="Access" asp-action="Logout" method="post" data-confirm="Are you sure you want to exit the admin area?">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="nav-link btn btn-link text-danger p-0">← Exit Admin</button>
-                    </form>
+                    <a class="nav-link text-danger sidebar-link" asp-area="" asp-controller="Home" asp-action="Index">← Exit Admin</a>
                 </div>
             </nav>
         </aside>

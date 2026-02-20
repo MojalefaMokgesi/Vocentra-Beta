@@ -1,4 +1,4 @@
-@model IEnumerable<Vocentra.Models.PaymentRequest>
+﻿@model IEnumerable<Vocentra.Models.PaymentRequest>
 @{
     ViewData["Title"] = "Payment Queue";
 }
@@ -6,18 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Payment Queue</h2>
     <div>
-        <form class="d-flex" method="get" asp-area="Admin" asp-controller="Payments" asp-action="Queue">
-            <select class="form-select form-select-sm me-2" name="status" aria-label="Status filter">
-                <option value="">All</option>
-                <option value="AwaitingProof">Awaiting Proof</option>
-                <option value="UnderReview" selected>Under Review</option>
-                <option value="Approved">Approved</option>
-                <option value="Declined">Declined</option>
-            </select>
-            <input type="search" name="q" class="form-control form-control-sm me-2" placeholder="Search reference or job" />
-            <button type="submit" class="btn btn-sm btn-outline-light me-1">Apply</button>
-            <a class="btn btn-sm btn-secondary" href="?">Clear</a>
-        </form>
+        <a class="btn btn-sm btn-outline-light" asp-area="Admin" asp-controller="Payments" asp-action="Queue">Refresh</a>
     </div>
 </div>
 
@@ -49,7 +38,7 @@
                     }
                 </td>
                 <td>@p.Reference</td>
-                <td>@(string.Format(new System.Globalization.CultureInfo("en-ZA"), "{0:C}", p.Amount))</td>
+                <td>@p.Amount.ToString("C")</td>
                 <td>
                     <span class="badge bg-info text-dark">@p.Status</span>
                 </td>
@@ -57,7 +46,7 @@
                 <td>
                     @if (latest?.Document != null)
                     {
-                        <a asp-area="Admin" asp-controller="Payments" asp-action="Proof" asp-route-submissionId="@latest.Id" class="btn btn-sm btn-outline-light">View</a>
+                        <a asp-area="Admin" asp-controller="Payments" asp-action="DownloadDocument" asp-route-docId="@latest.Document.Id" class="btn btn-sm btn-outline-light">View</a>
                     }
                     else
                     {
