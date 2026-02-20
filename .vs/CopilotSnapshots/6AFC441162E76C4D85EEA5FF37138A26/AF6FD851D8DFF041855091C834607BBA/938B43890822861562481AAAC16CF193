@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
@@ -38,18 +38,6 @@ namespace Vocentra.Middlewares
                     {
                         await _next(context);
                         return;
-                    }
-
-                    // Allow authenticated users to reach the Payments Queue page without the gate
-                    // (This does NOT change Identity roles; the normal [Authorize] attributes may still apply.)
-                    if (path.StartsWith("/Admin/Payments/Queue", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var authUser = context.User;
-                        if (authUser?.Identity?.IsAuthenticated == true)
-                        {
-                            await _next(context);
-                            return;
-                        }
                     }
 
                     // If user is not authenticated or not in role, allow Authorization to handle it
