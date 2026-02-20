@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
@@ -48,8 +48,14 @@ namespace Vocentra.Middlewares
                         return;
                     }
 
-                    // Gate verification temporarily disabled to allow access
-                    // (Previously redirected to /Admin/Access when not verified.)
+                    // If authenticated and in role, ensure gate verification
+                    if (!gate.IsVerified(context))
+                    {
+                        // Redirect to Access page for verification
+                        var returnUrl = Uri.EscapeDataString(context.Request.Path + context.Request.QueryString);
+                        context.Response.Redirect($"/Admin/Access?returnUrl={returnUrl}");
+                        return;
+                    }
                 }
             }
             catch (Exception ex)

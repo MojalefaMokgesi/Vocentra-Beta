@@ -211,6 +211,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\areas\\admin\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\middlewares\\admingatemiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:middlewares\\admingatemiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -224,15 +228,15 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 42,
-              "Title": "ReportsController.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\ReportsController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ReportsController.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\ReportsController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\ReportsController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAIBJwCYAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 54,
+              "Title": "AdminGateMiddleware.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Middlewares\\AdminGateMiddleware.cs",
+              "RelativeDocumentMoniker": "Middlewares\\AdminGateMiddleware.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Middlewares\\AdminGateMiddleware.cs",
+              "RelativeToolTip": "Middlewares\\AdminGateMiddleware.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T09:31:21.761Z",
+              "WhenOpened": "2026-02-20T10:27:04.746Z",
               "EditorCaption": ""
             },
             {
@@ -245,8 +249,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\ApplicantsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T09:31:06.944Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:31:06.944Z"
             },
             {
               "$type": "Document",
@@ -258,8 +261,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\EmployersController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T09:30:52.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:30:52.856Z"
             },
             {
               "$type": "Document",
@@ -271,8 +273,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\JobsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T09:30:37.083Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:30:37.083Z"
             },
             {
               "$type": "Document",
@@ -284,8 +285,7 @@
               "RelativeToolTip": "wwwroot\\js\\admin.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-02-20T09:29:58.934Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:29:58.934Z"
             },
             {
               "$type": "Document",
@@ -297,8 +297,7 @@
               "RelativeToolTip": "wwwroot\\css\\admin.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-02-20T09:29:43.45Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:29:43.45Z"
             },
             {
               "$type": "Document",
@@ -315,6 +314,18 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "ReportsController.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\ReportsController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ReportsController.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\ReportsController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\ReportsController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAIBJwCYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T09:31:21.761Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 53,
               "Title": "DashboardController.cs",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\DashboardController.cs",
@@ -323,8 +334,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\DashboardController.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T09:34:22.635Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:34:22.635Z"
             },
             {
               "$type": "Document",
@@ -336,8 +346,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Audit\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:34:07.35Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:34:07.35Z"
             },
             {
               "$type": "Document",
@@ -349,8 +358,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Settings\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:33:51.886Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:33:51.886Z"
             },
             {
               "$type": "Document",
@@ -362,8 +370,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Reports\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:33:38.094Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:33:38.094Z"
             },
             {
               "$type": "Document",
@@ -375,8 +382,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Applicants\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:33:22.849Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:33:22.849Z"
             },
             {
               "$type": "Document",
@@ -388,8 +394,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Employers\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:33:08.356Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:33:08.356Z"
             },
             {
               "$type": "Document",
@@ -401,8 +406,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Jobs\\Review.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:32:53.544Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:32:53.544Z"
             },
             {
               "$type": "Document",
@@ -414,8 +418,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Jobs\\Queue.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:32:39.391Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:32:39.391Z"
             },
             {
               "$type": "Document",
@@ -427,8 +430,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Payments\\Review.cshtml",
               "ViewState": "AgIAAFIAAAAAAAAAAABRwFUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-20T09:32:23.218Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:32:23.218Z"
             },
             {
               "$type": "Document",
@@ -440,8 +442,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\AuditController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T09:31:50.238Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:31:50.238Z"
             },
             {
               "$type": "Document",
@@ -453,8 +454,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\SettingsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T09:31:36.285Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-20T09:31:36.285Z"
             },
             {
               "$type": "Document",
@@ -514,8 +514,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\PaymentsController.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T18:46:46.217Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T18:46:46.217Z"
             },
             {
               "$type": "Document",
@@ -647,8 +646,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
               "ViewState": "AgIAAEkAAAAAAAAAAABRwEwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-19T15:39:16.775Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T15:39:16.775Z"
             },
             {
               "$type": "Document",
