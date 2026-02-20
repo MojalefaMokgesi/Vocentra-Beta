@@ -5,7 +5,7 @@
 <h2>Admin access code required</h2>
 <p>You must enter the admin access code to continue to the admin area.</p>
 
-<form asp-area="Admin" asp-controller="Access" asp-action="Verify" method="post">
+<form action="@Url.Action("Verify", "Access", new { area = "Admin" })" method="post">
     @Html.AntiForgeryToken()
     <div class="form-group">
         <label for="code">Access Code</label>
@@ -15,7 +15,7 @@
     <button type="submit" class="btn btn-primary">Verify</button>
 </form>
 
-<form asp-area="Admin" asp-controller="Access" asp-action="Logout" method="post" style="margin-top:10px;">
+<form action="@Url.Action("Logout", "Access", new { area = "Admin" })" method="post" style="margin-top:10px;">
     @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-secondary">Logout Admin Session</button>
 </form>

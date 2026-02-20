@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Vocentra.Services;
-using Vocentra.Services;
 
 namespace Vocentra.Areas.Admin.Controllers
 {
