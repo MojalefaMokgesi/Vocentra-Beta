@@ -139,6 +139,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\areas\\admin\\controllers\\adminpaymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\controllers\\adminpaymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|c:\\users\\mokge\\onedrive\\documents\\github\\vocentra main\\areas\\admin\\views\\payments\\queue.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC52DB38-845F-6364-925B-67A23DD44EDA}|Vocentra.csproj|solutionrelative:areas\\admin\\views\\payments\\queue.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -148,19 +152,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "AdminPaymentsController.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T18:46:54.143Z",
+              "DocumentIndex": 36,
+              "Title": "Queue.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Payments\\Queue.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Payments\\Queue.cshtml",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Views\\Payments\\Queue.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Payments\\Queue.cshtml",
+              "ViewState": "AgIAAEEAAAAAAAAAAABRwEQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-20T09:10:47.38Z",
               "EditorCaption": ""
             },
             {
@@ -171,7 +175,7 @@
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\PaymentsController.cs",
               "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\PaymentsController.cs",
               "RelativeToolTip": "Areas\\Admin\\Controllers\\PaymentsController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-19T18:46:46.217Z",
               "EditorCaption": ""
@@ -186,8 +190,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\AccessController.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T18:46:37.43Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T18:46:37.43Z"
             },
             {
               "$type": "Document",
@@ -227,18 +230,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "NullEmailSender.cs",
-              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\NullEmailSender.cs",
-              "RelativeDocumentMoniker": "Services\\NullEmailSender.cs",
-              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\NullEmailSender.cs",
-              "RelativeToolTip": "Services\\NullEmailSender.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T16:03:44.224Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Views\\Shared\\_Layout.cshtml",
@@ -249,6 +240,30 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-02-19T15:48:01.626Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "AdminPaymentsController.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\AdminPaymentsController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAIBQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T18:46:54.143Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "NullEmailSender.cs",
+              "DocumentMoniker": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\NullEmailSender.cs",
+              "RelativeDocumentMoniker": "Services\\NullEmailSender.cs",
+              "ToolTip": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\Services\\NullEmailSender.cs",
+              "RelativeToolTip": "Services\\NullEmailSender.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T16:03:44.224Z"
             },
             {
               "$type": "Document",
