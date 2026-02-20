@@ -6,85 +6,71 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Admin Panel</title>
+    <title>@ViewData["Title"] - Vocentra Admin Actions</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     <style>
-        /* Sidebar links */
-        .sidebar-link {
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            display: block;
-            transition: background 0.2s, color 0.2s;
-            text-decoration: none;
-        }
-
-            .sidebar-link:hover {
-                background-color: #212121;
-                color: #f8f9fa;
-            }
-
-            /* Active sidebar item */
-            .sidebar-link.active {
-                background-color: #000;
-                font-weight: 600;
-            }
-
-        /* Card styling for content */
-        .content-card {
-            background-color: #111;
-            color: #fff;
-            border: 1px solid #333;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Scrollable sidebar */
-        .sidebar {
-            min-height: 100vh;
-            max-height: 100vh;
-            overflow-y: auto;
-        }
-
-        /* Main content scroll */
-        .main-content {
-            overflow-x: auto;
-        }
+        /* Safety CSS to avoid accidental full-page overlays blocking clicks */
+        html, body { height: 100%; }
+        /* Ensure interactive elements accept pointer events */
+        body * { pointer-events: auto !important; }
+        /* Remove any accidental overlay class */
+        .admin-overlay { display: none !important; pointer-events: none !important; }
     </style>
 </head>
-<body class="bg-black text-white">
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <nav class="sidebar bg-dark p-3" style="width: 240px;">
-            <h4 class="text-white mb-4 fw-bold">Admin Panel</h4>
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2">
-                    <a class="sidebar-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">📊 Dashboard</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="sidebar-link" asp-area="Admin" asp-controller="Admin" asp-action="Create">➕ Add Job</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="sidebar-link" asp-area="Admin" asp-controller="Admin" asp-action="ManageJobs">🛠 Manage Jobs</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="sidebar-link" asp-area="Admin" asp-controller="Admin" asp-action="Applicants">📬 Applicants</a>
-                </li>
-                <li class="nav-item mt-4">
-                    <a class="sidebar-link text-danger" asp-area="" asp-controller="Home" asp-action="Index">← Exit Admin</a>
-                </li>
-            </ul>
-        </nav>
+<body class="admin-theme">
+    <div class="admin-shell d-flex">
+        <aside class="admin-sidebar bg-dark text-white p-3" role="navigation">
+            <div class="d-flex align-items-center mb-4">
+                <div class="me-2 admin-brand-icon">
+                    <!-- simple SVG icon -->
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="24" height="24" rx="4" fill="#0d6efd" />
+                        <path d="M6 12h12M6 8h12M6 16h12" stroke="#fff" stroke-width="1.2" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="h6 mb-0">Vocentra</div>
+                    <small class="text-muted">Admin Actions</small>
+                </div>
+            </div>
 
-        <!-- Main content -->
-        <div class="flex-grow-1 p-4 main-content">
-            @RenderBody()
-        </div>
+            <nav class="nav flex-column">
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">🏠 Overview</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Jobs" asp-action="Queue">🧾 Jobs</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Payments" asp-action="Queue">💳 Payments</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Employers" asp-action="Index">🏢 Employers</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Applicants" asp-action="Index">📬 Applicants</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Reports" asp-action="Index">📈 Reports</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Settings" asp-action="Index">⚙️ Settings</a>
+                <a class="nav-link sidebar-link" asp-area="Admin" asp-controller="Audit" asp-action="Index">🧾 Audit Log</a>
+
+                <div class="mt-4">
+                    <a class="nav-link text-danger sidebar-link" asp-area="" asp-controller="Home" asp-action="Index">← Exit Admin</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="admin-main flex-grow-1 p-4">
+            <div class="container-fluid">
+                @* TempData alerts *@
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">@TempData["Success"]</div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["Error"]</div>
+                }
+
+                @RenderBody()
+            </div>
+        </main>
     </div>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

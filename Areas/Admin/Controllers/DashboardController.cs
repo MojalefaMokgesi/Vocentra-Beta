@@ -9,7 +9,7 @@ using Vocentra.Models;
 namespace Vocentra.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin,FinanceAdmin")]
+    [Authorize(Roles = "Admin")]
     public class DashboardController : Controller
     {
         private readonly AppDbContext _db;

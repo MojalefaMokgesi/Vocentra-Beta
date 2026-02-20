@@ -10,7 +10,7 @@ using Vocentra.Services;
 namespace Vocentra.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class PaymentsController : Controller
     {
     private readonly AppDbContext _db;

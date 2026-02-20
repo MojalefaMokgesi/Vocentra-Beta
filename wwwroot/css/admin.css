@@ -1,0 +1,34 @@
+/* Vocentra Admin theme */
+:root{
+    --admin-bg:#0b0b0c;
+    --admin-surface:#121212;
+    --admin-muted:#6c757d;
+    --admin-accent:#0d6efd;
+}
+body.admin-theme{
+    background:var(--admin-bg);
+    color:#fff;
+    font-family:Segoe UI, Roboto, Arial, sans-serif;
+}
+.admin-shell{min-height:100vh}
+.admin-sidebar{width:260px;flex:0 0 260px}
+.admin-sidebar .sidebar-link{color:rgba(255,255,255,0.9);padding:10px;border-radius:6px;display:block}
+.admin-sidebar .sidebar-link.active,.admin-sidebar .sidebar-link:hover{background:rgba(255,255,255,0.03);color:#fff}
+.admin-main{min-height:100vh}
+.content-card{background:var(--admin-surface);border:1px solid rgba(255,255,255,0.04);padding:18px;border-radius:8px}
+.table-dark.table-striped>tbody>tr:nth-of-type(odd){background:rgba(255,255,255,0.02)}
+.badge-status{padding:.35rem .6rem;border-radius:.5rem;font-weight:600}
+.badge-status.info{background:#17a2b8;color:#fff}
+.badge-status.warn{background:#ffc107;color:#000}
+.badge-status.success{background:#28a745;color:#fff}
+.badge-status.danger{background:#dc3545;color:#fff}
+/* responsive */
+@media (max-width:767px){
+    .admin-sidebar{position:fixed;left:-320px;top:0;bottom:0;z-index:1050;transition:left .25s}
+    .admin-sidebar.open{left:0}
+    .admin-main{padding:1rem}
+}
+
+/* Ensure overlays don't block clicks by default */
+.modal-backdrop{pointer-events:none}
+.modal{z-index:1100}

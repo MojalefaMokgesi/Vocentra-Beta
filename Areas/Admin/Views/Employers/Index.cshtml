@@ -1,0 +1,21 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Employers";
+}
+
+<h2>Employers</h2>
+<div class="content-card">
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr><th>Employer</th><th>Jobs</th></tr>
+        </thead>
+        <tbody>
+        @foreach(var e in Model){
+            <tr>
+                <td>@(e.User != null ? (e.User.CompanyName ?? e.User.Email) : "(unknown)")</td>
+                <td>@e.JobCount</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,31 @@
+@model Vocentra.Models.Job
+@{
+    ViewData["Title"] = "Review Job";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Review Job #@Model.Id</h2>
+    <a asp-area="Admin" asp-controller="Jobs" asp-action="Queue" class="btn btn-sm btn-outline-light">Back to Jobs</a>
+</div>
+
+<div class="content-card">
+    <h4>@Model.Title</h4>
+    <p class="text-muted">Company: @Model.CompanyName</p>
+    <p>@Model.Description</p>
+    <hr />
+    <p>Salary: @Model.Salary.ToString("C")</p>
+    <p>Posted: @Model.PostedAt.ToLocalTime().ToString("g")</p>
+
+    <form asp-area="Admin" asp-controller="Jobs" asp-action="Publish" method="post" class="d-inline">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button class="btn btn-success">Publish</button>
+    </form>
+
+    <form asp-area="Admin" asp-controller="Jobs" asp-action="Reject" method="post" data-confirm="Reject this job?" class="d-inline ms-2">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="text" name="reason" placeholder="Reason" class="form-control d-inline-block ms-2" style="width:300px;" />
+        <button class="btn btn-danger ms-2">Reject</button>
+    </form>
+</div>

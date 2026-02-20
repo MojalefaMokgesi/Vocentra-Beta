@@ -1,0 +1,21 @@
+document.addEventListener('DOMContentLoaded', function(){
+    // Sidebar toggle for small screens
+    var sidebar = document.querySelector('.admin-sidebar');
+    var toggleButtons = document.querySelectorAll('[data-admin-toggle]');
+    toggleButtons.forEach(function(btn){
+        btn.addEventListener('click', function(e){
+            e.preventDefault();
+            if(sidebar) sidebar.classList.toggle('open');
+        });
+    });
+
+    // Confirmation for destructive actions
+    document.querySelectorAll('form[data-confirm]').forEach(function(f){
+        f.addEventListener('submit', function(e){
+            var msg = f.getAttribute('data-confirm') || 'Are you sure?';
+            if(!confirm(msg)){
+                e.preventDefault();
+            }
+        });
+    });
+});

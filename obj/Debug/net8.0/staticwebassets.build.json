@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5N9EdQZ6bYdHsCxKExxYLiY2YezJJPp6tDku67o9KFw=",
+  "Hash": "wPF1RfOxKdm4cGp9RM8cKwC8ZusPXUF6+8fjrOyrFZ8=",
   "Source": "Vocentra",
   "BasePath": "_content/Vocentra",
   "Mode": "Default",
@@ -1214,6 +1214,25 @@
       "OriginalItemSpec": "wwwroot\\coverletter_uploads\\8b58b0a3-f259-4375-a805-c01d9a4102b1_Screenshot (37).png"
     },
     {
+      "Identity": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\css\\admin.css",
+      "SourceId": "Vocentra",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\",
+      "BasePath": "_content/Vocentra",
+      "RelativePath": "css/admin.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\admin.css"
+    },
+    {
       "Identity": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\css\\site.css",
       "SourceId": "Vocentra",
       "SourceType": "Discovered",
@@ -1345,6 +1364,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon5.png"
+    },
+    {
+      "Identity": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\js\\admin.js",
+      "SourceId": "Vocentra",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\",
+      "BasePath": "_content/Vocentra",
+      "RelativePath": "js/admin.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\admin.js"
     },
     {
       "Identity": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\js\\site.js",

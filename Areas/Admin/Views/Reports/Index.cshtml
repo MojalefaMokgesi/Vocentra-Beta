@@ -1,0 +1,22 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h2>Reports</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="content-card">
+            <h5>Jobs</h5>
+            <p>Last 7 days: <strong>@Model.Jobs7</strong></p>
+            <p>Last 30 days: <strong>@Model.Jobs30</strong></p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="content-card">
+            <h5>Payments Approved</h5>
+            <p>Last 7 days: <strong>@Model.PaymentsApproved7</strong></p>
+            <p>Last 30 days: <strong>@Model.PaymentsApproved30</strong></p>
+        </div>
+    </div>
+</div>

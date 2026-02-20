@@ -1,0 +1,32 @@
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Vocentra.Data;
+using Vocentra.Models;
+
+namespace Vocentra.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    [Authorize(Roles = "Admin,FinanceAdmin")]
+    public class DashboardController : Controller
+    {
+        private readonly AppDbContext _db;
+        public DashboardController(AppDbContext db) => _db = db;
+
+        public async Task<IActionResult> Index()
+        {
+            var countUnder = await _db.PaymentRequests.CountAsync(p => p.Status == PaymentStatus.UnderReview);
+            var countNeeds = await _db.PaymentRequests.CountAsync(p => p.Status == PaymentStatus.NeedsMoreInfo);
+            var overdue = await _db.PaymentRequests.Where(p => p.Status == PaymentStatus.UnderReview && p.CreatedAt < DateTime.UtcNow.AddHours(-24)).CountAsync();
+
+            ViewBag.CountUnder = countUnder;
+            ViewBag.CountNeeds = countNeeds;
+            ViewBag.Overdue = overdue;
+
+            var recent = await _db.PaymentRequests.Include(p => p.Job).OrderByDescending(p => p.CreatedAt).Take(10).ToListAsync();
+            return View(recent);
+        }
+    }
+}

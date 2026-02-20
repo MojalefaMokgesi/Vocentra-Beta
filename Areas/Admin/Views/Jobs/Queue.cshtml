@@ -1,0 +1,27 @@
+@model IEnumerable<Vocentra.Models.Job>
+@{
+    ViewData["Title"] = "Jobs Queue";
+}
+
+<h2>Jobs Queue</h2>
+<div class="content-card">
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr><th>Id</th><th>Title</th><th>Owner</th><th>Posted</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+        @foreach(var j in Model){
+            <tr>
+                <td>@j.Id</td>
+                <td>@j.Title</td>
+                <td>@j.OwnerUserId</td>
+                <td>@j.PostedAt.ToLocalTime().ToString("g")</td>
+                <td><span class="badge badge-status info">@j.JobStatus</span></td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Jobs" asp-action="Review" asp-route-id="@j.Id" class="btn btn-sm btn-primary">Review</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

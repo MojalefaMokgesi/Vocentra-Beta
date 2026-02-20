@@ -2,47 +2,84 @@
 @{
     ViewData["Title"] = "Review Payment";
 }
-<h2>Review Payment Request #@Model.Id</h2>
-<div>
-    <h4>Job: @Model.Job?.Title</h4>
-    <p>Amount: @Model.Amount.ToString("C")</p>
-    <p>Reference: @Model.Reference</p>
-    <p>Status: @Model.Status</p>
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+        <h2 class="mb-0">Review Payment Request #@Model.Id</h2>
+        <small class="text-muted">Reference: @Model.Reference</small>
+    </div>
+    <div>
+        <a asp-area="Admin" asp-controller="Payments" asp-action="Queue" class="btn btn-sm btn-outline-light">Back to Queue</a>
+    </div>
 </div>
-<hr />
-<h4>Submissions</h4>
-@if (Model.Submissions != null && Model.Submissions.Any())
-{
-    <ul>
-    @foreach(var s in Model.Submissions.OrderByDescending(x=>x.SubmittedAt)){
-        <li>@s.SubmittedAt.ToLocalTime() - <a asp-controller="Payments" asp-action="DownloadProof" asp-route-id="@s.DocumentId">Download</a> - Notes: @s.Notes</li>
-    }
-    </ul>
-}
 
-<form asp-area="Admin" asp-controller="Payments" asp-action="Approve" method="post">
-    <input type="hidden" name="id" value="@Model.Id" />
-    <button class="btn btn-success">Approve</button>
-</form>
+<div class="row">
+    <div class="col-md-6">
+        <div class="content-card">
+            <h5>Job</h5>
+            <p class="mb-1"><strong>@Model.Job?.Title</strong></p>
+            <p class="text-muted mb-0">Job #@Model.JobId</p>
+            <hr />
+            <h5>Payment</h5>
+            <p>Amount: <strong>@Model.Amount.ToString("C")</strong></p>
+            <p>Status: <span class="badge badge-status info">@Model.Status</span></p>
+            <p>Submitted: @Model.CreatedAt.ToLocalTime().ToString("f")</p>
+        </div>
+        <div class="mt-3 content-card">
+            <h5>Actions</h5>
+            <form asp-area="Admin" asp-controller="Payments" asp-action="Approve" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button class="btn btn-success">Approve</button>
+            </form>
 
-<form asp-area="Admin" asp-controller="Payments" asp-action="Decline" method="post" style="margin-top:10px;">
-    <input type="hidden" name="id" value="@Model.Id" />
-    <div class="form-group"><label>Reason</label><input name="reason" class="form-control" /></div>
-    <button class="btn btn-danger">Decline</button>
-</form>
+            <form asp-area="Admin" asp-controller="Payments" asp-action="Decline" method="post" data-confirm="Are you sure you want to decline this payment?" class="d-inline ms-2">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <input type="text" name="reason" placeholder="Reason (required)" class="form-control d-inline-block ms-2" style="width:300px;" />
+                <button class="btn btn-danger ms-2">Decline</button>
+            </form>
+        </div>
+    </div>
 
-<form asp-area="Admin" asp-controller="Payments" asp-action="RequestMoreInfo" method="post" style="margin-top:10px;">
-    <input type="hidden" name="id" value="@Model.Id" />
-    <div class="form-group"><label>Message to user</label><textarea name="message" class="form-control"></textarea></div>
-    <button class="btn btn-warning">Request More Info</button>
-</form>
-
-<h4>Messages</h4>
-@if (Model.Messages != null && Model.Messages.Any())
-{
-    <ul>
-    @foreach(var m in Model.Messages.OrderByDescending(x=>x.CreatedAt)){
-        <li>@m.CreatedAt.ToLocalTime() - @m.Message</li>
-    }
-    </ul>
-}
+    <div class="col-md-6">
+        <div class="content-card">
+            <h5>Submissions</h5>
+            @if (Model.Submissions != null && Model.Submissions.Any())
+            {
+                <ul class="list-unstyled">
+                @foreach(var s in Model.Submissions.OrderByDescending(x=>x.SubmittedAt)){
+                    <li class="mb-2">
+                        <div><strong>@s.SubmittedAt.ToLocalTime().ToString("g")</strong> by @s.SubmittedByUserId</div>
+                        <div>Notes: @s.Notes</div>
+                        @if (s.Document != null)
+                        {
+                            <div class="mt-2">
+                                <a asp-area="Admin" asp-controller="Payments" asp-action="DownloadDocument" asp-route-docId="@s.Document.Id" class="btn btn-sm btn-outline-light">View Proof</a>
+                            </div>
+                        }
+                    </li>
+                }
+                </ul>
+            }
+            else
+            {
+                <div class="text-muted">No submissions found.</div>
+            }
+        </div>
+        <div class="mt-3 content-card">
+            <h5>Messages</h5>
+            @if (Model.Messages != null && Model.Messages.Any())
+            {
+                <ul class="list-unstyled">
+                @foreach(var m in Model.Messages.OrderByDescending(x=>x.CreatedAt)){
+                    <li class="mb-2"><small class="text-muted">@m.CreatedAt.ToLocalTime().ToString("g")</small><div>@m.Message</div></li>
+                }
+                </ul>
+            }
+            else
+            {
+                <div class="text-muted">No messages.</div>
+            }
+        </div>
+    </div>
+</div>

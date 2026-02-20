@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\coverletter_uploads\\8b58b0a3-f259-4375-a805-c01d9a4102b1_Screenshot (37).png"
     },
     {
+      "Id": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\css\\admin.css",
+      "PackagePath": "staticwebassets\\css\\admin.css"
+    },
+    {
       "Id": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -35,6 +39,10 @@
     {
       "Id": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\favicon5.png",
       "PackagePath": "staticwebassets\\favicon5.png"
+    },
+    {
+      "Id": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\js\\admin.js",
+      "PackagePath": "staticwebassets\\js\\admin.js"
     },
     {
       "Id": "C:\\Users\\Mokge\\OneDrive\\Documents\\GitHub\\Vocentra Main\\wwwroot\\js\\site.js",
